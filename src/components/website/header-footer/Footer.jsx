@@ -31,7 +31,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#ebeaf4] pt-10">
+    <footer className="bg-[#ebeaf4] pt-10 mt-10 md:mt-20">
       <div className="container">
         <div className="mx-auto flex flex-col md:flex-row md:justify-between">
 

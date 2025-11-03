@@ -49,11 +49,13 @@ const PartnerHospitals = () => {
       {/* Tabs + Country */}
       <div className="flex justify-between items-start">
         {/* Tabs */}
+        {/* <div className=""> */}
+
         <Carousel
           arrows={false}
           responsive={responsive}
-          containerClass="carousel-container w-full"
-          itemClass="px-2 pb-3"
+          containerClass=" pe-6 "
+          itemClass="pe-4 pb-3"
           infinite
           partialVisible
         >
@@ -68,14 +70,15 @@ const PartnerHospitals = () => {
             </button>
           ))}
         </Carousel>
+        {/* </div> */}
 
         {/* Country filter */}
-        <div>
-          <div className="input-group border-[var(--primary)]">
+        <div className=" ps-4">
+          <div className=" border-2 py-3 rounded-lg  px-3  flex gap-2 ">
             <span className="bg-white input-group-text border-end-0">
               <GrLocation size={24} className="text-[var(--primary)]" />
             </span>
-            <select className=" border-start-0 text-[var(--webprimary)] border">
+            <select className=" ">
               <option disabled>Select Country</option>
               <option>India</option>
               <option>USA</option>
@@ -86,7 +89,7 @@ const PartnerHospitals = () => {
       </div>
 
       {/* Hospital Content */}
-      <div style={{ padding: 0 }}>
+      <div className="ps-0">
         <PartnerHospitalsCard activeCity={activeTab} />
       </div>
     </div>

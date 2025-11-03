@@ -25,7 +25,7 @@ const TrustedMedicalExperts = () => {
   const [loading, setLoading] = useState(false);
   const [medicalSpecialties, setMedicalSpecialties] = useState([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState(null);
-  console.log("Selected Specialty:", activeTab);
+  // console.log("Selected Specialty:", activeTab);
 
   /** --------------------------
    ✅ Fetch Doctors
