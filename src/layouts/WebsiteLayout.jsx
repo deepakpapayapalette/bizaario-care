@@ -7,11 +7,11 @@ import Footer from '../components/website/header-footer/Footer'
 
 const WebsiteLayout = () => {
   return (
-    <div>
+    <>
       <Navbar />
       <Outlet />
       <Footer />
-    </div>
+    </>
   )
 }
 

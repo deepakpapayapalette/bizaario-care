@@ -94,7 +94,7 @@ const Navbar = () => {
             {/* Desktop Auth Buttons */}
             <div className="hidden lg:flex items-center space-x-4">
 
-              <select className="min-w-[90px] px-2 py-3 rounded-md text-md font-medium  border-2 border-webprimary hover:border-webprimary focus:border-webprimary focus:outline-none transition-colors duration-200">
+              <select className="min-w-[90px] px-2 py-3 rounded-md text-md font-medium  border-2 border-webprimary hover:border-webprimary focus:border-webprimary focus:outline-none transition-colors duration-200 text-webprimary">
                 <option value="" >Language</option>
                 <option value="es">English</option>
                 <option value="fr">Hindi</option>
@@ -152,7 +152,7 @@ const Navbar = () => {
 
             {/* Mobile Auth Buttons */}
             <div className="flex flex-col gap-4 px-8 w-full pt-6">
-              <select className="min-w-[90px] px-2 py-3 rounded-md text-md font-medium  border-2 border-webprimary hover:border-webprimary focus:border-webprimary focus:outline-none transition-colors duration-200">
+              <select className="min-w-[90px] px-2 py-3 rounded-md text-md font-medium  border-2 border-webprimary hover:border-webprimary focus:border-webprimary focus:outline-none transition-colors duration-200 text-webprimary">
                 <option value="" >Language</option>
                 <option value="es">English</option>
                 <option value="fr">Hindi</option>

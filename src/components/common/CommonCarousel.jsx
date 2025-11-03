@@ -1,8 +1,8 @@
 import React from 'react'
 import Carousel from "react-multi-carousel"
 import "react-multi-carousel/lib/styles.css"
-import SingleCard from './SingleCard'
-const CommonCarousel = ({ responsive = {}, slideData = [], buttonText, className }) => {
+// import SingleCard from './SingleCard'
+const CommonCarousel = ({ responsive = {}, data = [],  className, Card }) => {
 
   // const responsive = {
   //   desktop: {
@@ -37,8 +37,12 @@ const CommonCarousel = ({ responsive = {}, slideData = [], buttonText, className
         partialVisible
       >
 
-        {slideData.map((item, index) => (
-          <SingleCard key={index} data={item} buttonText={buttonText}  />
+        {data.map((item, index) => (
+          <div>
+            {Card && <Card key={index} data={item} />}
+          </div>
+
+          // <SingleCard key={index} data={item} buttonText={buttonText}  />
         ))}
 
       </Carousel>
