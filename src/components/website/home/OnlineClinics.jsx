@@ -5,6 +5,7 @@ import { GrLocation } from "react-icons/gr";
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUserMd } from 'react-icons/fa';
 import doctorImage from '@assets/images/website/home/online-clinic.png';
 import { Link } from 'react-router-dom';
+import SelectField from '@components/common/SelectField';
 
 const TABS = [
   { key: "tab1", label: "Cardiology" },
@@ -13,10 +14,11 @@ const TABS = [
   { key: "tab4", label: "Neurology" },
   { key: "tab5", label: "Obstetrics & Gynecology" },
   { key: "tab6", label: "Otorhinolaryngology" },
-  { key: "tab7", label: "Plastic & Reconstructive Surgery" }
+  { key: "tab7", label: "Plast Reconstr Surg" }
 ];
 const OnlineClinics = () => {
   const [activeTab, setActiveTab] = useState("Cardiology");
+  const [selectContry, setSelectCountry] = useState('');
 
   const responsive = {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 6 },
@@ -27,7 +29,8 @@ const OnlineClinics = () => {
   const responsiveCardList = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 3
+      items: 3,
+      partialVisibilityGutter: 20
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -36,11 +39,13 @@ const OnlineClinics = () => {
     },
     tablet: {
       breakpoint: { max: 1024, min: 767 },
-      items: 2
+      items: 2,
+      partialVisibilityGutter: 20
     },
     mobile: {
       breakpoint: { max: 767, min: 0 },
       items: 1,
+      partialVisibilityGutter: 20
 
     }
   };
@@ -60,7 +65,7 @@ const OnlineClinics = () => {
       </div>
 
       {/* =========Tabs + Country=========== */}
-      <div className="lg:flex  justify-between items-star">
+      <div className="lg:flex  justify-between items-star  mb-4">
         <Carousel
           arrows={false}
           responsive={responsive}
@@ -80,19 +85,7 @@ const OnlineClinics = () => {
             </button>
           ))}
         </Carousel>
-        <div className=" lg:ps-4">
-          <div className=" border-2 py-3 rounded-lg  px-3  flex gap-2 ">
-            <span className="bg-white input-group-text border-end-0">
-              <GrLocation size={24} className="text-[var(--primary)]" />
-            </span>
-            <select className="w-full ">
-              <option disabled>Select Country</option>
-              <option>India</option>
-              <option>USA</option>
-              <option>Sri Lanka</option>
-            </select>
-          </div>
-        </div>
+        <SelectField value={selectContry} onChange={(e) => setSelectCountry(e.target.value)} />
       </div>
 
       {/* ----------------cards listing Content Section ---------------- */}
@@ -107,7 +100,7 @@ const OnlineClinics = () => {
         >
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
             <div key={item} >
-              <div className="p-4 bg-white rounded-xl shadow-md border border-gray-200 w-full max-w-md mx-auto">
+              <div className="p-4 bg-white rounded-xl shadow-md border border-gray-200 w-full  mx-auto">
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   <div className="border rounded-lg py-2 flex flex-col items-center">
                     <span className="text-xl font-semibold">06</span>

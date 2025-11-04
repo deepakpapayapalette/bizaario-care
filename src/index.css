@@ -151,13 +151,13 @@ h6 {
   margin-top: 90px;
 }
 
-@media screen and (max-width:991) {
+@media screen and (max-width:991px) {
   .space-top {
     margin-top: 70px;
   }
 }
 
-@media screen and (max-width:768) {
+@media screen and (max-width:768px) {
   .space-top {
     margin-top: 60px;
   }

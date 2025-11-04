@@ -57,7 +57,7 @@ const Empowering = () => {
     <div className='container space-top'>
       <div>
         <div className='flex md:flex-row flex-wrap flex-col  md:items-start  justify-between mb-4'>
-          <div className=''>
+          <div className='md:w-4/5'>
             <h2 className='text-2xl md:text-4xl font-semibold  mb-2'>Empowering Doctors with Evidence-Based Knowledge</h2>
             <p className=' text-para mb-4'>
               Empowering Doctors with Evidence-Based Knowledge

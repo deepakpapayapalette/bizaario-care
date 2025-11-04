@@ -6,6 +6,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { __postApiData } from '@utils/api';
 import { FaClock, FaCalendarAlt, FaEye } from "react-icons/fa";
+import SelectField from "@components/common/SelectField";
 
 const TABS = [
   { key: "tab1", label: "Cardiology" },
@@ -14,14 +15,14 @@ const TABS = [
   { key: "tab4", label: "Neurology" },
   { key: "tab5", label: "Obstetrics & Gynecology" },
   { key: "tab6", label: "Otorhinolaryngology" },
-  { key: "tab7", label: "Plastic & Reconstructive Surgery" }
+  { key: "tab7", label: "Plast Reconstr Surg" }
 ];
 
 const responsive = {
   superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 6 },
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 5, partialVisibilityGutter: 20 },
   tablet: { breakpoint: { max: 1024, min: 767 }, items: 3, partialVisibilityGutter: 10 },
-  mobile: { breakpoint: { max: 767, min: 0 }, items: 1 },
+  mobile: { breakpoint: { max: 767, min: 0 }, items: 2, partialVisibilityGutter: 10 },
 };
 const responsiveCardList = {
   superLargeDesktop: {
@@ -47,7 +48,10 @@ const responsiveCardList = {
 const NewsAndArticles = () => {
   const [activeTab, setActiveTab] = useState('Cardiology');
   const [contentList, setContentList] = useState([]);
-  // console.log("contentList", contentList);
+  const [selectContry, setSelectCountry] = useState('');
+
+
+
 
   const getContentList = async () => {
     try {
@@ -73,7 +77,7 @@ const NewsAndArticles = () => {
   return (
     <div className="container space-top">
       {/* Header Section */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between">
         <div className="mb-4">
           <h2 className="text-2xl md:text-4xl font-semibold mb-2">News And Articles</h2>
           <p className="text-para">
@@ -81,12 +85,14 @@ const NewsAndArticles = () => {
           </p>
         </div>
 
-        <Link
-          className="theme-btn-fill px-15 py-3 flex items-center gap-2"
-          to="/view-all-hospitals"
-        >
-          View All <FaArrowRight size={18} className="inline" />
-        </Link>
+        <div className="mb-6 md:mb-0">
+          <Link
+            className="theme-btn-fill inline-block px-15 py-3  "
+            to="/view-all-hospitals"
+          >
+            View All <FaArrowRight size={18} className="inline" />
+          </Link>
+        </div>
       </div>
 
       {/* =========Tabs + Country=========== */}
@@ -94,7 +100,7 @@ const NewsAndArticles = () => {
         <Carousel
           arrows={false}
           responsive={responsive}
-          containerClass=" pe-6 "
+          containerClass=""
           itemClass="pe-4 pb-3"
           infinite
           partialVisible
@@ -104,25 +110,16 @@ const NewsAndArticles = () => {
               key={tab.key}
               className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
                 }`}
-              onClick={() => setActiveTab(tab.label)}
+              onClick={() => setActiveTab(tab.label)
+
+              }
             >
               {tab.label}
             </button>
           ))}
         </Carousel>
-        <div className=" lg:ps-4">
-          <div className=" border-2  rounded-lg  px-3  flex items-center gap-2 md:w-[140px] me-3 md:me-0">
-            <span className="bg-white input-group-text border-end-0">
-              <GrLocation size={24} className="text-[var(--primary)]" />
-            </span>
-            <select className="py-3.5 lg:w-[100px] w-full ">
-              <option disabled>Select Country</option>
-              <option>India</option>
-              <option>USA</option>
-              <option>Sri Lanka</option>
-            </select>
-          </div>
-        </div>
+
+        <SelectField value={selectContry} onChange={(e) => setSelectCountry(e.target.value)} />
       </div>
 
       {/* ==========news and articles cards ========== */}
@@ -136,9 +133,9 @@ const NewsAndArticles = () => {
           partialVisible
         >
           {contentList?.map((news) => (
-            <div key={news._id} className="pe-2 pb-3" >
+            <div key={news._id} className="pe-2 pb-3 h-full flex flex-col bg-white rounded-2xl shadow-md p-4 w-full" >
               <Link to={`/news-articles/${news._id} `}  >
-                <div className="bg-white rounded-2xl shadow-md p-4 w-full ">
+                <div className=" ">
                   {/* Image Section */}
                   <div className="w-full h-44 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center mb-3">
                     <img
@@ -163,7 +160,7 @@ const NewsAndArticles = () => {
                     </div>
                   </div>
                   {/* Title */}
-                  <div className="font-semibold text-lg mb-1 text-black leading-snug">
+                  <div className="font-semibold text-lg mb-1 text-black leading-snug line-clamp-2">
                     {news.ContentTitle}
                   </div>
                   {/* Subtitle */}

@@ -15,7 +15,7 @@ const TABS = [
   { key: "tab4", label: "Neurology" },
   { key: "tab5", label: "Obstetrics & Gynecology" },
   { key: "tab6", label: "Otorhinolaryngology" },
-  { key: "tab7", label: "Plastic & Reconstructive Surgery" }
+  { key: "tab7", label: "Plast Reconstr Surg" }
 ];
 
 const TrustedMedicalExperts = () => {

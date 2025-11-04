@@ -8,6 +8,7 @@ import { FaClock, FaGlobe, FaMapMarkerAlt } from 'react-icons/fa';
 import { useState, useEffect, use } from "react"
 import { useNavigate } from "react-router-dom"
 import { __postApiData } from '@utils/api';
+import SelectField from "@components/common/SelectField";
 
 const TABS = [
   { id: "tab1", label: "Delhi NCR" },
@@ -49,6 +50,7 @@ const responsiveCardsList = {
 const PartnerHospitals = () => {
   const [hospital_details, sethospital_details] = useState([]);
   const [activeTab, setActiveTab] = useState('Delhi NCR');
+  const [selectContry, setSelectCountry] = useState('');
 
 
 
@@ -125,19 +127,7 @@ const PartnerHospitals = () => {
             </button>
           ))}
         </Carousel>
-        <div className=" lg:ps-4">
-          <div className="  border-2 py-3 rounded-lg  px-3  flex gap-2 ">
-            <span className="bg-white input-group-text border-end-0">
-              <GrLocation size={24} className="text-[var(--primary)]" />
-            </span>
-            <select className=" w-full">
-              <option disabled>Select Country</option>
-              <option>India</option>
-              <option>USA</option>
-              <option>Sri Lanka</option>
-            </select>
-          </div>
-        </div>
+        <SelectField value={selectContry} onChange={(e) => setSelectCountry(e.target.value)} />
       </div>
 
       {/* Hospital Content */}
