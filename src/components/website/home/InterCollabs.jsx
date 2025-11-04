@@ -30,20 +30,20 @@ const InterCollabs = () => {
               digestible video content.
             </p>
           </div>
-          <div className="my-4 flex w-[200px] gap-2">
+          <div className="my-4 flex w-[280px] gap-2">
             <button
-              className={`flex-1 border-gray-300 border-2 py-2 rounded transition ${activeTab === "tab1"
+              className={`flex-1  border-gray-300 border-2 py-3 rounded-lg transition ${activeTab === "tab1"
                 ? "bg-webprimary  text-white "
-                : " text-para bg-white"
+                : " text-para  bg-white"
                 }`}
               onClick={() => setActiveTab("tab1")}
             >
               India
             </button>
             <button
-              className={`flex-1  transition border-2 py-2 rounded ${activeTab === "tab2"
+              className={`flex-1  border-gray-300 transition border-2 py-3 rounded-lg ${activeTab === "tab2"
                 ? "bg-webprimary  text-white "
-                : "border-gray-300  text-para bg-white"
+                : "  text-para bg-white"
                 }`}
               onClick={() => setActiveTab("tab2")}
             >

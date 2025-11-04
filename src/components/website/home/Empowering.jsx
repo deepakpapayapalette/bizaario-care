@@ -109,14 +109,14 @@ export default Empowering;
 
 export function EmpoweringCard({ element }) {
   return (
-    <div className="flex flex-col h-full border border-gray-200 rounded-lg shadow hover:shadow-lg transition bg-white">
+    <div className="flex flex-col h-full border border-gray-200 rounded-lg shadow hover:shadow-lg transition bg-white p-4">
 
       {/* Image */}
       <div className="w-full h-[220px] relative flex items-center justify-center bg-gray-100">
         <img
           src={element?.ContentImage}
           alt="Doctor"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-t-lg"
         />
 
         {/* Play Icon */}
@@ -126,7 +126,7 @@ export function EmpoweringCard({ element }) {
       </div>
 
       {/* Body */}
-      <div className="flex flex-col grow p-5">
+      <div className="flex flex-col grow py-4">
 
         {/* Time and Date */}
         <div className="flex gap-6 text-gray-700 text-base mb-2">

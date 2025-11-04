@@ -87,24 +87,25 @@ const PartnerHospitals = () => {
   return (
     <div className="container space-top">
       {/* Header Section */}
-      <div className="flex items-center justify-between">
+      <div className="flex md:flex-row flex-wrap flex-col  md:items-start  justify-between mb-4">
         <div className="mb-4">
           <h2 className="text-2xl md:text-4xl font-semibold mb-2">Partner Hospitals</h2>
           <p className="text-para">
             World-class healthcare institutions with advanced facilities and trusted care.
           </p>
         </div>
-
-        <Link
-          className="theme-btn-fill px-15 py-3 flex items-center gap-2"
-          to="/view-all-hospitals"
-        >
-          View All <FaArrowRight size={18} className="inline" />
-        </Link>
+        <div>
+          <Link
+            className="theme-btn-fill px-15 py-3 inline-block "
+            to="/view-all-hospitals"
+          >
+            View All <FaArrowRight size={18} className="inline" />
+          </Link>
+        </div>
       </div>
 
       {/* =========Tabs + Country=========== */}
-      <div className="flex justify-between items-start">
+      <div className="lg:flex    justify-between items-start">
         <Carousel
           arrows={false}
           responsive={responsive}
@@ -124,12 +125,12 @@ const PartnerHospitals = () => {
             </button>
           ))}
         </Carousel>
-        <div className=" ps-4">
-          <div className=" border-2 py-3 rounded-lg  px-3  flex gap-2 ">
+        <div className=" lg:ps-4">
+          <div className="  border-2 py-3 rounded-lg  px-3  flex gap-2 ">
             <span className="bg-white input-group-text border-end-0">
               <GrLocation size={24} className="text-[var(--primary)]" />
             </span>
-            <select className=" ">
+            <select className=" w-full">
               <option disabled>Select Country</option>
               <option>India</option>
               <option>USA</option>
@@ -213,7 +214,7 @@ const PartnerHospitals = () => {
           </Carousel>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

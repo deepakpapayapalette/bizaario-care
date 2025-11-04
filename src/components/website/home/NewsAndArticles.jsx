@@ -21,7 +21,7 @@ const responsive = {
   superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 6 },
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 5, partialVisibilityGutter: 20 },
   tablet: { breakpoint: { max: 1024, min: 767 }, items: 3, partialVisibilityGutter: 10 },
-  mobile: { breakpoint: { max: 767, min: 0 }, items: 2 },
+  mobile: { breakpoint: { max: 767, min: 0 }, items: 1 },
 };
 const responsiveCardList = {
   superLargeDesktop: {
@@ -90,7 +90,7 @@ const NewsAndArticles = () => {
       </div>
 
       {/* =========Tabs + Country=========== */}
-      <div className="flex justify-between items-start">
+      <div className="lg:flex justify-between items-start">
         <Carousel
           arrows={false}
           responsive={responsive}
@@ -110,12 +110,12 @@ const NewsAndArticles = () => {
             </button>
           ))}
         </Carousel>
-        <div className=" ps-4">
-          <div className=" border-2 py-3 rounded-lg  px-3  flex gap-2 ">
+        <div className=" lg:ps-4">
+          <div className=" border-2  rounded-lg  px-3  flex items-center gap-2 md:w-[140px] me-3 md:me-0">
             <span className="bg-white input-group-text border-end-0">
               <GrLocation size={24} className="text-[var(--primary)]" />
             </span>
-            <select className=" ">
+            <select className="py-3.5 lg:w-[100px] w-full ">
               <option disabled>Select Country</option>
               <option>India</option>
               <option>USA</option>
