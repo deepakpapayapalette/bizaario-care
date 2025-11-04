@@ -14,7 +14,7 @@ export const BASE_URL = "https://bizaariocare-backend.onrender.com";
 //   process.env.NODE_ENV === "development" ? __LOCAL : __LIVE
 
 const __getApiData = endpoint => {
-  console.log(endpoint, "endpoint")
+  // console.log(endpoint, "endpoint")
   return axios
     .get(`${BASE_URL}${endpoint}`, __apiHeader())
     .then(response => {
@@ -27,7 +27,7 @@ const __getApiData = endpoint => {
 }
 
 const __postApiData = (endpoint, data, type) => {
-  console.log(endpoint, "endpoint", data, "payload", type, "type")
+  // console.log(endpoint, "endpoint", data, "payload", type, "type")
   return axios
     .post(
       `${BASE_URL}${endpoint}`,

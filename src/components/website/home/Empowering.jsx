@@ -56,16 +56,18 @@ const Empowering = () => {
   return (
     <div className='container space-top'>
       <div>
-        <div className='flex items-center justify-between mb-4'>
+        <div className='flex md:flex-row flex-wrap flex-col  md:items-start  justify-between mb-4'>
           <div className=''>
             <h2 className='text-2xl md:text-4xl font-semibold  mb-2'>Empowering Doctors with Evidence-Based Knowledge</h2>
             <p className=' text-para mb-4'>
               Empowering Doctors with Evidence-Based Knowledge
             </p>
           </div>
-          <Link className="theme-btn-fill px-15 py-3 flex  gap-2 items-center " to="/news-articles">
-            View All <FaArrowRight size="18" className="inline  " />
-          </Link>
+          <div>
+            <Link className="theme-btn-fill inline-block px-15 py-3   gap-2 items-center " to="/news-articles">
+              View All <FaArrowRight size="18" className="inline  " />
+            </Link>
+          </div>
         </div>
 
         <div>

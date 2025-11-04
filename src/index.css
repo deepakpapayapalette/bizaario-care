@@ -26,6 +26,7 @@ h6 {
   :root {
 
     --web-primary: #1268b3;
+    --web-hoverprimary: #0b5291;
     --web-primary-foreground: #FFFFFF;
 
     --web-secondary: #CCE4F0;
@@ -207,3 +208,9 @@ nav .active {
   color: var(--web-primary);
   background-color: var(--web-secondary);
 }
+
+.slick-slide>div {
+  margin-right: 15px;
+}
+
+;

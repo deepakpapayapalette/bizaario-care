@@ -9,6 +9,12 @@ const TrustedMedicalExperts = lazy(() => import('../../components/website/home/T
 const PartnerHospitals = lazy(() => import('../../components/website/home/PartnerHospitals'))
 const InterCollabs = lazy(() => import('../../components/website/home/InterCollabs'))
 const LiveSessions = lazy(() => import('../../components/website/home/LiveSessions'))
+const OnlineClinics = lazy(() => import('../../components/website/home/OnlineClinics'))
+const BizaarioStore = lazy(() => import('../../components/website/home/BizaarioStore'))
+const AwardsCertification = lazy(() => import('../../components/website/home/AwardsCertification'))
+const NewsAndArticles = lazy(() => import('../../components/website/home/NewsAndArticles'))
+const PatientsTestimonials = lazy(() => import('../../components/website/home/PatientsTestimonials'))
+
 
 const HomePage = () => {
   useEffect(() => {
@@ -25,6 +31,11 @@ const HomePage = () => {
       <PartnerHospitals />
       <InterCollabs />
       <LiveSessions />
+      <OnlineClinics />
+      <BizaarioStore />
+      <AwardsCertification />
+      <NewsAndArticles />
+      <PatientsTestimonials />
     </Suspense>
   )
 }

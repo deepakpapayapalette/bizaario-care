@@ -40,6 +40,10 @@ export default {
           DEFAULT: "var(--web-primary)",
           foreground: "var(--weprimary-foreground)",
         },
+        webhoverprimary: {
+          DEFAULT: "var(--web-hoverprimary)",
+          foreground: "var(--weprimary-foreground)",
+        },
         websecondary: {
           DEFAULT: "var(--web-secondary)",
           foreground: "var(--web-secondary-foreground)",
