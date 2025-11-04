@@ -3,13 +3,12 @@ import { FaMapMarkerAlt, FaBriefcaseMedical } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-// import locationIcon from "../../assets/images/icons/location-pin-alt-1-svgrepo-com 1.png";
-// import workIcon from "../../assets/images/icons/work.png";
 import api from "../../api";
 
-// import responsive from "@utils/responsive-card_carousel";
 
-const MedicalExpertCard = () => {
+
+const MedicalExpertCard = ({ doctors }) => {
+  console.log("doctors in card:", doctors);
   const navigate = useNavigate();
   const [doctorArr, setDoctorArr] = useState([]);
 

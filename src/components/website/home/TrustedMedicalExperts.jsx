@@ -7,7 +7,7 @@ import "react-multi-carousel/lib/styles.css";
 import api from "../../../api";
 import { __getCommenApiDataList } from "../../../utils/api/commonApi";
 
-import MedicalExpertCard from "../../UI/MedicalExpertCard";
+import MedicalExpertCard from "../../ui/MedicalExpertCard";
 import { Link } from "react-router-dom";
 
 const TAB_LIST = [
