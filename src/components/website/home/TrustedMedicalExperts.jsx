@@ -3,7 +3,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-import responsive from "../../../Utils/responsive_carousel";
+// import responsive from "../../../Utils/responsive_carousel";
 import api from "../../../api";
 import { __getCommenApiDataList } from "../../../utils/api/commonApi";
 
@@ -26,6 +26,30 @@ const TrustedMedicalExperts = () => {
   const [medicalSpecialties, setMedicalSpecialties] = useState([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState(null);
   // console.log("Selected Specialty:", activeTab);
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+      partialVisibilityGutter: 20,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 767 },
+      items: 2,
+      partialVisibilityGutter: 20,
+    },
+    mobile: {
+      breakpoint: { max: 767, min: 0 },
+      items: 2,
+      partialVisibilityGutter: 20,
+    },
+  };
+
+
 
   /** --------------------------
    ✅ Fetch Doctors

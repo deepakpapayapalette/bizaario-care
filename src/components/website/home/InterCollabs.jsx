@@ -33,17 +33,17 @@ const InterCollabs = () => {
           <div className="my-4 flex w-[200px] gap-2">
             <button
               className={`flex-1 border-gray-300 border-2 py-2 rounded transition ${activeTab === "tab1"
-                ? "bg-webprimary  text-white font-semibold"
-                : "bg-gray-100 text-gray-700"
+                ? "bg-webprimary  text-white "
+                : " text-para bg-white"
                 }`}
               onClick={() => setActiveTab("tab1")}
             >
               India
             </button>
             <button
-              className={`flex-1 py-2 rounded transition ${activeTab === "tab2"
-                ? "bg-webprimary  text-white font-semibold"
-                : "bg-gray-100 text-gray-700"
+              className={`flex-1  transition border-2 py-2 rounded ${activeTab === "tab2"
+                ? "bg-webprimary  text-white "
+                : "border-gray-300  text-para bg-white"
                 }`}
               onClick={() => setActiveTab("tab2")}
             >
