@@ -1,17 +1,17 @@
-// theme.js
-import { createTheme } from "@mui/material/styles";
+// // theme.js
+// import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
-  components: {
-    MuiSelect: {
-      defaultProps: {
-        MenuProps: {
-          disablePortal: true,
-          disableScrollLock: true,
-        },
-      },
-    },
-  },
-});
+// const theme = createTheme({
+//   components: {
+//     MuiSelect: {
+//       defaultProps: {
+//         MenuProps: {
+//           disablePortal: true,
+//           disableScrollLock: true,
+//         },
+//       },
+//     },
+//   },
+// });
 
-export default theme;
+// export default theme;
