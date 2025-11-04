@@ -7,11 +7,32 @@ import "react-multi-carousel/lib/styles.css";
 // import workIcon from "../../assets/images/icons/work.png";
 import api from "../../api";
 
-import responsive from "../../utils/responsive-card_carousel";
+// import responsive from "@utils/responsive-card_carousel";
 
 const MedicalExpertCard = () => {
   const navigate = useNavigate();
   const [doctorArr, setDoctorArr] = useState([]);
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 3
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      partialVisibilityGutter: 20
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 767 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 767, min: 0 },
+      items: 1,
+
+    }
+  };
 
   const getDoctorProfile = async () => {
     try {
