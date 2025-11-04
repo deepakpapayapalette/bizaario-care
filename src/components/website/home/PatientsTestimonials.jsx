@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { __postApiData } from '@utils/api';
 
@@ -38,132 +39,256 @@ const PatientsTestimonials = () => {
 
 
 
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    centerMode: true,
-    centerPadding: "250px",
-    // slidesToShow: 3,
-    arrows: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    beforeChange: (current, next) => setActiveSlide(next),
+  // const settings = {
+  //   dots: false,
+  //   infinite: true,
+  //   speed: 500,
+  //   centerMode: true,
+  //   centerPadding: "250px",
+  //   slidesToShow: 1,
+  //   arrows: true,
+  //   nextArrow: <SampleNextArrow />,
+  //   prevArrow: <SamplePrevArrow />,
+  //   beforeChange: (current, next) => setActiveSlide(next),
 
-    responsive: [
-      {
-        breakpoint: 1280, // large tabs / small laptops
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "150px",
-        },
-      },
-      {
-        breakpoint: 1024, // tablets landscape
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "100px",
-        },
-      },
-      {
-        breakpoint: 768, // tablet portrait / mobile large
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "40px",
-        },
-      },
-      {
-        breakpoint: 480, // small phones
-        settings: {
-          slidesToShow: 1,
-          centerPadding: "10px",
-        },
-      },
-    ],
+  //   responsive: [
+  //     {
+  //       breakpoint: 1280,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         centerPadding: "150px",
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 1024,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         centerPadding: "100px",
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 768,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         centerPadding: "40px",
+  //         arrows: false,     // hide arrows for tablet
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 480,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         centerPadding: "10px",
+  //         arrows: false,     // hide for mobile
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 360,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         centerPadding: "0px",
+  //         arrows: false,
+  //       },
+  //     },
+  //   ],
+  // };
+
+
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const nextTestimonial = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev + 1) % patient_testimonial.length);
   };
 
+  const prevTestimonial = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex(
+      (prev) => (prev - 1 + patient_testimonial.length) % patient_testimonial.length
+    );
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsAnimating(false), 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  const getVisibleTestimonials = () => {
+    const visible = [];
+    for (let i = -1; i <= 1; i++) {
+      const index = (currentIndex + i + patient_testimonial.length) % patient_testimonial.length;
+      visible.push({ ...patient_testimonial[index], position: i });
+    }
+    return visible;
+  };
 
   return (
     <div className="container space-top">
       <div className="mb-4">
-        <h2 className="text-2xl md:text-4xl font-semibold mb-2">Partner Hospitals</h2>
+        <h2 className="text-2xl md:text-4xl font-semibold mb-2">Patients Testimonials</h2>
         <p className="text-para">
-          World-class healthcare institutions with advanced facilities and trusted care.
+          Learn from leading doctors and specialists through focused,
+          digestible video content.
         </p>
       </div>
 
-      <div className="relative ">
-        <Slider {...settings}>
-          {patient_testimonial?.map((item, index) => {
-            const isActive = index === activeSlide;
-            return (
-              <div key={index} className="md:px-3 pb-6 transition-all duration-500 md:pb-6 py-8 current-element pt-[50px]" >
+      <div className=" max-w-full">
+        <div className="relative ">
+          <div className="flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-in-out md:flex-row md:gap-4">
+            {getVisibleTestimonials().map((testimonial, index) => {
+              const isCenter = testimonial.position === 0;
+              const isLeft = testimonial.position === -1;
+              const isRight = testimonial.position === 1;
+
+              return (
                 <div
-                  className={` bg-[#e8f0f8] rounded-xl shadow-md hover:shadow-lg border-b-4 border-[#e8f0f8] hover:border-gray-600 p-4 flex flex-col items-center transition-all duration-500 ${isActive
-                    ? "scale-105  md:min-h-[350px]"
-                    : "scale-95 opacity-80 py-6"
-                    }`}
+                  key={`${testimonial.id}-${currentIndex}-${index}`}
+                  className={`relative transition-all duration-300 flex flex-col items-center border rounded-lg p-3 hover:shadow-lg ${isCenter
+                    ? "scale-100 opacity-100 z-20"
+                    : "scale-75 opacity-80 z-10 hidden md:flex"
+                    } ${isCenter ? "" : "hover:opacity-80 cursor-pointer"}`}
+                  onClick={() => {
+                    if (!isCenter && !isAnimating) {
+                      setIsAnimating(true);
+                      if (isLeft) {
+                        setCurrentIndex(
+                          (prev) =>
+                            (prev - 1 + patient_testimonial.length) %
+                            patient_testimonial.length
+                        );
+                      } else if (isRight) {
+                        setCurrentIndex(
+                          (prev) => (prev + 1) % patient_testimonial.length
+                        );
+                      }
+                    }
+                  }}
+                  style={{
+                    width: isCenter ? "100%" : "350px",
+                    maxWidth: "475px",
+                    minHeight: "auto",
+                    padding: "20px",
+                    borderRadius: "10px",
+                    // background: "rgba(189, 196, 212, 0.30)",
+                    background: "var(--white)",
+                    position: "relative",
+                    alignSelf: "stretch", // ✅ keep all cards aligned
+                  }}
                 >
-                  <div>
-
-                    <img
-                      src={item?.ContentImage}
-                      alt={item?.ContentTitle}
-                      className={` relative top-[-50px] rounded-full border-4 border-white shadow-md object-cover transition-all duration-500 ${isActive ? "w-24 h-24" : "w-20 h-20"
-                        }`}
-                    />
-                  </div>
-                  <div className='mt-[-40px]'>
-
-                    <p className="text-para text-md mb-4 px-3 italic">
-                      " {item?.LongDescription}"
-                    </p>
-                    <div className='text-start w-full'>
-                      <h4 className="text-gray-800 text-2xl md:text-2xl font-semibold">{item?.AssetId?.AssetName}</h4>
-                      <p
-                        className={`text-para text-md
-                      }`}
+                  {/* Avatar */}
+                  <div className="absolute transform -translate-x-1/2 -top-8 left-1/2">
+                    <div className="relative">
+                      <img
+                        src={testimonial?.ContentImage || "/placeholder.svg"}
+                        alt={testimonial?.ContentTitle}
+                        className={`${isCenter ? "w-20 h-20" : "w-16 h-16"
+                          } rounded-full object-cover border-4 border-white shadow-lg transition-all duration-300`}
+                      />
+                      <div
+                        className={`absolute -top-1 -right-1 bg-blue-600 rounded-full p-1 ${isCenter ? "scale-100" : "scale-75"
+                          } transition-transform duration-300`}
                       >
-                        {item?.AssetId?.MedicalSpecialties?.map(
-                          (item) => item.lookup_value
-                        ).join(", ")}
-                      </p>
+                        <Quote
+                          className={`${isCenter ? "w-3 h-3" : "w-2 h-2"
+                            } text-white`}
+                        />
+                      </div>
                     </div>
                   </div>
 
+                  {/* Content */}
+                  <div className="flex flex-col items-center justify-start w-full mt-12 text-left">
+                    <blockquote
+                      className={`text-gray-700 leading-relaxed mb-4 text-left italic w-full ${isCenter ? "text-base" : "text-sm"
+                        }`}
+                      style={
+                        !isCenter
+                          ? {
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            margin: "0", // ✅ no margin top
+                          }
+                          : {}
+                      }
+                    >
+                      "{testimonial?.LongDescription}"
+                    </blockquote>
+
+                    <div className="w-full text-left">
+                      <h4
+                        className={`font-semibold text-gray-900 mb-1 ${isCenter ? "text-lg" : "text-base"
+                          }`}
+                      >
+                        {testimonial?.AssetId?.AssetName}
+                      </h4>
+                      <p
+                        className={`text-gray-600 ${isCenter ? "text-sm" : "text-xs"
+                          }`}
+                      >
+                        {testimonial?.AssetId?.MedicalSpecialties?.map(
+                          (item) => item.lookup_value
+                        ).join(",")}
+                      </p>
+                      <p
+                        className={`text-gray-500 mt-1 ${isCenter ? "text-xs" : "text-xs"
+                          }`}
+                      >
+                        {testimonial.hospital}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </Slider>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <button
+            onClick={prevTestimonial}
+            disabled={isAnimating}
+            className="p-2 transition-colors bg-transparent border-2 border-gray-300 rounded-full hover:border-blue-600 hover:bg-blue-50"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <div className="flex gap-2">
+            {patient_testimonial.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  if (!isAnimating) {
+                    setIsAnimating(true);
+                    setCurrentIndex(index);
+                  }
+                }}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
+                  ? "bg-blue-600 w-6"
+                  : "bg-gray-300 hover:bg-gray-400"
+                  }`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={nextTestimonial}
+            disabled={isAnimating}
+            className="p-2 transition-colors bg-transparent border-2 border-gray-300 rounded-full hover:border-blue-600 hover:bg-blue-50"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
 export default PatientsTestimonials;
-
-function SampleNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      className="mb-2 mt-3 absolute -bottom-12 left-1/2 transform translate-x-8 cursor-pointer bg-white shadow-md rounded-full p-3 hover:bg-webprimary hover:text-white transition"
-      onClick={onClick}
-    >
-      <FaChevronRight />
-    </div>
-  );
-}
-
-function SamplePrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      className="mb-2 mt-3 absolute -bottom-12 left-1/2 transform -translate-x-12 cursor-pointer bg-white shadow-md rounded-full p-3 hover:bg-webprimary hover:text-white transition"
-      onClick={onClick}
-    >
-      <FaChevronLeft />
-    </div>
-  );
-}
 
