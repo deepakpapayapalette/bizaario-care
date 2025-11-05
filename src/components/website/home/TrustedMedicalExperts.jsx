@@ -7,6 +7,7 @@ import { __getCommenApiDataList } from "../../../utils/api/commonApi";
 
 import { Link } from "react-router-dom";
 import DoctorCard from "../../common/DoctorCard";
+import ShimerLoader from "../../common/ShimerLoader";
 
 
 const TABS = [
@@ -136,40 +137,48 @@ const TrustedMedicalExperts = () => {
       </div>
 
       {/* ---------------- TAB CAROUSEL ---------------- */}
-      <Carousel
-        arrows={false}
-        responsive={responsive}
-        containerClass="carousel-container w-full"
-        itemClass="pe-4"
-        infinite
-        partialVisible
-      >
-        {TABS.map((tab) => (
-          <button
-            key={tab.key}
-            className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
-              }`}
-            onClick={() => setActiveTab(tab.label)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </Carousel>
-
-      {/* ---------------- Content Section ---------------- */}
-      <div className="">
+      <div className=" pb-6 md:pb-8">
         <Carousel
           arrows={false}
-          responsive={responsiveCardList}
-          containerClass=" pe-2 pt-6"
-          itemClass="pe-4 pb-3"
+          responsive={responsive}
+          containerClass=""
+          itemClass="pe-4"
           infinite
           partialVisible
         >
-          {doctorArr?.map((item) => (
-            <DoctorCard key={item.id} item={item} handleViewProfile={null} />
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={`border-2 py-3  rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+                }`}
+              onClick={() => setActiveTab(tab.label)}
+            >
+              {tab.label}
+            </button>
           ))}
         </Carousel>
+      </div>
+      {/* ---------------- Content Section ---------------- */}
+      <div className="">
+        {doctorArr.length === 0 ?
+          <div className="grid md:grid-cols-3 gap-4">
+            {doctorArr.length === 0 && (<ShimerLoader />)}
+          </div>
+          :
+          <Carousel
+            arrows={false}
+            responsive={responsiveCardList}
+            itemClass="pe-4 pb-3"
+            containerClass="pb-6"
+            infinite
+            partialVisible
+            showDots={true}
+          >
+            {doctorArr?.map((item) => (
+              <DoctorCard key={item.id} item={item} handleViewProfile={null} />
+            ))}
+          </Carousel>
+        }
       </div>
     </div>
   );

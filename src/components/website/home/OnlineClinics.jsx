@@ -65,19 +65,19 @@ const OnlineClinics = () => {
       </div>
 
       {/* =========Tabs + Country=========== */}
-      <div className="lg:flex  justify-between items-star  mb-4">
+      <div className="lg:flex    justify-between items-start pb-6 md:pb-8">
         <Carousel
           arrows={false}
           responsive={responsive}
-          containerClass=" pe-6 "
-          itemClass="pe-4 pb-3"
+          itemClass="pe-4"
+          containerClass="pe-1"
           infinite
           partialVisible
         >
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+              className={`border-2 py-3  rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
                 }`}
               onClick={() => setActiveTab(tab.label)}
             >
@@ -93,10 +93,11 @@ const OnlineClinics = () => {
         <Carousel
           arrows={false}
           responsive={responsiveCardList}
-          containerClass=" pe-2 "
+          containerClass="pb-6"
           itemClass="pe-4 pb-3"
           infinite
           partialVisible
+          showDots={true}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
             <div key={item} >

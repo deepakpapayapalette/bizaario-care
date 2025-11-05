@@ -6,6 +6,7 @@ import "react-multi-carousel/lib/styles.css";
 import { __postApiData } from '@utils/api';
 import SelectField from "@components/common/SelectField";
 import NewsArticleCard from "../../common/NewsArticleCard";
+import ShimerLoader from "../../common/ShimerLoader";
 
 const TABS = [
   { key: "tab1", label: "Cardiology" },
@@ -97,15 +98,15 @@ const NewsAndArticles = () => {
         <Carousel
           arrows={false}
           responsive={responsive}
-          containerClass=" pe-6 "
-          itemClass="pe-4 pb-3"
+          containerClass=" pe-1 "
+          itemClass="pe-4 "
           infinite
           partialVisible
         >
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
                 }`}
               onClick={() => setActiveTab(tab.label)}
             >
@@ -119,52 +120,25 @@ const NewsAndArticles = () => {
 
       {/* ==========news and articles cards ========== */}
       <div>
-        <Carousel
-          arrows={false}
-          responsive={responsiveCardList}
-          containerClass=" pe-2 "
-          itemClass="pe-4 pb-3"
-          infinite
-          partialVisible
-        >
-          {contentList?.map((news) => (
-            // <div key={news._id} className="pe-2 pb-3 h-full flex flex-col bg-white rounded-2xl border border-gray-300 hover:shadow-lg p-4 w-full" >
-            //   <Link to={`/news-articles/${news._id} `}>
-            //     <div className=" ">
-            //       <div className="w-full h-44 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center mb-3">
-            //         <img
-            //           src={news.ContentImage}
-            //           alt={news.ContentTitle}
-            //           className="object-cover w-full h-full"
-            //         />
-            //       </div>
-            //       <div className="flex justify-between items-center text-gray-500 text-xs mb-2">
-            //         <div className="flex items-center gap-1">
-            //           <FaClock className="text-gray-400" />
-            //           <span>20Min</span>
-            //         </div>
-            //         <div className="flex items-center gap-1">
-            //           <FaCalendarAlt className="text-gray-400" />
-            //           <span>20/12/2025</span>
-            //         </div>
-            //         <div className="flex items-center gap-1">
-            //           <FaEye className="text-gray-400" />
-            //           <span>2,005</span>
-            //         </div>
-            //       </div>
-            //       <div className="font-semibold text-lg mb-1 text-black leading-snug line-clamp-2">
-            //         {news.ContentTitle}
-            //       </div>
-            //       <div className="text-gray-700 text-sm line-clamp-6">
-            //         {news.LongDescription}
-            //       </div>
-            //     </div>
-            //   </Link>
-            // </div>
-            <NewsArticleCard news={news} key={news._id} />
-          ))}
-        </Carousel>
-
+        {contentList.length === 0 ?
+          <div className="grid md:grid-cols-3 gap-4">
+            {contentList.length === 0 && (<ShimerLoader />)}
+          </div>
+          :
+          <Carousel
+            arrows={false}
+            responsive={responsiveCardList}
+            containerClass=" pb-8"
+            itemClass="pe-4 "
+            infinite
+            partialVisible
+            showDots={true}
+          >
+            {contentList?.map((news) => (
+              <NewsArticleCard news={news} key={news._id} />
+            ))}
+          </Carousel>
+        }
       </div>
 
 

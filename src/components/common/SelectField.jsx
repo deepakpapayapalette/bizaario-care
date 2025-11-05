@@ -3,7 +3,7 @@ import { GrLocation } from "react-icons/gr";
 const SelectField = ({ value, onChange }) => {
   return (
     <>
-      <div className=" lg:ps-4">
+      <div className=" lg:ps-4 lg:mt-0 mt-6">
         <div className=" border-2  rounded-lg  px-3  flex items-center gap-2 sm:w-[180px] me-3 md:me-0 bg-white">
           <span className="bg-white input-group-text border-end-0">
             <GrLocation size={24} className="text-[var(--primary)]" />

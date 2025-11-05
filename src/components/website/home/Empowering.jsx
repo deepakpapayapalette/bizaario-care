@@ -12,6 +12,7 @@ import "react-multi-carousel/lib/styles.css"
 
 import api from '../../../api';
 import { __postApiData, __getApiData } from '@utils/api';
+import ShimerLoader from '../../../components/common/ShimerLoader';
 
 
 
@@ -71,34 +72,41 @@ const Empowering = () => {
         </div>
 
         <div>
-          <Carousel
-            responsive={responsive}
-            infinite
-            keyBoardControl
-            swipeable
-            draggable
-            showDots={false}
-            containerClass="pb-2 pt-4"
-            itemClass="ps-0 pt-2 pe-4"
-            arrows={false}
-            renderButtonGroupOutside={false}
-            partialVisible
-          >
-            {digital_cme?.map((element, index) => (
-              <div key={index} className='h-full'>
+          {digital_cme.length === 0 ?
+            <div className="grid md:grid-cols-3 gap-4">
+              {digital_cme.length === 0 && (<ShimerLoader />)}
+            </div>
+            :
+            <Carousel
+              responsive={responsive}
+              infinite
+              keyBoardControl
+              swipeable
+              draggable
+              containerClass=" pb-8 "
+              itemClass="ps-0 pt-2 pe-4"
+              arrows={false}
+              renderButtonGroupOutside={false}
+              partialVisible
+              showDots={true}
+            >
 
-                <Link
-                  key={element._id || element.id}
-                  to={`/news-articles/${element._id || element.id}`}
-                  state={{ article: element }}
-                  className="block h-full text-decoration-none"
-                >
-                  <EmpoweringCard element={element} />
+              {digital_cme?.map((element, index) => (
+                <div key={index} className='h-full'>
 
-                </Link>
-              </div>
-            ))}
-          </Carousel>
+                  <Link
+                    key={element._id || element.id}
+                    to={`/news-articles/${element._id || element.id}`}
+                    state={{ article: element }}
+                    className="block h-full text-decoration-none"
+                  >
+                    <EmpoweringCard element={element} />
+
+                  </Link>
+                </div>
+              ))}
+            </Carousel>
+          }
         </div>
       </div>
     </div>

@@ -48,10 +48,11 @@ const BizaarioStore = () => {
         <Carousel
           arrows={false}
           responsive={responsiveCardList}
-          containerClass=" pe-2 "
+          containerClass=" pb-4 "
           itemClass="pe-4 pb-3"
           infinite
           partialVisible
+          showDots={true}
         >
           {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
             <div key={item} className="pe-2 pb-3">

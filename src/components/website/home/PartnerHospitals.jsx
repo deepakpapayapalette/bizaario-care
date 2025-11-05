@@ -107,19 +107,19 @@ const PartnerHospitals = () => {
       </div>
 
       {/* =========Tabs + Country=========== */}
-      <div className="lg:flex    justify-between items-start">
+      <div className="lg:flex    justify-between items-start pb-6 md:pb-8">
         <Carousel
           arrows={false}
           responsive={responsive}
-          containerClass=" pe-6 "
-          itemClass="pe-4 pb-3"
+          containerClass="pe-1"
+          itemClass="pe-4"
           infinite
           partialVisible
         >
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+              className={`border-2 py-3  rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
                 }`}
               onClick={() => setActiveTab(tab.label)}
             >
@@ -132,15 +132,16 @@ const PartnerHospitals = () => {
 
       {/* Hospital Content */}
       <div className="ps-0">
-        <div className="relative mt-4 doctor-slider">
+        <div className="relative">
           <Carousel
             arrows={false}
             responsive={responsiveCardsList}
-            containerClass="carousel-container"
+            containerClass="pb-6"
             itemClass="px-1 sm:px-2 pb-3"
             infinite={true}
             renderDotsOutside={true}
             partialVisible={true}
+            showDots={true}
           >
             {hospital_details?.map((item) => (
 

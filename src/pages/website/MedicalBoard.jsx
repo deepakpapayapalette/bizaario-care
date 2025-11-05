@@ -28,7 +28,6 @@ const MedicalBoard = () => {
   const [doctorArr, setDoctorArr] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(doctorArr, "doctorArr")
 
   const getDoctorProfile = async () => {
     try {

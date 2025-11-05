@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Logo from '../../../assets/images/website/logo-navbar.png'
+import { LiaAngleDownSolid } from "react-icons/lia";
 
 import { NavLink, Link } from 'react-router-dom';
 
@@ -73,7 +74,9 @@ const Navbar = () => {
       <div className="container">
         <div className="mx-auto ">
           <div className="flex justify-between items-center  relative">
-            <img src={Logo} alt="Logo" className="max-w-[100px] h-auto" />
+            <Link to={'/'}>
+              <img src={Logo} alt="Logo" className="max-w-[100px] h-auto" />
+            </Link>
             {/* Desktop Navigation */}
             <div className="hidden lg:block">
               <div className="ml-1 flex items-baseline space-x-3">
@@ -94,7 +97,10 @@ const Navbar = () => {
             {/* Desktop Auth Buttons */}
             <div className="hidden lg:flex items-center space-x-4">
 
-              <select className="min-w-[90px] px-2 py-3 rounded-md text-md font-medium  border-2 border-webprimary hover:border-webprimary focus:border-webprimary focus:outline-none transition-colors duration-200 text-webprimary">
+              <select appearance="none" className="min-w-[90px] px-2 py-3 rounded-md text-md font-medium  border-2 border-webprimary hover:border-webprimary focus:border-webprimary focus:outline-none transition-colors duration-200 text-webprimary"
+              // style={{ backgroundImage: url(<LiaAngleDownSolid />) }}
+
+              >
                 <option value="" >Language</option>
                 <option value="es">English</option>
                 <option value="fr">Hindi</option>
@@ -133,7 +139,7 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         <div
-          className={`lg:hidden absolute top-20 right-0 bg-white  w-3/4 h-screen border-gray-200 origin-top transition-all duration-500 ease-in-out ${isMenuOpen
+          className={`lg:hidden absolute top-[72px] right-0 bg-white  w-[90%] h-screen border-gray-200 origin-top transition-all duration-500 ease-in-out ${isMenuOpen
             ? "animate-growDown opacity-100"
             : "max-h-0 opacity-0 overflow-hidden"
             }`}

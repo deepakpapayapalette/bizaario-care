@@ -19,7 +19,7 @@ const TABS = [
   { key: "tab5", label: "Obstetrics & Gynecology" },
   { key: "tab6", label: "Otorhinolaryngology" },
   { key: "tab7", label: "Plast Reconstr Surg" },
-  { key: "tab1", label: "Cardiology" },
+  { key: "tab8", label: "Cardiology" },
 ];
 const NewsArticlesPage = () => {
   const [activeTab, setActiveTab] = useState("All Articles");
@@ -66,25 +66,28 @@ const NewsArticlesPage = () => {
       </div>
 
       <div className='container mt-6 md:mt-8'>
-        <Carousel
-          arrows={false}
-          responsive={responsive}
-          containerClass="w-full"
-          itemClass="pe-4"
-          infinite
-          partialVisible
-        >
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
-                }`}
-              onClick={() => setActiveTab(tab.label)}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </Carousel>
+
+        <div className=" pb-6 md:pb-8">
+          <Carousel
+            arrows={false}
+            responsive={responsive}
+            containerClass="w-full"
+            itemClass="pe-4"
+            infinite
+            partialVisible
+          >
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full  ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+                  }`}
+                onClick={() => setActiveTab(tab.label)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </Carousel>
+        </div>
 
         <div className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {contentList.length === 0 && (<ShimerLoader />)}

@@ -211,4 +211,12 @@ nav .active {
   margin-right: 15px;
 }
 
-;
+ul.react-multi-carousel-dot-list .react-multi-carousel-dot--active button {
+  background-color: var(--web-primary);
+  border: var(--web-primary);
+}
+
+li.react-multi-carousel-dot button {
+  background: var(--web-secondary);
+  border: var(--web-secondary)
+}
