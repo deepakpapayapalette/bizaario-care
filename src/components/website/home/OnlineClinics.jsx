@@ -24,7 +24,7 @@ const OnlineClinics = () => {
     superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 6 },
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 5, partialVisibilityGutter: 20 },
     tablet: { breakpoint: { max: 1024, min: 767 }, items: 3, partialVisibilityGutter: 10 },
-    mobile: { breakpoint: { max: 767, min: 0 }, items: 2 },
+    mobile: { breakpoint: { max: 767, min: 0 }, items: 1, partialVisibilityGutter: 20 },
   };
   const responsiveCardList = {
     superLargeDesktop: {
@@ -45,7 +45,7 @@ const OnlineClinics = () => {
     mobile: {
       breakpoint: { max: 767, min: 0 },
       items: 1,
-      partialVisibilityGutter: 20
+      partialVisibilityGutter: 10
 
     }
   };
@@ -102,27 +102,30 @@ const OnlineClinics = () => {
             <div key={item} >
               <div className="p-4 bg-white rounded-xl shadow-md border border-gray-200 w-full  mx-auto">
                 <div className="grid grid-cols-3 gap-2 mb-4">
-                  <div className="border rounded-lg py-2 flex flex-col items-center">
-                    <span className="text-xl font-semibold">06</span>
+                  <div className="border border-gray-500 rounded-lg py-2 flex flex-col items-center">
+                    <span className="text-lg font-semibold">06</span>
                     <span className="text-gray-700 text-sm">Days</span>
                   </div>
-                  <div className="border rounded-lg py-2 flex flex-col items-center">
-                    <span className="text-xl font-semibold">12</span>
+                  <div className="border border-gray-500 rounded-lg py-2 flex flex-col items-center">
+                    <span className="text-lg font-semibold">12</span>
                     <span className="text-gray-700 text-sm">Hours</span>
                   </div>
-                  <div className="border rounded-lg py-2 flex flex-col items-center">
-                    <span className="text-xl font-semibold">18</span>
+                  <div className="border border-gray-500 rounded-lg py-2 flex flex-col items-center">
+                    <span className="text-lg font-semibold">18</span>
                     <span className="text-gray-700 text-sm">Minutes</span>
                   </div>
                 </div>
 
                 {/* Doctor Details */}
-                <div className="flex gap-4 items-start mb-4">
-                  <img
-                    src={doctorImage}
-                    alt="Dr. Dominic Stonehart"
-                    className="rounded-lg object-cover w-28 h-28 bg-gray-100"
-                  />
+                <div className="flex flex-col sm:flex-row gap-4 items-start mb-4">
+                  <div>
+
+                    <img
+                      src={doctorImage}
+                      alt="Dr. Dominic Stonehart"
+                      className="rounded-lg object-cover w-28 h-28 bg-gray-100"
+                    />
+                  </div>
                   <div>
                     <a
                       href="#"
@@ -148,11 +151,11 @@ const OnlineClinics = () => {
 
                 {/* Slot Info */}
                 <div className="grid grid-cols-2 gap-2 mb-4">
-                  <div className="border rounded-lg py-2 flex flex-col items-center">
+                  <div className="border border-gray-500 rounded-lg py-2 flex flex-col items-center">
                     <span className="text-lg font-semibold">20</span>
                     <span className="text-gray-700 text-xs">Total Slots</span>
                   </div>
-                  <div className="border rounded-lg py-2 flex flex-col items-center">
+                  <div className="border border-gray-500 rounded-lg py-2 flex flex-col items-center">
                     <span className="text-lg font-semibold">18</span>
                     <span className="text-gray-700 text-xs">Available Slots</span>
                   </div>

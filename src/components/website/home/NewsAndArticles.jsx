@@ -22,7 +22,7 @@ const responsive = {
   superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 6 },
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 5, partialVisibilityGutter: 20 },
   tablet: { breakpoint: { max: 1024, min: 767 }, items: 3, partialVisibilityGutter: 10 },
-  mobile: { breakpoint: { max: 767, min: 0 }, items: 2, partialVisibilityGutter: 10 },
+  mobile: { breakpoint: { max: 767, min: 0 }, items: 1, partialVisibilityGutter: 20 },
 };
 const responsiveCardList = {
   superLargeDesktop: {
@@ -96,19 +96,19 @@ const NewsAndArticles = () => {
       </div>
 
       {/* =========Tabs + Country=========== */}
-      <div className="lg:flex justify-between items-start">
+      <div className="lg:flex justify-between items-start mb-6">
         <Carousel
           arrows={false}
           responsive={responsive}
           containerClass=""
-          itemClass="pe-4 pb-3"
+          itemClass="pe-4 pb-3 "
           infinite
           partialVisible
         >
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+              className={`border-2 py-3  rounded-md text-webprimary hover:bg-webprimary hover:text-white transition-all w-full  px-2 mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
                 }`}
               onClick={() => setActiveTab(tab.label)
 
@@ -133,7 +133,7 @@ const NewsAndArticles = () => {
           partialVisible
         >
           {contentList?.map((news) => (
-            <div key={news._id} className="pe-2 pb-3 h-full flex flex-col bg-white rounded-2xl shadow-md p-4 w-full" >
+            <div key={news._id} className="pe-2 pb-3 h-full flex flex-col bg-white rounded-2xl border border-gray-300 hover:shadow-lg p-4 w-full" >
               <Link to={`/news-articles/${news._id} `}  >
                 <div className=" ">
                   {/* Image Section */}

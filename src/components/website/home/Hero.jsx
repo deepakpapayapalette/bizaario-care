@@ -23,7 +23,7 @@ const Hero = () => {
 
   return (
     <div className="w-full">
-      <div className="relative w-full h-[90vh] overflow-hidden">
+      <div className="relative w-full lg:h-[90vh] md:h-[80vh] h-[85vh]  overflow-hidden">
         {/* Video BG */}
         <video
           autoPlay
@@ -52,7 +52,7 @@ const Hero = () => {
             <div className="pt-4 animate-fadeInUp delay-300">
               <a
                 href="#"
-                className="relative inline-block px-8 py-3 border-2 border-white text-white font-semibold rounded-lg overflow-hidden hover:bg-white hover:text-blue-600 transition-all duration-300"
+                className="relative inline-block px-8 py-3 border-2 border-white text-white font-semibold rounded-lg overflow-hidden hover:bg-white hover:text-webprimary transition-all duration-300"
               >
                 <span className="relative z-10">Join Our Network</span>
                 <div className="absolute inset-0 -left-full bg-white/20 animate-glow" />

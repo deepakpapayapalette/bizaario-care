@@ -17,12 +17,12 @@ const PatientsTestimonials = lazy(() => import('../../components/website/home/Pa
 
 
 const HomePage = () => {
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  // }, []);
   return (
     <Suspense fallback={<Loader />}>
       <Hero />

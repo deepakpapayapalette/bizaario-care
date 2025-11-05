@@ -125,10 +125,28 @@ const PatientsTestimonials = () => {
     }
     return visible;
   };
+  const centerSlideFn = () => {
+    if (!isCenter && !isAnimating) {
+      setIsAnimating(true);
+      if (isLeft) {
+        setCurrentIndex(
+          (prev) =>
+            (prev - 1 + patient_testimonial.length) %
+            patient_testimonial.length
+        );
+      } else if (isRight) {
+        setCurrentIndex(
+          (prev) => (prev + 1) % patient_testimonial.length
+        );
+      }
+    }
+  }
+
+
 
   return (
     <div className="container space-top">
-      <div className="mb-4">
+      <div className="mb-12">
         <h2 className="text-2xl md:text-4xl font-semibold mb-2">Patients Testimonials</h2>
         <p className="text-para">
           Learn from leading doctors and specialists through focused,
@@ -147,36 +165,20 @@ const PatientsTestimonials = () => {
               return (
                 <div
                   key={`${testimonial.id}-${currentIndex}-${index}`}
-                  className={`relative transition-all duration-300 flex flex-col items-center border rounded-lg p-3 hover:shadow-lg ${isCenter
-                    ? "scale-100 opacity-100 z-20"
-                    : "scale-75 opacity-80 z-10 hidden md:flex"
+                  className={`relative transition-all duration-300 flex flex-col items-center  border border-gray-300 rounded-lg p-3 hover:shadow-lg ${isCenter
+                    ? "scale-100 opacity-100 z-20 "
+                    : "scale-90 opacity-80 z-10 hidden md:flex"
                     } ${isCenter ? "" : "hover:opacity-80 cursor-pointer"}`}
-                  onClick={() => {
-                    if (!isCenter && !isAnimating) {
-                      setIsAnimating(true);
-                      if (isLeft) {
-                        setCurrentIndex(
-                          (prev) =>
-                            (prev - 1 + patient_testimonial.length) %
-                            patient_testimonial.length
-                        );
-                      } else if (isRight) {
-                        setCurrentIndex(
-                          (prev) => (prev + 1) % patient_testimonial.length
-                        );
-                      }
-                    }
-                  }}
+                  onClick={centerSlideFn}
                   style={{
-                    width: isCenter ? "100%" : "350px",
+                    width: isCenter ? "100%" : "100%",
                     maxWidth: "475px",
                     minHeight: "auto",
                     padding: "20px",
                     borderRadius: "10px",
-                    // background: "rgba(189, 196, 212, 0.30)",
-                    background: "var(--white)",
+                    background: "#e8f0f8",
                     position: "relative",
-                    alignSelf: "stretch", // ✅ keep all cards aligned
+                    alignSelf: "center",
                   }}
                 >
                   {/* Avatar */}
@@ -185,18 +187,18 @@ const PatientsTestimonials = () => {
                       <img
                         src={testimonial?.ContentImage || "/placeholder.svg"}
                         alt={testimonial?.ContentTitle}
-                        className={`${isCenter ? "w-20 h-20" : "w-16 h-16"
+                        className={`${isCenter ? "w-24 h-24" : "w-16 h-16"
                           } rounded-full object-cover border-4 border-white shadow-lg transition-all duration-300`}
                       />
-                      <div
+                      {/* <div
                         className={`absolute -top-1 -right-1 bg-blue-600 rounded-full p-1 ${isCenter ? "scale-100" : "scale-75"
                           } transition-transform duration-300`}
                       >
-                        <Quote
-                          className={`${isCenter ? "w-3 h-3" : "w-2 h-2"
-                            } text-white`}
-                        />
-                      </div>
+                      <Quote
+                        className={`${isCenter ? "w-3 h-3" : "w-2 h-2"
+                          } text-white`}
+                      />
+                    </div> */}
                     </div>
                   </div>
 
@@ -254,7 +256,7 @@ const PatientsTestimonials = () => {
           <button
             onClick={prevTestimonial}
             disabled={isAnimating}
-            className="p-2 transition-colors bg-transparent border-2 border-gray-300 rounded-full hover:border-blue-600 hover:bg-blue-50"
+            className="p-2 transition-colors bg-transparent border-2 border-gray-300 rounded-full hover:border-webprimary hover:bg-websecondary"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -270,7 +272,7 @@ const PatientsTestimonials = () => {
                   }
                 }}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex
-                  ? "bg-blue-600 w-6"
+                  ? "bg-webprimary w-4"
                   : "bg-gray-300 hover:bg-gray-400"
                   }`}
               />
@@ -280,13 +282,13 @@ const PatientsTestimonials = () => {
           <button
             onClick={nextTestimonial}
             disabled={isAnimating}
-            className="p-2 transition-colors bg-transparent border-2 border-gray-300 rounded-full hover:border-blue-600 hover:bg-blue-50"
+            className="p-2 transition-colors bg-transparent border-2 border-gray-300 rounded-full hover:border-webprimary hover:bg-websecondary"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
