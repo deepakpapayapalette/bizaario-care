@@ -1,14 +1,14 @@
 import { Checkbox, Typography } from '@mui/material'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import FormInput from '../components/common/FormInput'
-import FormButton from '../components/common/FormButton'
+import FormInput from '../../components/common/FormInput'
+import FormButton from '../../components/common/FormButton'
 import { useFormik } from 'formik'
 import * as Yup from "yup";
 // import { __commonLogin } from '../utils/api/commonApi'
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Popup } from '../components/common/Popup'
+import { Popup } from '../../components/common/Popup'
 // import Logo from '../assets/images/logo-web.png'
 const Login = () => {
   const [isLoading, setIsLoading] = React.useState(false);

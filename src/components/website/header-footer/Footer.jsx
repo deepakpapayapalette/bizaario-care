@@ -7,7 +7,7 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { MdPhone, MdEmail, MdLanguage } from "react-icons/md";
-import logo from "../../../assets/images/website/logo-navbar.png";
+import logo from "@assets/images/website/logo-footer.png";
 
 export default function Footer() {
   const socialLinks = [
@@ -37,7 +37,7 @@ export default function Footer() {
 
           {/* Logo & About */}
           <div className="flex-1 mb-8 md:mb-0">
-            <img src={logo} alt="BIZAARIO Logo" className="h-24 mb-2" />
+            <img src={logo} alt="BIZAARIO Logo" className="max-w-[140px] mb-2" />
 
             <p className="mb-6 text-gray-700">
               High level experience in web design and development knowledge,

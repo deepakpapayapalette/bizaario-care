@@ -8,6 +8,8 @@ import HospitalPartner from '../pages/website/HospitalPartner'
 import MedicalBoard from '../pages/website/MedicalBoard'
 import NewsArticlesPage from '../pages/website/NewsArticlesPage'
 import ContactUs from '../pages/website/ContactUs'
+import NewsDetail from '../pages/website/NewsDetail'
+
 
 const WebsiteRoutes = () => {
   return (
@@ -18,6 +20,7 @@ const WebsiteRoutes = () => {
         <Route path="/hospital-partners" element={<HospitalPartner />} />
         <Route path="/medical-board" element={<MedicalBoard />} />
         <Route path="/news-articles" element={<NewsArticlesPage />} />
+        <Route path="/news-articles/:id" element={<NewsDetail />} />
         <Route path="/contact" element={<ContactUs />} />
 
         {/* Catch-all */}

@@ -107,12 +107,12 @@ const Navbar = () => {
               </select>
 
               <Link to={'/login'}>
-                <button className="min-w-[90px] theme-btn">
+                <button className="min-w-[90px] theme-btn py-1 text-md">
                   Login
                 </button>
               </Link>
               <Link to={'/signup'}>
-                <button className="min-w-[90px] theme-btn">
+                <button className="min-w-[90px] theme-btn py-1">
                   Signup
                 </button>
               </Link>

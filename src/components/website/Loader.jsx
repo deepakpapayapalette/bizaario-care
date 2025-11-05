@@ -25,10 +25,10 @@ export default function Loader() {
             <img
               src={fav}
               alt="Loading..."
-              className="w-[120px]"
+              className="w-[140px]"
             />
           </div>
-          <div className="h-48 w-full bg-gray-200 rounded"></div>
+          {/* <div className="h-48 w-full bg-gray-200 rounded"></div> */}
           {/* <div className="h-8 w-full bg-gray-200 rounded"></div>
           <div className="h-20 w-full bg-gray-200 rounded"></div>
           <div className="h-12 w-full bg-gray-150 rounded"></div> */}

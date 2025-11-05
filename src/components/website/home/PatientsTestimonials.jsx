@@ -6,6 +6,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { useEffect, useState } from 'react';
 import { __postApiData } from '@utils/api';
+import ShimerLoader from '../../common/ShimerLoader';
 
 const PatientsTestimonials = () => {
 
@@ -156,41 +157,48 @@ const PatientsTestimonials = () => {
 
       <div className=" max-w-full">
         <div className="relative ">
-          <div className="flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-in-out md:flex-row md:gap-4">
-            {getVisibleTestimonials().map((testimonial, index) => {
-              const isCenter = testimonial.position === 0;
-              const isLeft = testimonial.position === -1;
-              const isRight = testimonial.position === 1;
+          {patient_testimonial.length === 0 ?
+            <div className="grid md:grid-cols-3 gap-4">
+              {patient_testimonial.length === 0 && (<ShimerLoader />)}
+            </div>
+            :
+            <div className="flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-in-out md:flex-row md:gap-4">
 
-              return (
-                <div
-                  key={`${testimonial.id}-${currentIndex}-${index}`}
-                  className={`relative transition-all duration-300 flex flex-col items-center  border border-gray-300 rounded-lg p-3 hover:shadow-lg ${isCenter
-                    ? "scale-100 opacity-100 z-20 "
-                    : "scale-90 opacity-80 z-10 hidden md:flex"
-                    } ${isCenter ? "" : "hover:opacity-80 cursor-pointer"}`}
-                  onClick={centerSlideFn}
-                  style={{
-                    width: isCenter ? "100%" : "100%",
-                    maxWidth: "475px",
-                    minHeight: "auto",
-                    padding: "20px",
-                    borderRadius: "10px",
-                    background: "#e8f0f8",
-                    position: "relative",
-                    alignSelf: "center",
-                  }}
-                >
-                  {/* Avatar */}
-                  <div className="absolute transform -translate-x-1/2 -top-8 left-1/2">
-                    <div className="relative">
-                      <img
-                        src={testimonial?.ContentImage || "/placeholder.svg"}
-                        alt={testimonial?.ContentTitle}
-                        className={`${isCenter ? "w-24 h-24" : "w-16 h-16"
-                          } rounded-full object-cover border-4 border-white shadow-lg transition-all duration-300`}
-                      />
-                      {/* <div
+              {
+                getVisibleTestimonials().map((testimonial, index) => {
+                  const isCenter = testimonial.position === 0;
+                  const isLeft = testimonial.position === -1;
+                  const isRight = testimonial.position === 1;
+
+                  return (
+                    <div
+                      key={`${testimonial.id}-${currentIndex}-${index}`}
+                      className={`relative transition-all duration-300 flex flex-col items-center  border border-gray-300 rounded-lg p-3 hover:shadow-lg ${isCenter
+                        ? "scale-100 opacity-100 z-20 "
+                        : "scale-90 opacity-80 z-10 hidden md:flex"
+                        } ${isCenter ? "" : "hover:opacity-80 cursor-pointer"}`}
+                      onClick={centerSlideFn}
+                      style={{
+                        width: isCenter ? "100%" : "100%",
+                        maxWidth: "475px",
+                        minHeight: "auto",
+                        padding: "20px",
+                        borderRadius: "10px",
+                        background: "#e8f0f8",
+                        position: "relative",
+                        alignSelf: "center",
+                      }}
+                    >
+                      {/* Avatar */}
+                      <div className="absolute transform -translate-x-1/2 -top-8 left-1/2">
+                        <div className="relative">
+                          <img
+                            src={testimonial?.ContentImage || "/placeholder.svg"}
+                            alt={testimonial?.ContentTitle}
+                            className={`${isCenter ? "w-24 h-24" : "w-16 h-16"
+                              } rounded-full object-cover border-4 border-white shadow-lg transition-all duration-300`}
+                          />
+                          {/* <div
                         className={`absolute -top-1 -right-1 bg-blue-600 rounded-full p-1 ${isCenter ? "scale-100" : "scale-75"
                           } transition-transform duration-300`}
                       >
@@ -199,56 +207,58 @@ const PatientsTestimonials = () => {
                           } text-white`}
                       />
                     </div> */}
-                    </div>
-                  </div>
+                        </div>
+                      </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col items-center justify-start w-full mt-12 text-left">
-                    <blockquote
-                      className={`text-gray-700 leading-relaxed mb-4 text-left italic w-full ${isCenter ? "text-base" : "text-sm"
-                        }`}
-                      style={
-                        !isCenter
-                          ? {
-                            display: "-webkit-box",
-                            WebkitLineClamp: 3,
-                            WebkitBoxOrient: "vertical",
-                            overflow: "hidden",
-                            margin: "0", // ✅ no margin top
+                      {/* Content */}
+                      <div className="flex flex-col items-center justify-start w-full mt-12 text-left">
+                        <blockquote
+                          className={`text-gray-700 leading-relaxed mb-4 text-left italic w-full ${isCenter ? "text-base" : "text-sm"
+                            }`}
+                          style={
+                            !isCenter
+                              ? {
+                                display: "-webkit-box",
+                                WebkitLineClamp: 3,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                                margin: "0", // ✅ no margin top
+                              }
+                              : {}
                           }
-                          : {}
-                      }
-                    >
-                      "{testimonial?.LongDescription}"
-                    </blockquote>
+                        >
+                          "{testimonial?.LongDescription}"
+                        </blockquote>
 
-                    <div className="w-full text-left">
-                      <h4
-                        className={`font-semibold text-gray-900 mb-1 ${isCenter ? "text-lg" : "text-base"
-                          }`}
-                      >
-                        {testimonial?.AssetId?.AssetName}
-                      </h4>
-                      <p
-                        className={`text-gray-600 ${isCenter ? "text-sm" : "text-xs"
-                          }`}
-                      >
-                        {testimonial?.AssetId?.MedicalSpecialties?.map(
-                          (item) => item.lookup_value
-                        ).join(",")}
-                      </p>
-                      <p
-                        className={`text-gray-500 mt-1 ${isCenter ? "text-xs" : "text-xs"
-                          }`}
-                      >
-                        {testimonial.hospital}
-                      </p>
+                        <div className="w-full text-left">
+                          <h4
+                            className={`font-semibold text-gray-900 mb-1 ${isCenter ? "text-lg" : "text-base"
+                              }`}
+                          >
+                            {testimonial?.AssetId?.AssetName}
+                          </h4>
+                          <p
+                            className={`text-gray-600 ${isCenter ? "text-sm" : "text-xs"
+                              }`}
+                          >
+                            {testimonial?.AssetId?.MedicalSpecialties?.map(
+                              (item) => item.lookup_value
+                            ).join(",")}
+                          </p>
+                          <p
+                            className={`text-gray-500 mt-1 ${isCenter ? "text-xs" : "text-xs"
+                              }`}
+                          >
+                            {testimonial.hospital}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })
+              }
+            </div>
+          }
         </div>
 
         {/* Navigation */}

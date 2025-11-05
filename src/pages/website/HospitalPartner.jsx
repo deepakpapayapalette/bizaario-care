@@ -40,6 +40,7 @@ const HospitalPartner = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth", });
     get_hospital_profile();
   }, []);
 
@@ -47,6 +48,8 @@ const HospitalPartner = () => {
   const handleViewProfile = (hospitalId) => {
     navigate(`/hospital-partners/${hospitalId}`);
   };
+
+
   return (
     <>
       <Banner data={bannerData} />

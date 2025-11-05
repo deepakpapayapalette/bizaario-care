@@ -9,6 +9,7 @@ import { useState, useEffect, use } from "react"
 import { useNavigate } from "react-router-dom"
 import { __postApiData } from '@utils/api';
 import SelectField from "@components/common/SelectField";
+import ShimerLoader from "@components/common/ShimerLoader";
 
 const TABS = [
   { id: "tab1", label: "Delhi NCR" },
@@ -131,8 +132,13 @@ const PartnerHospitals = () => {
       </div>
 
       {/* Hospital Content */}
-      <div className="ps-0">
-        <div className="relative">
+
+      <div className="relative">
+        {hospital_details.length === 0 ?
+          <div className="grid md:grid-cols-3 gap-4">
+            {hospital_details.length === 0 && (<ShimerLoader />)}
+          </div>
+          :
           <Carousel
             arrows={false}
             responsive={responsiveCardsList}
@@ -203,9 +209,9 @@ const PartnerHospitals = () => {
               </div>
             ))}
           </Carousel>
-        </div>
+        }
       </div>
-    </div >
+    </div>
   );
 };
 

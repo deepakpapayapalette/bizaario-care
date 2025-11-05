@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Banner from '../../components/common/Banner'
 import bannerImage from '@assets/images/website/banner.png'
 import team1 from '@assets/images/website/about/team1.png'
@@ -10,14 +10,20 @@ import team6 from '@assets/images/website/about/team6.png'
 import team7 from '@assets/images/website/about/team7.png'
 import team8 from '@assets/images/website/about/team8.png'
 import NewsAndArticles from '@components/website/home/NewsAndArticles'
-
+const bannerData = {
+  image: bannerImage,
+  title: 'About Us',
+  description: "Empowering hospitals, physicians, and patients with real-time communication and clinical collaboration—because better care starts with better connection."
+}
 
 const About = () => {
-  const bannerData = {
-    image: bannerImage,
-    title: 'About Us',
-    description: "Empowering hospitals, physicians, and patients with real-time communication and clinical collaboration—because better care starts with better connection."
-  }
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
 
   const teamMemberArr = [
     {

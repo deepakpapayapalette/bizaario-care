@@ -117,7 +117,7 @@ h6 {
   background: none;
   transition: background 0.2s, color 0.2s;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .theme-btn:hover {

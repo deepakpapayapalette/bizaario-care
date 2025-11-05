@@ -43,6 +43,7 @@ const NewsArticlesPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth", });
     getContentList()
   }, [])
 
@@ -89,7 +90,7 @@ const NewsArticlesPage = () => {
           </Carousel>
         </div>
 
-        <div className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {contentList.length === 0 && (<ShimerLoader />)}
           {contentList?.map((news, index) => (
             <NewsArticleCard key={index} news={news} handleViewProfile={() => { }} />
