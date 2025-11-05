@@ -9,16 +9,14 @@
   font-family: 'Arial', sans-serif;
 }
 
-
-
-
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
 }
 
 @layer base {
@@ -34,7 +32,7 @@ h6 {
     --background: #F9F9F9;
     --foreground: #000000;
     --web-card: #FFFFFF;
-    --web-card-foreground: #000000b3;
+    --web-card-foreground: #000000c2;
 
     --web-popover: #ffffff;
     --web-popover-foreground: #020817;

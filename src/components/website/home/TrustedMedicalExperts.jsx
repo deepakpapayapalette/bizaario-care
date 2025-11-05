@@ -4,8 +4,9 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import api from "../../../api";
 import { __getCommenApiDataList } from "../../../utils/api/commonApi";
-import { FaMapMarkerAlt, FaBriefcaseMedical } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
+import DoctorCard from "../../common/DoctorCard";
 
 
 const TABS = [
@@ -68,20 +69,13 @@ const TrustedMedicalExperts = () => {
     }
   };
 
-
-
-  /** --------------------------
-   ✅ Fetch Doctors
-   ---------------------------**/
   const getDoctorProfile = useCallback(async () => {
     try {
       setLoading(true);
-
       const resp = await api.post("api/v1/admin/assetList", {
         AssetCategoryLevel1: "68b0104063729ea39b28d0fb",
         MedicalSpecialties: selectedSpecialty?._id || null,
       });
-
       const formattedData =
         resp?.data?.data?.list?.map((doc, index) => ({
           id: doc?._id || index + 1,
@@ -98,31 +92,31 @@ const TrustedMedicalExperts = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedSpecialty]);
-
-
-  const fetchSpecialties = async () => {
-    try {
-      const data = await __getCommenApiDataList({
-        lookup_type: ["medical_speciality"],
-      });
-      setMedicalSpecialties(data);
-    } catch (error) {
-      console.error("Error fetching specialties:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSpecialties();
   }, []);
+
+
+  // const fetchSpecialties = async () => {
+  //   try {
+  //     const data = await __getCommenApiDataList({
+  //       lookup_type: ["medical_speciality"],
+  //     });
+  //     setMedicalSpecialties(data);
+  //   } catch (error) {
+  //     console.error("Error fetching specialties:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchSpecialties();
+  // }, []);
 
   useEffect(() => {
     getDoctorProfile();
   }, [getDoctorProfile]);
 
-  useEffect(() => {
-    setSelectedSpecialty(medicalSpecialties.find((item) => item.lookup_value === activeTab));
-  }, [activeTab, medicalSpecialties]);
+  // useEffect(() => {
+  //   setSelectedSpecialty(medicalSpecialties.find((item) => item.lookup_value === activeTab));
+  // }, [activeTab, medicalSpecialties]);
 
 
   return (
@@ -167,61 +161,13 @@ const TrustedMedicalExperts = () => {
         <Carousel
           arrows={false}
           responsive={responsiveCardList}
-          containerClass=" pe-2 "
+          containerClass=" pe-2 pt-6"
           itemClass="pe-4 pb-3"
           infinite
           partialVisible
         >
           {doctorArr?.map((item) => (
-            <div
-              key={item.id}
-              className="p-4 border-gray-200 border border-b-[6px] relative bg-white shadow-sm rounded-xl  transition-all h-full flex flex-col   trusted-medical-card  justify-between"
-            >
-
-
-              <div>
-
-                <div className="w-full h-[170px] bg-gray-100 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
-                    src={item?.image}
-                    alt=""
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-
-                <div className=" pt-4">
-                  <h2 className="font-semibold text-xl mb-1">{item?.name}</h2>
-                  <div className="text-gray-600 text-sm mb-3">
-                    {item?.exp}
-                  </div>
-                  <div className="flex items-center text-gray-700 text-base mb-2 mt-4 gap-2">
-                    <FaMapMarkerAlt className="text-lg text-gray-600 mr-1" />
-                    <span>{item?.location}</span>
-                  </div>
-                  <div className="flex gap-1 items-start mb-2">
-                    <div>
-                      <FaBriefcaseMedical className="mt-1 mr-2 text-lg text-gray-600" />
-                    </div>
-                    <div>
-                      <span className="font-semibold">Specializes in:</span>
-                      <span className="ml-1 text-gray-700">
-                        {item?.specialties}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className=" py-4 flex gap-4 w-full flex-col xl:flex-row">
-                <button className="w-full theme-btn-fill ">
-                  Send Medical Query
-                </button>
-                <button className="w-full theme-btn-ouline">
-                  View Profile
-                </button>
-              </div>
-
-            </div>
+            <DoctorCard key={item.id} item={item} handleViewProfile={null} />
           ))}
         </Carousel>
       </div>

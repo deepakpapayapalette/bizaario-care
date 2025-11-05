@@ -33,7 +33,7 @@ const Navbar = () => {
     {
       id: 3,
       name: "Hospital Partners",
-      href: "/partners",
+      href: "/hospital-partners",
       isActive: false,
       className: "nav-link",
       ariaCurrent: null,

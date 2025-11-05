@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa6";
-import { GrLocation } from "react-icons/gr";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { __postApiData } from '@utils/api';
-import { FaClock, FaCalendarAlt, FaEye } from "react-icons/fa";
 import SelectField from "@components/common/SelectField";
+import NewsArticleCard from "../../common/NewsArticleCard";
 
 const TABS = [
   { key: "tab1", label: "Cardiology" },
@@ -24,6 +23,7 @@ const responsive = {
   tablet: { breakpoint: { max: 1024, min: 767 }, items: 3, partialVisibilityGutter: 10 },
   mobile: { breakpoint: { max: 767, min: 0 }, items: 1, partialVisibilityGutter: 20 },
 };
+
 const responsiveCardList = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -49,9 +49,6 @@ const NewsAndArticles = () => {
   const [activeTab, setActiveTab] = useState('Cardiology');
   const [contentList, setContentList] = useState([]);
   const [selectContry, setSelectCountry] = useState('');
-
-
-
 
   const getContentList = async () => {
     try {
@@ -100,19 +97,17 @@ const NewsAndArticles = () => {
         <Carousel
           arrows={false}
           responsive={responsive}
-          containerClass=""
-          itemClass="pe-4 pb-3 "
+          containerClass=" pe-6 "
+          itemClass="pe-4 pb-3"
           infinite
           partialVisible
         >
           {TABS.map((tab) => (
             <button
               key={tab.key}
-              className={`border-2 py-3  rounded-md text-webprimary hover:bg-webprimary hover:text-white transition-all w-full  px-2 mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
+              className={`border-2 py-3 pe-2 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full mb-3 ${activeTab === tab.label ? "activeTab bg-webprimary text-white" : ""
                 }`}
-              onClick={() => setActiveTab(tab.label)
-
-              }
+              onClick={() => setActiveTab(tab.label)}
             >
               {tab.label}
             </button>
@@ -133,43 +128,40 @@ const NewsAndArticles = () => {
           partialVisible
         >
           {contentList?.map((news) => (
-            <div key={news._id} className="pe-2 pb-3 h-full flex flex-col bg-white rounded-2xl border border-gray-300 hover:shadow-lg p-4 w-full" >
-              <Link to={`/news-articles/${news._id} `}  >
-                <div className=" ">
-                  {/* Image Section */}
-                  <div className="w-full h-44 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center mb-3">
-                    <img
-                      src={news.ContentImage}
-                      alt={news.ContentTitle}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  {/* Meta Info */}
-                  <div className="flex justify-between items-center text-gray-500 text-xs mb-2">
-                    <div className="flex items-center gap-1">
-                      <FaClock className="text-gray-400" />
-                      <span>20Min</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <FaCalendarAlt className="text-gray-400" />
-                      <span>20/12/2025</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <FaEye className="text-gray-400" />
-                      <span>2,005</span>
-                    </div>
-                  </div>
-                  {/* Title */}
-                  <div className="font-semibold text-lg mb-1 text-black leading-snug line-clamp-2">
-                    {news.ContentTitle}
-                  </div>
-                  {/* Subtitle */}
-                  <div className="text-gray-700 text-sm line-clamp-6">
-                    {news.LongDescription}
-                  </div>
-                </div>
-              </Link>
-            </div>
+            // <div key={news._id} className="pe-2 pb-3 h-full flex flex-col bg-white rounded-2xl border border-gray-300 hover:shadow-lg p-4 w-full" >
+            //   <Link to={`/news-articles/${news._id} `}>
+            //     <div className=" ">
+            //       <div className="w-full h-44 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center mb-3">
+            //         <img
+            //           src={news.ContentImage}
+            //           alt={news.ContentTitle}
+            //           className="object-cover w-full h-full"
+            //         />
+            //       </div>
+            //       <div className="flex justify-between items-center text-gray-500 text-xs mb-2">
+            //         <div className="flex items-center gap-1">
+            //           <FaClock className="text-gray-400" />
+            //           <span>20Min</span>
+            //         </div>
+            //         <div className="flex items-center gap-1">
+            //           <FaCalendarAlt className="text-gray-400" />
+            //           <span>20/12/2025</span>
+            //         </div>
+            //         <div className="flex items-center gap-1">
+            //           <FaEye className="text-gray-400" />
+            //           <span>2,005</span>
+            //         </div>
+            //       </div>
+            //       <div className="font-semibold text-lg mb-1 text-black leading-snug line-clamp-2">
+            //         {news.ContentTitle}
+            //       </div>
+            //       <div className="text-gray-700 text-sm line-clamp-6">
+            //         {news.LongDescription}
+            //       </div>
+            //     </div>
+            //   </Link>
+            // </div>
+            <NewsArticleCard news={news} key={news._id} />
           ))}
         </Carousel>
 
