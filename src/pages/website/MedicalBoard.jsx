@@ -98,8 +98,14 @@ const MedicalBoard = () => {
           ))}
         </Carousel>
 
+        {doctorArr.length === 0 && (
+          <div className="grid md:grid-cols-3 gap-4 mt-6">
+            <ShimerLoader />
+            <ShimerLoader />
+            <ShimerLoader />
+          </div>
+        )}
         <div className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-          {doctorArr.length === 0 && (<ShimerLoader />)}
           {doctorArr?.map((item, index) => (
             <DoctorCard key={index} item={item} handleViewProfile={() => { }} />
           ))}
@@ -110,5 +116,4 @@ const MedicalBoard = () => {
   )
 }
 
-export default MedicalBoard
-
+export default MedicalBoard;

@@ -3,7 +3,8 @@ import { FaArrowRight } from "react-icons/fa6";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import api from "../../../api";
-import { __getCommenApiDataList } from "../../../utils/api/commonApi";
+import { __postApiData } from '@utils/api';
+// import { __getCommenApiDataList } from "../../../utils/api/commonApi";
 
 import { Link } from "react-router-dom";
 import DoctorCard from "../../common/DoctorCard";
@@ -73,12 +74,13 @@ const TrustedMedicalExperts = () => {
   const getDoctorProfile = useCallback(async () => {
     try {
       setLoading(true);
-      const resp = await api.post("api/v1/admin/assetList", {
+      const resp = await __postApiData("/api/v1/admin/assetList", {
         AssetCategoryLevel1: "68b0104063729ea39b28d0fb",
         MedicalSpecialties: selectedSpecialty?._id || null,
       });
+
       const formattedData =
-        resp?.data?.data?.list?.map((doc, index) => ({
+        resp?.data?.list?.map((doc, index) => ({
           id: doc?._id || index + 1,
           name: doc?.AssetName,
           exp: `${doc?.MedicalSpecialties?.[0]?.lookup_value || ""} | ${doc?.experience || 5} Years Experience`,
@@ -118,7 +120,6 @@ const TrustedMedicalExperts = () => {
   // useEffect(() => {
   //   setSelectedSpecialty(medicalSpecialties.find((item) => item.lookup_value === activeTab));
   // }, [activeTab, medicalSpecialties]);
-
 
   return (
     <div className="container space-top">
@@ -160,11 +161,8 @@ const TrustedMedicalExperts = () => {
       </div>
       {/* ---------------- Content Section ---------------- */}
       <div className="">
-        {doctorArr.length === 0 ?
-          <div className="grid md:grid-cols-3 gap-4">
-            {doctorArr.length === 0 && (<ShimerLoader />)}
-          </div>
-          :
+        {doctorArr.length > 0 ?
+
           <Carousel
             arrows={false}
             responsive={responsiveCardList}
@@ -178,6 +176,12 @@ const TrustedMedicalExperts = () => {
               <DoctorCard key={item.id} item={item} handleViewProfile={null} />
             ))}
           </Carousel>
+          :
+          <div className="grid md:grid-cols-3 gap-4">
+            <ShimerLoader />
+            <ShimerLoader />
+            <ShimerLoader />
+          </div>
         }
       </div>
     </div>

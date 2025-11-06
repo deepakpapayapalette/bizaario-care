@@ -99,7 +99,7 @@ const OnlineClinics = () => {
           partialVisible
           showDots={true}
         >
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+          {[1, 2, 3, 4,].map((item) => (
             <div key={item} >
               <div className="p-4 bg-white rounded-xl shadow-md border border-gray-200 w-full  mx-auto">
                 <div className="grid grid-cols-3 gap-2 mb-4">

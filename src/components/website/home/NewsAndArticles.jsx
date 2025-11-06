@@ -120,11 +120,8 @@ const NewsAndArticles = () => {
 
       {/* ==========news and articles cards ========== */}
       <div>
-        {contentList.length === 0 ?
-          <div className="grid md:grid-cols-3 gap-4">
-            {contentList.length === 0 && (<ShimerLoader />)}
-          </div>
-          :
+        {contentList.length > 0 ?
+
           <Carousel
             arrows={false}
             responsive={responsiveCardList}
@@ -138,6 +135,12 @@ const NewsAndArticles = () => {
               <NewsArticleCard news={news} key={news._id} />
             ))}
           </Carousel>
+          :
+          <div className="grid md:grid-cols-3 gap-4">
+            <ShimerLoader />
+            <ShimerLoader />
+            <ShimerLoader />
+          </div>
         }
       </div>
 

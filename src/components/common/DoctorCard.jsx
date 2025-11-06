@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaMapMarkerAlt, FaBriefcaseMedical } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 const DoctorCard = ({ item, handleViewProfile }) => {
   return (
     <>
@@ -40,9 +41,13 @@ const DoctorCard = ({ item, handleViewProfile }) => {
           <button className="w-full theme-btn-fill ">
             Send Medical Query
           </button>
-          <button className="w-full theme-btn-ouline">
-            View Profile
-          </button>
+          <Link to={`/medical-board/${item.id} `} className='w-full'>
+            <button className="w-full theme-btn-ouline"
+
+            >
+              View Profile
+            </button>
+          </Link>
         </div>
 
       </div>

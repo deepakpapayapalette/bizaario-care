@@ -159,7 +159,9 @@ const PatientsTestimonials = () => {
         <div className="relative ">
           {patient_testimonial.length === 0 ?
             <div className="grid md:grid-cols-3 gap-4">
-              {patient_testimonial.length === 0 && (<ShimerLoader />)}
+              <ShimerLoader />
+              <ShimerLoader />
+              <ShimerLoader />
             </div>
             :
             <div className="flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-in-out md:flex-row md:gap-4">

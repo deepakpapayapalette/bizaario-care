@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaClock, FaGlobe, FaMapMarkerAlt } from 'react-icons/fa';
-const PartnerHospitalCard = ({ item, handleViewProfile }) => {
+import { Link } from 'react-router-dom';
+const PartnerHospitalCard = ({ item }) => {
   return (
     <>
       <div
@@ -53,11 +54,9 @@ const PartnerHospitalCard = ({ item, handleViewProfile }) => {
           <button className="w-full theme-btn-fill">
             Send Medical Query
           </button>
-          <button className="w-full theme-btn-ouline"
-            onClick={handleViewProfile}
-          >
+          <Link to={`/hospital-partners/${item.id}`} className="w-full theme-btn-ouline text-center">
             View Profile
-          </button>
+          </Link>
         </div>
       </div>
     </>

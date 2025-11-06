@@ -62,8 +62,13 @@ const HospitalPartner = () => {
           <SelectField value={selectContry} onChange={(e) => setSelectCountry(e.target.value)} />
         </div>
 
+        {hospital_details.length === 0 && (
+          <div className="grid md:grid-cols-3 gap-4 mt-6">
+            <ShimerLoader />
+            <ShimerLoader />
+            <ShimerLoader />
+          </div>)}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-          {hospital_details.length === 0 && (<ShimerLoader />)}
           {hospital_details.map((item) => (
             <PartnerHospitalCard key={item.id} item={item} handleViewProfile={handleViewProfile} />
           ))}
