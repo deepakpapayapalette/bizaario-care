@@ -59,7 +59,7 @@ const UpcommingEventContent = ({ doctorData }) => {
               <img
                 src={event.image || eventImage}
                 alt="img"
-                className="max-w-[400px] h-auto"
+                className="w-full sm:max-w-[300px] h-auto"
               />
             </div>
             {/* Right details area */}

@@ -8,7 +8,7 @@ const ErrorPage = () => {
   useEffect(() => {
     const setTimeoutFn = setTimeout(() => {
       backFun();
-    }, 3000);
+    }, 1000);
 
     return (() => {
       clearTimeout(setTimeoutFn);
