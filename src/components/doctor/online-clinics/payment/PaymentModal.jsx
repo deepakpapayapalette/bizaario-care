@@ -131,15 +131,15 @@ export default function PaymentModal({ onClose, onConfirm }) {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl relative">
         <button
           onClick={() => onClose(false)}
-          className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute top-6 right-6 text-gray-700 hover:text-gray-900 transition-colors"
         >
           <X size={24} />
         </button>
 
         <div className="p-8">
-          <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Make Payment</h1>
+          <h1 className="lg:text-4xl text-xl font-bold  mb-8 text-gray-800">Make Payment</h1>
 
-          <div className="grid grid-cols-5 gap-3 mb-8">
+          <div className="grid md:grid-cols-5 grid-cols-2  gap-3 mb-8">
             {paymentMethods.map((method) => (
               <button
                 key={method.id}

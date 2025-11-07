@@ -36,7 +36,7 @@ const Hero = () => {
         </video>
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/70 animate-fadeIn" />
+        <div className="absolute inset-0 bg-black/75 animate-fadeIn" />
 
         {/* Content */}
         <div className="relative container h-full flex items-center">
@@ -45,9 +45,9 @@ const Hero = () => {
               {sliderArray.bannerTitle}
             </h1>
 
-            <p className="text-gray-200 text-lg animate-fadeInUp delay-200">
+            <h6 className="text-white text-lg ">
               {sliderArray.dsc}
-            </p>
+            </h6>
 
             <div className="pt-4 animate-fadeInUp delay-300">
               <a

@@ -13,6 +13,7 @@ import DoctorDetails from '@components/doctor/doctor-profile/DoctorDetails'
 import AppointmentForm from '@components/doctor/online-clinics/appointment/AppointmentForm'
 import HospitalDetails from '@components/hospital/hospital-profile/HospitalDetails'
 import OnlineMeeting from '@components/doctor/online-clinics/online-meeting/OnlineMeeting'
+import CompletedConsultation from '../components/doctor/online-clinics/appointment/CompletedConsultation'
 
 
 const WebsiteRoutes = () => {
@@ -30,6 +31,7 @@ const WebsiteRoutes = () => {
         <Route path="/medical-board/:id" element={<DoctorDetails />} />
         <Route path="/appointment-form" element={<AppointmentForm />} />
         <Route path="/online-meeting" element={<OnlineMeeting />} />
+        <Route path="/completed-consultation" element={<CompletedConsultation />} />
 
         {/* Catch-all */}
         <Route path="*" element={<ErrorPage />} />

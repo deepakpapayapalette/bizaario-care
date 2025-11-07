@@ -14,9 +14,9 @@ const DocProfileCard = ({ doctorData }) => {
   return (
     <div className='container md:pt-12 pt-8 '>
       <div className="">
-        <h2 className="mb-5 text-3xl font-semibold">Doctor Profile</h2>
+        <h2 className="mb-5 text-2xl md:text-3xl font-semibold">Doctor Profile</h2>
         <div className="bg-[#f2f3f6] rounded-lg ">
-          <div className="flex flex-col gap-4 p-6 rounded-lg shadow ">
+          <div className="flex flex-col gap-4  md:p-6 p-3 rounded-lg shadow ">
             <div className="flex flex-col gap-4 md:flex-row ">
               <div className="max-w-[200px]">
                 {doctorData?.image ? (
@@ -36,7 +36,7 @@ const DocProfileCard = ({ doctorData }) => {
 
               <div className="w-full">
                 <div className="flex flex-col justify-between gap-2 mb-2 md:mb-0 md:flex-row">
-                  <h3 className="text-2xl font-semibold ">
+                  <h3 className="md:text-2xl text-xl font-semibold ">
                     {doctorData?.name || "Dr. John Doe"}
                   </h3>
                   <button className="border-2 text-webprimary border-webprimary rounded-md py-3 px-4 flex items-center gap-2">

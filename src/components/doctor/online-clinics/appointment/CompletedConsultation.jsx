@@ -33,7 +33,7 @@ const CompletedConsultation = () => {
           </span>
           <a
             href="#"
-            className="text-lg font-semibold text-blue-700 hover:underline ml-1"
+            className="text-lg font-semibold text-webprimary hover:underline ml-1"
           >
             Download PDF
           </a>
@@ -46,7 +46,7 @@ const CompletedConsultation = () => {
 
         {/* Book Follow-Up Button */}
         <div className="mb-7">
-          <button className="bg-blue-700 text-white font-semibold py-2 px-7 rounded shadow hover:bg-blue-800 text-base">
+          <button className="bg-webprimary text-white font-semibold py-2 px-7 rounded shadow hover:bg-blue-800 text-base">
             Book Follow-Up
           </button>
         </div>
@@ -60,7 +60,7 @@ const CompletedConsultation = () => {
         <div>
           <button
             onClick={handleClose}
-          className="bg-blue-700 text-white font-semibold py-2 px-7 rounded shadow hover:bg-blue-800 text-base w-[120px]">
+            className="bg-webprimary text-white font-semibold py-2 px-7 rounded shadow hover:bg-blue-800 text-base w-[120px]">
             Closed
           </button>
         </div>

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 // import { __postApiData, } from '@utils/api';
 import api from "../../../api";
 import { useParams } from 'react-router-dom';
-import DocProfileCard from '../../doctor/doctor-profile/DocProfileCard';
-import DocTabs from '../../doctor/doctor-profile/DocTabs';
 import HospitalTabs from './HospitalTabs';
 import HospitalProfileCard from './HospitalProfileCard';
 

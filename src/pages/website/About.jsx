@@ -10,6 +10,7 @@ import team6 from '@assets/images/website/about/team6.png'
 import team7 from '@assets/images/website/about/team7.png'
 import team8 from '@assets/images/website/about/team8.png'
 import NewsAndArticles from '@components/website/home/NewsAndArticles'
+import { Popup } from '../../components/common/Popup'
 const bannerData = {
   image: bannerImage,
   title: 'About Us',
@@ -81,6 +82,7 @@ const About = () => {
   return (
     <>
       <Banner data={bannerData} />
+
       <div className='space-top container'>
         <div className=' rounded-3xl bg-[#eff1fe] px-6 py-8'>
           <h2 className=' text-black text-3xl leading-normal mb-2 font-semibold'>Who We are?</h2>

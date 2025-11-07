@@ -117,11 +117,11 @@ const AppointmentForm = () => {
 
   return (
     <div className="container md:py-20 py-10">
-      <div className=" grid lg:grid-cols-2 grid-cols-1 gap-12">
+      <div className=" grid lg:grid-cols-2 grid-cols-1 lg:gap-12 gap-6 ">
         {/* Choose Date and Time Section */}
         <div>
-          <h1 className="text-3xl font-bold mb-8">Choose Date and Time</h1>
-          <div className="mb-8 p-6 bg-gray-50 rounded-lg">
+          <h1 className="text-2xl md:text-3xl font-semibold md:mb-8 mb-6">Choose Date and Time</h1>
+          <div className="mb-8 md:p-6  bg-gray-50 rounded-lg">
             {/* Calendar */}
             <div className="mb-6">
               {/* Month Navigation */}
@@ -144,7 +144,7 @@ const AppointmentForm = () => {
               </div>
 
               {/* Days of Week */}
-              <div className="grid grid-cols-7 gap-2 mb-2">
+              <div className="grid grid-cols-7  gap-2 mb-2">
                 {daysOfWeek.map(day => (
                   <div key={day} className="text-center text-sm font-medium text-gray-600">
                     {day}
@@ -153,7 +153,7 @@ const AppointmentForm = () => {
               </div>
 
               {/* Calendar Days */}
-              <div className="grid grid-cols-7 gap-2">
+              <div className="grid grid-cols-7 md:gap-2 gap-1">
                 {calendarDays.map((day, index) => {
                   const status = getDayStatus(day)
                   return (
@@ -234,12 +234,12 @@ const AppointmentForm = () => {
         </div>
       </div>
       {selectedTime && (
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Appointment Form</h2>
+        <div className='pt-8'>
+          <h2 className="mdtext-2xl text-xl font-semibold mb-6">Appointment Form</h2>
 
           <div className="space-y-4">
             {/* Row 1 */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1  gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Full Name</label>
                 <input
@@ -276,7 +276,7 @@ const AppointmentForm = () => {
             </div>
 
             {/* Row 2 */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1  gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Email ID</label>
                 <input

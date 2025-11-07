@@ -1,8 +1,5 @@
 import React, { lazy, Suspense, useEffect } from 'react'
 import Loader from '@components/website/Loader'
-
-
-// import Hero from '../../components/website/home/Hero';
 const Hero = lazy(() => import('../../components/website/home/Hero'))
 const Empowering = lazy(() => import('../../components/website/home/Empowering'))
 const TrustedMedicalExperts = lazy(() => import('../../components/website/home/TrustedMedicalExperts'))

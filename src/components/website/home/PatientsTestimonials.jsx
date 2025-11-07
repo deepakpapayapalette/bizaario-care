@@ -186,7 +186,7 @@ const PatientsTestimonials = () => {
                         minHeight: "auto",
                         padding: "20px",
                         borderRadius: "10px",
-                        background: "#e8f0f8",
+                        background: "#ffffff",
                         position: "relative",
                         alignSelf: "center",
                       }}
