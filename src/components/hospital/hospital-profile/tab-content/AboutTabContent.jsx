@@ -322,22 +322,28 @@ export default function AboutContent({ hospitalData }) {
             </div>
           ))}
         </div> */}
+        {hospitalData?.pictureGallery?.length > 0 ?
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 md:gap-4">
+            {(hospitalData?.pictureGallery || galleryArr).map((item, index) => (
+              <div
+                key={item._id || index}
+                className="relative w-full overflow-hidden transition-all duration-300 shadow-md cursor-pointer aspect-square rounded-xl hover:shadow-lg group"
+              >
+                <img
+                  src={item || item.img}
+                  alt={`Gallery ${index + 1}`}
+                  className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 transition-colors duration-300 bg-black/0 group-hover:bg-black/20"></div>
+              </div>
+            ))}
+          </div>
+          :
+          <div className="p-8 text-center bg-gray-100 rounded-lg">
+            <p className="text-gray-600">No Gallery content available</p>
+          </div>
+        }
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 md:gap-4">
-          {(hospitalData?.pictureGallery || galleryArr).map((item, index) => (
-            <div
-              key={item._id || index}
-              className="relative w-full overflow-hidden transition-all duration-300 shadow-md cursor-pointer aspect-square rounded-xl hover:shadow-lg group"
-            >
-              <img
-                src={item || item.img}
-                alt={`Gallery ${index + 1}`}
-                className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 transition-colors duration-300 bg-black/0 group-hover:bg-black/20"></div>
-            </div>
-          ))}
-        </div>
       </div>
     </>
   );

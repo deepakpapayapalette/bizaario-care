@@ -95,7 +95,7 @@ const Empowering = () => {
                   <Link
                     key={element._id || element.id}
                     to={`/news-articles/${element._id || element.id}`}
-                    state={{ article: element }}
+                    // state={{ article: element }}
                     className="block h-full text-decoration-none"
                   >
                     <EmpoweringCard element={element} />

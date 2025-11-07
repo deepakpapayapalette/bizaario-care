@@ -4,6 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import { __postApiData } from '@utils/api';
 import ShimerLoader from "@components/common/ShimerLoader";
 import EmpoweringCard from "@components/common/EmpoweringCard";
+import { Link } from "react-router-dom";
 
 
 const DigitalCmeArr = [];
@@ -94,9 +95,8 @@ export default function AboutContent({ doctorData }) {
             ))}
           </div>
         ) : (
-          <div className=" grid grid-cols-1 gap-4 md:grid-cols-2">
-            <ShimerLoader />
-            <ShimerLoader />
+          <div className="p-8 text-center bg-gray-100 rounded-lg">
+            <p className="text-gray-600">No video available</p>
           </div>
         )}
       </div>
@@ -110,10 +110,8 @@ export default function AboutContent({ doctorData }) {
         </div>
         {digitalCMEContent.length === 0 ?
           (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <ShimerLoader />
-              <ShimerLoader />
-              <ShimerLoader />
+            <div className="p-8 text-center bg-gray-100 rounded-lg">
+              <p className="text-gray-600">No content available</p>
             </div>
           ) :
           <Carousel
@@ -138,7 +136,14 @@ export default function AboutContent({ doctorData }) {
               ? digitalCMEContent
               : DigitalCmeArr
             ).map((element, index) => (
-              <EmpoweringCard key={index} element={element} />
+              <Link
+                key={element._id || element.id}
+                to={`/news-articles/${element._id || element.id}`}
+                // state={{ article: element }}
+                className="block h-full text-decoration-none"
+              >
+                <EmpoweringCard key={index} element={element} />
+              </Link>
             ))}
           </Carousel>
         }
@@ -164,8 +169,8 @@ export default function AboutContent({ doctorData }) {
               //additionalTransfrom={-20}
               //  pauseOnHover={false}
               //  centerMode={false}
-              containerClass=" carousel-container"
-              itemClass=" px-2"
+              containerClass="pb-4"
+              itemClass="pe-2 ps-1"
               showDots={false}
               infinite={true}
               renderDotsOutside={false}
@@ -177,9 +182,9 @@ export default function AboutContent({ doctorData }) {
                 : InnovativeCaseArr
               ).map((event, index) => (
                 <div key={index}>
-                  <div className="w-full bg-[#e5e7ee] rounded-2xl overflow-hidden h-full flex flex-col">
+                  <div className="w-full bg-white rounded-2xl overflow-hidden h-full flex flex-col border border-gray-300 hover:shadow-lg cursor-pointer">
                     {/* Video Thumbnail */}
-                    <div className="relative flex items-center justify-center px-4 py-4 cursor-pointer group">
+                    <div className="relative flex items-center justify-center px-4 py-4  group">
                       <div>
                         <img
                           src={event.ContentImage || event.img}
@@ -272,10 +277,8 @@ export default function AboutContent({ doctorData }) {
           </div>
           :
           (
-            <div className="p-4 text-center bg-gray-100 rounded-lg grid grid-cols-1 gap-4 md:grid-cols-3">
-              <ShimerLoader />
-              <ShimerLoader />
-              <ShimerLoader />
+            <div className="p-8 text-center bg-gray-100 rounded-lg">
+              <p className="text-gray-600">No Gallery content available</p>
             </div>
           )
         }

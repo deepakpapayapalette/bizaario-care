@@ -84,7 +84,7 @@ const Navbar = () => {
                   <NavLink
                     key={link.name}
                     to={link.href}
-                    className="block px-2 py-2 rounded-md text-md hover:bg-websecondary hover:text-webprimary font-medium transition-colors duration-200 text-webPara"
+                    className="block px-2 py-2 rounded-md text-md hover:bg-websecondary hover:text-webprimary font-medium transition-colors duration-200 text-gray-900"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}
@@ -107,12 +107,12 @@ const Navbar = () => {
               </select>
 
               <Link to={'/login'}>
-                <button className="min-w-[90px] theme-btn py-1 text-md">
+                <button className="min-w-[90px] theme-btn-fill py-1 text-md">
                   Login
                 </button>
               </Link>
               <Link to={'/signup'}>
-                <button className="min-w-[90px] theme-btn py-1">
+                <button className="min-w-[90px] theme-btn-ouline py-1">
                   Signup
                 </button>
               </Link>

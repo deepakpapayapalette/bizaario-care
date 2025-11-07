@@ -18,7 +18,7 @@ const DocProfileCard = ({ doctorData }) => {
         <div className="bg-[#f2f3f6] rounded-lg ">
           <div className="flex flex-col gap-4  md:p-6 p-3 rounded-lg shadow ">
             <div className="flex flex-col gap-4 md:flex-row ">
-              <div className="max-w-[200px]">
+              <div className="max-w-[200px] overflow-hidden max-h-[200px] border-gray-300 border rounded-md">
                 {doctorData?.image ? (
                   <img
                     src={doctorData?.image}
