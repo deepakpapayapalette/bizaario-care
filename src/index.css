@@ -61,7 +61,7 @@ h6 {
 
     --sidebar-foreground: #4c91acaf;
 
-    --sidebar-primary: #ffffff1a;
+    --sidebar-primary: #00366574;
 
     --sidebar-primary-foreground: #FAFAFA;
 
@@ -132,7 +132,7 @@ h6 {
   color: #fff;
   border: 2px solid var(--web-primary);
   border-radius: 8px;
-  padding: 8px;
+  padding: 10px;
   font-weight: 500;
   color: var(--web-card);
   transition: background 0.2s, color 0.2s;

@@ -5,15 +5,15 @@ const ErrorPage = () => {
   const navigate = useNavigate();
 
   const backFun = () => navigate(-1);
-  useEffect(() => {
-    const setTimeoutFn = setTimeout(() => {
-      backFun();
-    }, 1000);
+  // useEffect(() => {
+  //   const setTimeoutFn = setTimeout(() => {
+  //     backFun();
+  //   }, 10000);
 
-    return (() => {
-      clearTimeout(setTimeoutFn);
-    })
-  })
+  //   return (() => {
+  //     clearTimeout(setTimeoutFn);
+  //   })
+  // })
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">

@@ -6,16 +6,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { toast } from "react-toastify";
-import useAdminSidebarLinks from "../../hooks/admin/useAdminSidebarLinks";
-import Logo from '../../assets/images/website/logo-navbar.png'
+import useAdminSidebarLinks from "@hooks/admin/useAdminSidebarLinks";
+import Logo from '@assets/images/website/logo-navbar.png'
 // import { useAuth } from "../../context/AuthContext";
 const AdminSidebar = ({ show, toggleDrawer }) => {
   const { pathname } = useLocation();
-  // const { userDetails, logout } = useAuth();
-  const links = useAdminSidebarLinks("Super Admin");
+  const user = JSON.parse(localStorage.getItem('user'))
+  const links = useAdminSidebarLinks(user?.role);
   const [openSubListId, setOpenSubListId] = useState(null);
   //=========== function to handle logout ===========\\
   const handleLogout = () => {
+    console.log(links, "user?.role")
     // logout();
     toast.success("Logout successfully");
     window.location.href = "/";
@@ -28,7 +29,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
         <Typography variant="h5" className="font-bold my-4 text-primary-foreground">
           {show ?
             <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 164, height: 'auto', objectFit: "cover" }} /> :
-            <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 64, height: 'auto', objectFit: "cover" }} />
+            <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 60, height: 'auto', objectFit: "cover" }} className="rounded-lg" />
           }
         </Typography>
       </div>
@@ -55,7 +56,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
                   to={item.link}
                   onClick={() => setOpenSubListId(null)}
                   className={`flex items-center rounded-md text-primary-foreground px-2 py-2 mt-1 mx-3 gap-3 mb-3 no-underline transition-all delay-100 duration-300 ease-in  hover:bg-sidebar-primary hover:text-white ${!show ? "collapsed" : ""
-                    } ${pathname === item.link ? "bg-sidebar-primary text-white" : ""}`}
+                    } ${pathname === item.link ? "bg-sidebar-primary " : ""}`}
                 >
                   <Box className={`flex items-center text-primary-foreground  hover:text-white gap-3 `}>
                     <span className="text-lg">
@@ -101,13 +102,13 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
                   </span>
 
                   {/* Sub menu */}
-                  {/* {show && openSubListId === item.id && (
+                  {show && openSubListId === item.id && (
                     <div className=" max-h-64 py-2 overflow-y-auto hide-scrollbar bg-sidebar-primary rounded-md mx-3">
                       {item?.subList?.map((subItem) => (
                         <Link
                           key={subItem?.id}
                           to={subItem?.path}
-                          className={`mx-4 flex items-center rounded-md text-primary-foreground px-2 py-1 gap-3 mb-3 no-underline transition-all duration-300 ease-in hover:bg-sidebar-primary hover:text-white ${pathname === subItem.path ? "bg-sidebar-primary text-white" : ""
+                          className={`mx-4 flex  items-center rounded-md text-primary-foreground px-2 py-2 gap-2 mb-3 no-underline transition-all duration-300 ease-in hover:bg-sidebar-primary hover:text-white ${pathname === subItem.path ? "bg-sidebar-primary text-white" : ""
                             }`}
                         >
                           <Box className="sidebar-icon">
@@ -122,7 +123,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
 
                       ))}
                     </div>
-                  )} */}
+                  )}
 
                 </>
               )}
@@ -136,7 +137,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
         {show ? <Button
           variant="contained"
           sx={{
-            backgroundColor: "var(--webprimary)",
+            backgroundColor: "var(--webprimary)/80",
             color: "white",
             border: "1px solid #CCE4F0 !important",
             "&:hover": {

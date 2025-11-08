@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import AdminSidebar from '../components/admin/AdminSidebar'
-import AdminTopbar from '../components/admin/AdminTopbar'
-import AdminSidedrawer from '../components/admin/AdminSidedrawer'
+
+import AdminTopbar from '@components/admin/sidebar/AdminTopbar'
+import AdminSidedrawer from '../components/admin/sidebar/AdminSidedrawer'
+import AdminSidebar from '@components/admin/sidebar/AdminSidebar'
+
 
 const AdminLayout = ({ children }) => {
   const [show, setShow] = useState(false);

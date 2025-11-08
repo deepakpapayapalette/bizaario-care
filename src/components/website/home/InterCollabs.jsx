@@ -19,7 +19,7 @@ const InterCollabs = () => {
         <div className="container space-top">
           <div className="mb-8">
             <h2
-              className="font-semibold text-black text-3xl leading-normal mb-2"
+              className="font-semibold text-black md:text-4xl text-2xl leading-normal mb-2"
             >
               International Collaborations
             </h2>

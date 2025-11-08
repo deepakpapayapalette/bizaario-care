@@ -14,6 +14,8 @@ import AppointmentForm from '@components/doctor/online-clinics/appointment/Appoi
 import HospitalDetails from '@components/hospital/hospital-profile/HospitalDetails'
 import OnlineMeeting from '@components/doctor/online-clinics/online-meeting/OnlineMeeting'
 import CompletedConsultation from '../components/doctor/online-clinics/appointment/CompletedConsultation'
+import PrivacyPolicy from '../pages/website/PrivacyPolicy'
+import Terms from '../pages/website/Terms'
 
 
 const WebsiteRoutes = () => {
@@ -32,6 +34,7 @@ const WebsiteRoutes = () => {
         <Route path="/appointment-form" element={<AppointmentForm />} />
         <Route path="/online-meeting" element={<OnlineMeeting />} />
         <Route path="/completed-consultation" element={<CompletedConsultation />} />
+        <Route path="/terms" element={<Terms />} />
 
         {/* Catch-all */}
         <Route path="*" element={<ErrorPage />} />

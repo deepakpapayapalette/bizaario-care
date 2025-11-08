@@ -1,0 +1,167 @@
+import React, { useState, useEffect, useCallback } from "react";
+import { Paper, IconButton, Menu, MenuItem, TextField, FormControl } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Swal from "sweetalert2";
+import { DataGrid } from "@mui/x-data-grid";
+import api from "../../../api";
+import FormButton from "../../../components/common/FormButton";
+
+const OrgUnitMaster = () => {
+  const [orgUnit, setOrgUnit] = useState("");
+  const [allOrgUnits, setAllOrgUnits] = useState([]);
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+
+  const [menuData, setMenuData] = useState({
+    anchor: null,
+    rowId: null,
+  });
+
+  /** ✅ Fetch List */
+  const getAllOrgUnits = useCallback(async () => {
+    try {
+      const resp = await api.post("api/v1/admin/LookupList", {
+        lookupcodes: "org_unit_type",
+      });
+      setAllOrgUnits(resp.data.data || []);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getAllOrgUnits();
+  }, [getAllOrgUnits]);
+
+  /** ✅ Add Org Unit */
+  const addOrgUnit = async () => {
+    if (!orgUnit.trim()) {
+      Swal.fire("Warning", "Please enter Org Unit", "warning");
+      return;
+    }
+
+    try {
+      const resp = await api.post("api/v1/admin/SaveLookup", {
+        lookup_type: "org_unit_type",
+        parent_lookup_id: null,
+        lookup_value: orgUnit.trim(),
+      });
+
+      if (resp.data?.response?.response_code === "200") {
+        Swal.fire("Success", "Org Unit Added!", "success");
+        setOrgUnit("");
+        getAllOrgUnits(); // ✅ refresh list
+      } else {
+        Swal.fire("Error", resp.data?.response?.response_message, "error");
+      }
+    } catch (error) {
+      Swal.fire("Error", "Something went wrong", "error");
+    }
+  };
+
+  /** ✅ Menu handler */
+  const openMenu = (e, id) => {
+    setMenuData({ anchor: e.currentTarget, rowId: id });
+  };
+  const closeMenu = () => {
+    setMenuData({ anchor: null, rowId: null });
+  };
+
+  const editUnit = (id) => {
+    alert("Edit ID: " + id);
+    closeMenu();
+  };
+
+  const deleteUnit = (id) => {
+    alert("Delete ID: " + id);
+    closeMenu();
+  };
+
+  /** ✅ Table Columns */
+  const columns = [
+    {
+      field: "sno",
+      headerName: "S.No.",
+      flex: 0.3,
+      renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.id) + 1,
+    },
+    { field: "lookup_value", headerName: "Org Unit", flex: 1 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      // flex: 1,
+      sortable: false,
+      renderCell: (params) => (
+        <>
+          <IconButton onClick={(e) => openMenu(e, params.row._id)}>
+            <MoreVertIcon />
+          </IconButton>
+
+          {menuData.rowId === params.row._id && (
+            <Menu
+              anchorEl={menuData.anchor}
+              open={Boolean(menuData.anchor)}
+              onClose={closeMenu}
+              disableScrollLock
+            >
+              <MenuItem onClick={() => editUnit(params.row._id)}>Edit</MenuItem>
+              <MenuItem onClick={() => deleteUnit(params.row._id)}>Delete</MenuItem>
+            </Menu>
+          )}
+        </>
+      ),
+    },
+  ];
+
+  /** ✅ Table Rows */
+  const rows = allOrgUnits?.map((item) => ({
+    id: item._id,
+    ...item,
+  }));
+
+  return (
+    <div className="container mt-8">
+      {/* ✅ Form */}
+      <div elevation={3} sx={{ p: 2, borderRadius: 2 }}>
+        <FormControl fullWidth size="small" sx={{ mb: 2 }}>
+          <label className="form-label">Org Unit</label>
+          <TextField
+            name="orgunit"
+            placeholder="Enter org unit"
+            value={orgUnit}
+            onChange={(e) => setOrgUnit(e.target.value)}
+            size="small"
+          />
+        </FormControl>
+
+        <FormButton variant="contained" onClick={addOrgUnit}>
+          Submit
+        </FormButton>
+      </div>
+
+      {/* ✅ Table */}
+      <Paper elevation={3} sx={{ borderRadius: 2, marginTop: 4 }}>
+        <DataGrid
+          className="p-3"
+          rows={rows}
+          columns={columns}
+          disableColumnMenu
+          pagination
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          pageSizeOptions={[5, 10, 20]}
+          autoHeight
+          sx={{
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: "#000",
+
+              // color: "white",
+              fontWeight: "bold",
+            },
+          }}
+        />
+      </Paper>
+    </div>
+  );
+};
+
+export default OrgUnitMaster;
