@@ -22,7 +22,7 @@ const MedicalSpeciality = () => {
   const [medicalSpeciality, setMedicalSpeciality] = useState("");
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
-  const [medical_speciality, setmedicalspeciality] = useState("")
+  // const [medical_speciality, setmedicalspeciality] = useState("")
 
   // ✅ Fetch Speciality List
   const getMedicalSpecialities = useCallback(async () => {
@@ -38,7 +38,7 @@ const MedicalSpeciality = () => {
 
   useEffect(() => {
     getMedicalSpecialities();
-  }, [getMedicalSpecialities]);
+  }, []);
 
   // ✅ Action Menu
   const handleOpenMenu = (event, rowId) => {
@@ -69,13 +69,14 @@ const MedicalSpeciality = () => {
     }
 
     try {
-      const resp = await api.post("api/v1/admin/SaveLookup", {
+      const resp = await __postApiData("/api/v1/admin/SaveLookup", {
         lookup_type: "medical_speciality",
         parent_lookup_id: null,
         lookup_value: medicalSpeciality.trim(),
       });
+      console.log(resp);
 
-      if (resp.data?.response?.response_code === "200") {
+      if (resp.response?.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Medical Speciality Created",
@@ -89,7 +90,7 @@ const MedicalSpeciality = () => {
         setMedicalSpeciality("");
         getMedicalSpecialities();
       } else {
-        Swal.fire("Error", resp.data?.response?.response_message, "error");
+        Swal.fire("Error", resp.response?.response_message, "error");
       }
     } catch (error) {
       console.error("❌ API Error:", error);
@@ -172,7 +173,7 @@ const MedicalSpeciality = () => {
                   <TextField
                     name="medical_speciality"
                     placeholder="Medical Speciality"
-                    value={medical_speciality}
+                    value={medicalSpeciality}
                     onChange={(e) => setMedicalSpeciality(e.target.value)}
                     fullWidth
                     size="small"

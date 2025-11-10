@@ -14,13 +14,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import FormButton from '../../../components/common/FormButton';
 
 
-const AssetCategoryLevel2 = () => {
+const AssetCategoryLevel3 = () => {
 
 
   const [allassest_category, setallassest_category] = useState([])
   const getallassest_category = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_2" })
+      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_3" })
       setallassest_category(resp.data)
 
     } catch (error) {
@@ -29,15 +29,18 @@ const AssetCategoryLevel2 = () => {
     }
   }
 
+  useEffect(() => {
+    getallassest_category()
 
+  }, [])
 
+  // console.log(allassest_category);
 
-
-  const [allassest_categorylevel1, setallassest_categorylevel1] = useState([])
-  const getallassest_categorylevel1 = async () => {
+  const [allassest_categorylevel2, setallassest_categorylevel2] = useState([])
+  const getallassest_categorylevel2 = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_1" })
-      setallassest_categorylevel1(resp.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_2" })
+      setallassest_categorylevel2(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -46,8 +49,7 @@ const AssetCategoryLevel2 = () => {
   }
 
   useEffect(() => {
-    getallassest_categorylevel1();
-    getallassest_category()
+    getallassest_categorylevel2()
 
   }, [])
 
@@ -135,22 +137,23 @@ const AssetCategoryLevel2 = () => {
   const add_assest_category = async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/SaveLookup", {
-        lookup_type: "asset_category_level_2",
+        lookup_type: "asset_category_level_3",
         parent_lookup_id: parent_lookup_id ? parent_lookup_id : null,
         lookup_value: assest_category
       });
+      console.log(resp, " resp ")
 
       if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Assest Category Added",
-          text: "Assest Category Level 2 Addedd Successfully...",
+          text: "Assest Category Level 3 Addedd Successfully...",
           showConfirmButton: true,
           customClass: {
             confirmButton: 'my-swal-button',
           },
         }).then(() => {
-          window.location.reload()
+          window.location.reload();
         })
         console.log("✅ Lookup list:", resp.data);
       } else {
@@ -165,7 +168,7 @@ const AssetCategoryLevel2 = () => {
       <div>
         <div className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">
-            Enter Details for Asset Category Master Level 2
+            Enter Details for Asset Category Master Level 3
           </h2>
           <p className="text-para">
             Add or update the required details for the asset category master level 2 to keep records accurate and complete.
@@ -188,7 +191,7 @@ const AssetCategoryLevel2 = () => {
                   if (!selected) {
                     return <span style={{ color: "#9ca3af" }}>Parent Asset Category Id</span>; // grey placeholder
                   }
-                  return allassest_categorylevel1.find((item) => item._id === selected)?.lookup_value;
+                  return allassest_categorylevel2.find((item) => item._id === selected)?.lookup_value;
                 }}
 
               >
@@ -197,7 +200,7 @@ const AssetCategoryLevel2 = () => {
                   <em>Parent Asset Category</em>
                 </MenuItem>
                 {
-                  allassest_categorylevel1?.map((item) =>
+                  allassest_categorylevel2?.map((item) =>
                   (
                     <MenuItem value={item._id}>{item.lookup_value}</MenuItem>
                   ))
@@ -206,7 +209,7 @@ const AssetCategoryLevel2 = () => {
             </FormControl>
 
             <FormControl fullWidth size="small">
-              <label className="text-[14px]">Asset Category Level 2</label>
+              <label className="text-[14px]">Asset Category Level 3</label>
               <TextField
                 name=""
                 placeholder="Asset Category Level 2"
@@ -219,6 +222,7 @@ const AssetCategoryLevel2 = () => {
           </div>
 
           <FormButton
+
             variant='contained'
             onClick={add_assest_category}
           >
@@ -249,5 +253,5 @@ const AssetCategoryLevel2 = () => {
   )
 }
 
-export default AssetCategoryLevel2
+export default AssetCategoryLevel3
 

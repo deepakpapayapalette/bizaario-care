@@ -6,6 +6,7 @@ import AdminRoutes from './routes/AdminRoutes'
 import Login from './pages/auth/Login'
 import Signup from './pages/auth/Signup'
 import DoctorRoutes from './routes/DoctorRoutes'
+import Unauthorized from './pages/Unauthorized'
 
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/admindashboard/*" element={<AdminRoutes />} />
       <Route path="doctordashboard/*" element={<DoctorRoutes />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+
 
     </Routes>
   )

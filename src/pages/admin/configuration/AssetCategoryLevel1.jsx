@@ -114,13 +114,13 @@ const AssetCategoryLevel1 = () => {
 
   const add_assest_category = async () => {
     try {
-      const resp = await api.post("api/v1/admin/SaveLookup", {
+      const resp = await __postApiData("/api/v1/admin/SaveLookup", {
         lookup_type: "asset_category_level_1",
         parent_lookup_id: null,
         lookup_value: assest_category
       });
 
-      if (resp.data.response.response_code === "200") {
+      if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Event Type Created",
@@ -132,9 +132,9 @@ const AssetCategoryLevel1 = () => {
         }).then(() => {
           window.location.reload()
         })
-        console.log("✅ Lookup list:", resp.data.data);
+        console.log("✅ Lookup list:", resp.data);
       } else {
-        console.warn("⚠️ Error:", resp.data.response.response_message);
+        console.warn("⚠️ Error:", resp.response.response_message);
       }
     } catch (error) {
       console.error("❌ API Error:", error);
@@ -171,7 +171,7 @@ const AssetCategoryLevel1 = () => {
           </div>
 
           <FormButton
-            className='submit-button'
+            variant='contained'
             onClick={add_assest_category}
           >
             Submit

@@ -108,13 +108,13 @@ const ServiceCategory = () => {
   const [servicecategory, setservicecategory] = useState("")
   const add_service_category = async () => {
     try {
-      const resp = await api.post("api/v1/admin/SaveLookup", {
+      const resp = await __postApiData("/api/v1/admin/SaveLookup", {
         lookup_type: "service_category",
         parent_lookup_id: null,
         lookup_value: servicecategory
       });
 
-      if (resp.data.response.response_code === "200") {
+      if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Service Created",
@@ -126,9 +126,9 @@ const ServiceCategory = () => {
         }).then(() => {
           window.location.reload()
         })
-        console.log("✅ Lookup list:", resp.data.data);
+        console.log("✅ Lookup list:", resp.data);
       } else {
-        console.warn("⚠️ Error:", resp.data.response.response_message);
+        console.warn("⚠️ Error:", resp.response.response_message);
       }
     } catch (error) {
       console.error("❌ API Error:", error);
@@ -161,11 +161,10 @@ const ServiceCategory = () => {
                 />
               </FormControl>
             </div>
-            <FormButton variant="contained"
-
-              className='submit-button'
+            <FormButton
+              variant="contained"
               onClick={add_service_category}
-              size="large"
+
             >
               Submit
             </FormButton>

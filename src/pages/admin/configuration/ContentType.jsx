@@ -126,13 +126,13 @@ const ContentType = () => {
 
   const addContentType = async () => {
     try {
-      const resp = await api.post("api/v1/admin/SaveLookup", {
+      const resp = await __postApiData("/api/v1/admin/SaveLookup", {
         lookup_type: "content_type",
         parent_lookup_id: null,
         lookup_value: contentType
       });
 
-      if (resp.data.response.response_code === "200") {
+      if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Content Type Created",
@@ -147,7 +147,7 @@ const ContentType = () => {
         Swal.fire({
           icon: "error",
           title: "Validation Error",
-          text: resp.data.response.response_message,
+          text: resp.response.response_message,
           showConfirmButton: true,
           customClass: { confirmButton: "my-swal-button" },
         });
@@ -191,9 +191,9 @@ const ContentType = () => {
 
             <FormButton
               variant="contained"
-              className="submit-button"
+
               onClick={addContentType}
-              size="large"
+
             >
               Submit
             </FormButton>

@@ -220,3 +220,7 @@ li.react-multi-carousel-dot button {
   background: var(--web-secondary);
   border: var(--web-secondary)
 }
+
+.form-label {
+  font-size: 14px;
+}

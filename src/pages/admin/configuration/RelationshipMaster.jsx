@@ -7,12 +7,13 @@ import Swal from 'sweetalert2';
 import { DataGrid } from '@mui/x-data-grid';
 import FormButton from '../../../components/common/FormButton';
 
-const EventType = () => {
-  const [allevent, setallevent] = useState([])
-  const getallevent = async () => {
+const RelationshipMaster = () => {
+  const [RelationshipType, setRelationshipType] = useState([])
+
+  const getRelationshipType = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "event_type" })
-      setallevent(resp.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "relationship_type" })
+      setRelationshipType(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -21,7 +22,7 @@ const EventType = () => {
   }
 
   useEffect(() => {
-    getallevent()
+    getRelationshipType()
 
   }, [])
 
@@ -46,10 +47,10 @@ const EventType = () => {
     alert("delete")
   }
 
-  const columnshospital = [
+  const columns = [
     { field: 'sno', headerName: 'S.No.', flex: 0.2, renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1 },
-    // { field: 'lookup_type', headerName: 'Event Type', flex: 1 },
-    { field: 'lookup_value', headerName: 'Event Value', flex: 1 },
+    // { field: 'lookup_type', headerName: 'Relationship Type', flex: 1 },
+    { field: 'lookup_value', headerName: 'Relationship Value', flex: 1 },
 
     {
       field: 'actions',
@@ -91,30 +92,29 @@ const EventType = () => {
         </>
       ),
     }
-
   ];
 
-  const rowshospital = allevent?.map((doc, index) => ({
+  const rows = RelationshipType?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
   }));
 
 
-  const [eventtype, seteventtype] = useState("")
-  const add_event_type = async () => {
+  const [data, setData] = useState("")
+  const add_relationship_type = async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/SaveLookup", {
 
-        lookup_type: "event_type",
+        lookup_type: "relationship_type",
         parent_lookup_id: null,
-        lookup_value: eventtype
+        lookup_value: data
       });
       console.log(resp, " resp ")
       if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
-          title: "Event Type Created",
-          text: "Event Type Addedd Successfully...",
+          title: "Relationship Type Created",
+          text: "Relationship Type Addedd Successfully...",
           showConfirmButton: true,
           customClass: {
             confirmButton: 'my-swal-button',
@@ -135,22 +135,22 @@ const EventType = () => {
     <div className='container mt-8'>
       <div className='mb-6'>
         <h2 className="text-2xl font-semibold mb-2">
-          Enter Details for Event Type Master
+          Enter Details for Relationship Type
         </h2>
         <p className="text-para">
-          Add or update the required details for the event type master to keep records accurate and complete.
+          Add or update the required details for the subscription type to keep records accurate and complete.
         </p>
       </div>
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
 
         <div className="form-grid mb-4">
           <FormControl fullWidth size="small">
-            <label className="form-label">Event Type</label>
+            <label className="text-[14px]">Relationship Type</label>
             <TextField
               name="eventtype"
-              placeholder="Event Type"
-              value={eventtype}
-              onChange={(e) => seteventtype(e.target.value)}
+              placeholder="Relationship Type"
+              value={data}
+              onChange={(e) => setData(e.target.value)}
               fullWidth
               size="small"
             />
@@ -160,7 +160,7 @@ const EventType = () => {
 
         <FormButton
           variant='contained'
-          onClick={add_event_type}
+          onClick={add_relationship_type}
         >
           Submit
         </FormButton>
@@ -172,8 +172,8 @@ const EventType = () => {
 
         <DataGrid
           className="custom-data-grid"
-          rows={rowshospital}
-          columns={columnshospital}
+          rows={rows}
+          columns={columns}
           pageSize={10}
           pageSizeOptions={[]}
           initialState={{
@@ -188,5 +188,5 @@ const EventType = () => {
   )
 }
 
-export default EventType
+export default RelationshipMaster
 

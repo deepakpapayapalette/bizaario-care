@@ -1,43 +1,24 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Box, Grid, Button, Typography, Card, Avatar,
-  TextField, FormControl, InputLabel, Select, MenuItem, Paper,
-  FormControlLabel, Radio, Fade, Chip, Menu, InputAdornment
+  TextField, FormControl, InputLabel, Select, MenuItem, RadioGroup,
+  FormControlLabel, Radio, Fade, Chip, Menu, Paper
 } from '@mui/material';
 import { IconButton, Tooltip } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-
 import Swal from 'sweetalert2';
-import { __postApiData } from '@utils/api';
 import { DataGrid } from '@mui/x-data-grid';
+import { __postApiData } from '@utils/api';
 import FormButton from '../../../components/common/FormButton';
+const InsuranceProviderMaster = () => {
 
 
-const AssetCategoryLevel2 = () => {
-
-
-  const [allassest_category, setallassest_category] = useState([])
-  const getallassest_category = async () => {
+  const [all_insurance_provider, setall_insurance_provider] = useState([])
+  const getall_insurance_provider = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_2" })
-      setallassest_category(resp.data)
-
-    } catch (error) {
-      console.log(error);
-
-    }
-  }
-
-
-
-
-
-  const [allassest_categorylevel1, setallassest_categorylevel1] = useState([])
-  const getallassest_categorylevel1 = async () => {
-    try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_1" })
-      setallassest_categorylevel1(resp.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "insurance_provider_master" })
+      setall_insurance_provider(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -46,12 +27,26 @@ const AssetCategoryLevel2 = () => {
   }
 
   useEffect(() => {
-    getallassest_categorylevel1();
-    getallassest_category()
+    getall_insurance_provider()
 
   }, [])
 
+  const [all_station, setall_station] = useState([])
+  const getall_station = async () => {
+    try {
+      const resp = await __postApiData('/api/v1/admin/StationList');
+      setall_station(resp.data.list)
 
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+  useEffect(() => {
+    getall_station()
+
+  }, [])
 
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
@@ -74,11 +69,10 @@ const AssetCategoryLevel2 = () => {
     alert("delete")
   }
 
-  const columns = [
+  const columnshospital = [
     { field: 'sno', headerName: 'S.No.', flex: 0.2, renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1 },
-    // { field: 'lookup_type', headerName: 'Asset Category Type', flex: 1 },
-
-    { field: 'lookup_value', headerName: 'Asset Category', flex: 1 },
+    // { field: 'parent_lookup_id', headerName: 'Station Name', flex: 1 },
+    { field: 'lookup_value', headerName: 'Insurance Provider', flex: 1 },
 
     {
       field: 'actions',
@@ -123,28 +117,31 @@ const AssetCategoryLevel2 = () => {
 
   ];
 
-  const rows = allassest_category?.map((doc, index) => ({
+  const rowshospital = all_insurance_provider?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
   }));
 
-  const [assest_category, setassest_category] = useState("")
-  const [parent_lookup_id, setparent_lookup_id] = useState("")
+  const [insurance_provider, setinsurance_provider] = useState("")
+  const [station_id, setstation_id] = useState("")
+  const [is_goverment_scheme, setis_goverment_scheme] = useState(true)
 
 
   const add_assest_category = async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/SaveLookup", {
-        lookup_type: "asset_category_level_2",
-        parent_lookup_id: parent_lookup_id ? parent_lookup_id : null,
-        lookup_value: assest_category
+        lookup_type: "insurance_provider_master",
+        parent_lookup_id: station_id ? station_id : null,
+        lookup_value: insurance_provider,
+        other: { is_goverment_scheme: is_goverment_scheme }
       });
+      console.log(resp, "resp")
 
       if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
-          title: "Assest Category Added",
-          text: "Assest Category Level 2 Addedd Successfully...",
+          title: "Insurance Provider",
+          text: "Insurance Provider Addedd Successfully...",
           showConfirmButton: true,
           customClass: {
             confirmButton: 'my-swal-button',
@@ -163,59 +160,70 @@ const AssetCategoryLevel2 = () => {
   return (
     <div className='container mt-8'>
       <div>
-        <div className="mb-6">
+        <div className='mb-6'>
           <h2 className="text-2xl font-semibold mb-2">
-            Enter Details for Asset Category Master Level 2
+            Enter Details for Insurance Provider
           </h2>
           <p className="text-para">
-            Add or update the required details for the asset category master level 2 to keep records accurate and complete.
+            Add or update the required details for the insurance provider to keep records accurate and complete.
           </p>
         </div>
-
-        {/* Form */}
         <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
-          <div className=" mb-6 flex gap-6 ">
+          <div className="flex gap-4 mb-4">
+
 
             <FormControl fullWidth size="small">
-              <label className="text-[14px]" id='Parent Asset Category'>Parent Asset Category Id</label>
+              <label className="text-[14px]">Station Id</label>
               <Select
-                name="hospital_type"
-                label="Parent Asset Category"
-                value={parent_lookup_id}
-                onChange={(e) => setparent_lookup_id(e.target.value)}
+                name="station_id"
+                value={station_id}
+                onChange={(e) => setstation_id(e.target.value)}
                 displayEmpty
                 renderValue={(selected) => {
                   if (!selected) {
-                    return <span style={{ color: "#9ca3af" }}>Parent Asset Category Id</span>; // grey placeholder
+                    return <span style={{ color: "#9ca3af" }}>Select Station Id</span>;
                   }
-                  return allassest_categorylevel1.find((item) => item._id === selected)?.lookup_value;
+                  return all_station.find((item) => item._id === selected)?.StationName;
                 }}
-
               >
-                {/* Placeholder option (disabled so it can't be re-selected) */}
                 <MenuItem disabled value="">
-                  <em>Parent Asset Category</em>
+                  <em>Station Id</em>
                 </MenuItem>
                 {
-                  allassest_categorylevel1?.map((item) =>
+                  all_station?.map((item) =>
                   (
-                    <MenuItem value={item._id}>{item.lookup_value}</MenuItem>
+                    <MenuItem value={item._id}>{item.StationName}</MenuItem>
                   ))
                 }
               </Select>
             </FormControl>
 
             <FormControl fullWidth size="small">
-              <label className="text-[14px]">Asset Category Level 2</label>
+              <label className="text-[14px]">Insurance Provider</label>
               <TextField
-                name=""
-                placeholder="Asset Category Level 2"
-                value={assest_category}
-                onChange={(e) => setassest_category(e.target.value)}
+                name="insurance_provider"
+                placeholder="Insurance Provider"
+                value={insurance_provider}
+                onChange={(e) => setinsurance_provider(e.target.value)}
                 fullWidth
                 size="small"
               />
             </FormControl>
+
+            <FormControl fullWidth size="small">
+              <label className="text-[14px]">Is Goverment Scheme</label>
+              <RadioGroup size="small"
+                row
+                name="is_goverment_scheme"
+                value={is_goverment_scheme}
+                onChange={(e) => setis_goverment_scheme(e.target.value)}
+                sx={{ flexDirection: 'row', alignItems: 'flex-start', gap: 1 }}
+              >
+                <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                <FormControlLabel value="false" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+
           </div>
 
           <FormButton
@@ -225,14 +233,12 @@ const AssetCategoryLevel2 = () => {
             Submit
           </FormButton>
         </Paper>
+        <div className='mt-6'>
 
-
-        {/* Table */}
-        <div className="mt-6">
           <DataGrid
             className="custom-data-grid"
-            rows={rows}
-            columns={columns}
+            rows={rowshospital}
+            columns={columnshospital}
             pageSize={10}
             pageSizeOptions={[]} // removes the rows per page selector
             initialState={{
@@ -242,12 +248,10 @@ const AssetCategoryLevel2 = () => {
 
           />
         </div>
-
       </div>
-
     </div>
   )
 }
 
-export default AssetCategoryLevel2
+export default InsuranceProviderMaster
 

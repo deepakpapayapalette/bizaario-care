@@ -14,13 +14,14 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
   const { pathname } = useLocation();
   const user = JSON.parse(localStorage.getItem('user'))
   const links = useAdminSidebarLinks(user.role);
-  const [openSubListId, setOpenSubListId] = useState(null);
 
-  // console.log(links,)
+  const [openSubListId, setOpenSubListId] = useState(null);
   //=========== function to handle logout ===========\\
   const handleLogout = () => {
 
     // logout();
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
     toast.success("Logout successfully");
     window.location.href = "/";
   }
