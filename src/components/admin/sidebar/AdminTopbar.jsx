@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import languageIcon from "../../assets/images/svg/language.svg"
-// import '../../assets/styles/Admin/admincss/adminheader.css'
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Bell, Mail, Menu, Search, } from 'lucide-react';
 import { Avatar } from '@mui/material';
@@ -9,19 +9,20 @@ import { Avatar } from '@mui/material';
 
 const AdminTopbar = ({ show, toggleShow }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  // const {userDetails} = useAuth();
+  // const { userDetails } = useAuth();
   return (
     <header className="app-topbar bg-white border-b border-gray-100 flex items-center py-3 px-4 justify-between shadow-md">
       <div className='flex justify-between w-full'>
 
         <div className="hidden md:flex items-center gap-3 w-1/3">
-          <div className="flex items-center w-full max-w-md rounded-[12px] overflow-hidden bg-websecondary">
+          <div className="flex items-center w-full max-w-md rounded-md overflow-hidden bg-websecondary">
             <input
               type="text"
               placeholder="Search..."
-              className="flex-grow px-4 py-1  text-webprimary outline-none bg-transparent"
+              className="flex-grow px-4 py-1  text-black outline-none bg-transparent placeholder:text-gray-700"
+
             />
-            <button className="bg-[#0077B5]/70 hover:bg-webprimary transition-colors  flex items-center justify-center search-btn-style">
+            <button className="bg-webprimary hover:bg-sidebar-primary py-2 px-3 transition-colors  flex items-center justify-center search-btn-style">
               <Search className="text-white" size={25} />
             </button>
           </div>
@@ -30,7 +31,7 @@ const AdminTopbar = ({ show, toggleShow }) => {
 
         <div className="flex items-center space-x-6 pe-lg-5">
           <div className="items-center space-x-1 hidden lg:flex cursor-pointer language-input">
-            {/* <img src={languageIcon} alt="translate" className="w-5 me-2" /> */}
+
             <span className="text-sm text-gray-700">English</span>
             <svg xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 text-gray-500"
@@ -53,7 +54,11 @@ const AdminTopbar = ({ show, toggleShow }) => {
           <div className="items-center space-x-2 cursor-pointer hidden lg:flex">
             <Avatar alt="profile" className="w-8 h-8 rounded-full" />
             <div className="flex flex-col leading-tight">
-              <span className="text-sm font-semibold text-primary">Hello, Super Admin</span>
+              <span className="text-sm font-semibold text-primary">
+                Hello,
+                {/* {userDetails?.Role} {userDetails?.subRole && `(${userDetails.subRole})`
+                } */}
+              </span>
               {/* <span className="text-xs text-muted-foreground">Doctor</span> */}
             </div>
           </div>
@@ -84,7 +89,7 @@ const AdminTopbar = ({ show, toggleShow }) => {
                   <div className="items-center space-x-2 cursor-pointer flex lg:hidden mt-3 mb-2">
                     <Avatar alt="profile" className="w-8 h-8 rounded-full" />
                     <div className="flex flex-col leading-tight">
-                      <span className="text-md font-semibold text-primary">Hello, Super Admin</span>
+                      <span className="text-md font-semibold text-primary">Hello, {userDetails?.Role}</span>
                       {/* <span className="text-xs text-muted-foreground">Doctor</span> */}
                     </div>
                   </div>

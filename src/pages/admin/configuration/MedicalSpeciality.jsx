@@ -10,11 +10,9 @@ import {
   IconButton,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
 import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
-
-import api from "../../../api";
+import { __postApiData } from '@utils/api';
 import FormButton from "../../../components/common/FormButton";
 
 
@@ -29,10 +27,10 @@ const MedicalSpeciality = () => {
   // ✅ Fetch Speciality List
   const getMedicalSpecialities = useCallback(async () => {
     try {
-      const resp = await api.post("api/v1/admin/LookupList", {
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
         lookupcodes: "medical_speciality",
       });
-      setSpecialities(resp.data.data || []);
+      setSpecialities(resp.data || []);
     } catch (error) {
       console.log("❌ Error fetching speciality list", error);
     }
@@ -104,7 +102,7 @@ const MedicalSpeciality = () => {
       {
         field: "sno",
         headerName: "S.No.",
-        width: 80,
+        width: 100,
         renderCell: (params) =>
           params.api.getAllRowIds().indexOf(params.id) + 1,
       },
@@ -170,7 +168,7 @@ const MedicalSpeciality = () => {
             <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
               <div className="form-grid mb-4">
                 <FormControl fullWidth size="small">
-                  <label className="form-label text-md">Medical Speciality</label>
+                  <label className="form-label text-[14px]">Medical Speciality</label>
                   <TextField
                     name="medical_speciality"
                     placeholder="Medical Speciality"
@@ -188,21 +186,22 @@ const MedicalSpeciality = () => {
             </Paper>
           </div>
 
+
           <div className="mt-6">
-            <Paper elevation={3} sx={{ borderRadius: 2 }}>
-              <DataGrid
-                className="p-3"
-                rows={rows}
-                columns={columns}
-                pageSize={10}
-                pageSizeOptions={[]}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 10, page: 0 } },
-                }}
-                disableSelectionOnClick
-                autoHeight
-              />
-            </Paper>
+            <DataGrid
+              // className="p-3"
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              pageSizeOptions={[]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 10, page: 0 } },
+              }}
+              disableSelectionOnClick
+              disableColumnMenu
+              autoHeight
+            />
+
           </div>
         </div>
       </div>

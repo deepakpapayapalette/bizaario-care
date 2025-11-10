@@ -6,17 +6,20 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { toast } from "react-toastify";
-import useAdminSidebarLinks from "@hooks/admin/useAdminSidebarLinks";
+
+import useAdminSidebarLinks from "../../../hooks/admin/useAdminSidebarLinks";
 import Logo from '@assets/images/website/logo-navbar.png'
 // import { useAuth } from "../../context/AuthContext";
 const AdminSidebar = ({ show, toggleDrawer }) => {
   const { pathname } = useLocation();
   const user = JSON.parse(localStorage.getItem('user'))
-  const links = useAdminSidebarLinks(user?.role);
+  const links = useAdminSidebarLinks(user.role);
   const [openSubListId, setOpenSubListId] = useState(null);
+
+  // console.log(links,)
   //=========== function to handle logout ===========\\
   const handleLogout = () => {
-    console.log(links, "user?.role")
+
     // logout();
     toast.success("Logout successfully");
     window.location.href = "/";
@@ -103,7 +106,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
 
                   {/* Sub menu */}
                   {show && openSubListId === item.id && (
-                    <div className=" max-h-64 py-2 overflow-y-auto hide-scrollbar bg-sidebar-primary rounded-md mx-3">
+                    <div className=" max-h-90 py-2 overflow-y-auto hide-scrollbar bg-sidebar-primary rounded-md mx-3">
                       {item?.subList?.map((subItem) => (
                         <Link
                           key={subItem?.id}

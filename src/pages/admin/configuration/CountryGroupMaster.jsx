@@ -6,7 +6,7 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Swal from 'sweetalert2';
 import { DataGrid } from '@mui/x-data-grid';
-import api from '../../../api';
+import { __postApiData } from '@utils/api';
 import { useEffect } from 'react';
 import FormButton from '../../../components/common/FormButton';
 const CountryGroupMaster = () => {
@@ -16,12 +16,13 @@ const CountryGroupMaster = () => {
   const [country_group, setcountry_group] = useState('');
 
 
+
   const getallcountrygroup = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList', {
+      const resp = await __postApiData('/api/v1/admin/LookupList', {
         lookupcodes: 'country_group_type',
       });
-      setallcountrygroup(resp.data.data);
+      setallcountrygroup(resp.data);
     } catch (error) {
       console.log(error);
     }
@@ -49,13 +50,14 @@ const CountryGroupMaster = () => {
     alert('delete');
   };
 
-  const columnshospital = [
+  const columns = [
     {
       field: 'sno',
       headerName: 'S.No.',
       flex: 0.2,
       renderCell: (params) =>
         params.api.getAllRowIds().indexOf(params.id) + 1,
+
     },
     // { field: 'lookup_type', headerName: 'Country Group Master Id', flex: 1 },
     {
@@ -119,6 +121,7 @@ const CountryGroupMaster = () => {
 
   const add_country_group = async () => {
     try {
+
       const resp = await api.post('/api/v1/admin/SaveLookup', {
         lookup_type: 'country_group_type',
         parent_lookup_id: null,
@@ -169,7 +172,7 @@ const CountryGroupMaster = () => {
 
             <div className="form-grid mb-4">
               <FormControl fullWidth size="small">
-                <label className="form-label text-md">Country Group</label>
+                <label className="form-label text-[14px]">Country Group</label>
                 <TextField
                   name="country_group"
                   placeholder="Country Group"
@@ -195,11 +198,11 @@ const CountryGroupMaster = () => {
         </div>
 
         <div className='mt-6'>
-          <Paper elevation={3} sx={{ borderRadius: 2, }}>
+          <div >
             <DataGrid
-              className="p-3"
+              className=""
               rows={rowshospital}
-              columns={columnshospital}
+              columns={columns}
               pageSize={10}
               pageSizeOptions={[]} // removes rows per page selector
               initialState={{
@@ -209,7 +212,7 @@ const CountryGroupMaster = () => {
               disableSelectionOnClick
               autoHeight
             />
-          </Paper>
+          </div>
         </div>
       </div>
 

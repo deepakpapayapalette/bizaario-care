@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import AdminTopbar from '@components/admin/sidebar/AdminTopbar'
+import AdminTopbar from '../components/admin/sidebar/AdminTopbar'
 import AdminSidedrawer from '../components/admin/sidebar/AdminSidedrawer'
-import AdminSidebar from '@components/admin/sidebar/AdminSidebar'
+import AdminSidebar from '../components/admin/sidebar/AdminSidebar'
 
 
 const AdminLayout = ({ children }) => {
@@ -26,7 +26,7 @@ const AdminLayout = ({ children }) => {
       <div className={`${collapsed ? "w-64" : "w-20"} overflow-y-auto hide-scrollbar bg-sidebar hidden  text-white md:flex flex-col  transition-all duration-300`}>
         <AdminSidebar show={collapsed} toggleDrawer={toggleDrawer} />
       </div>
-      <AdminSidedrawer show={show} toggleShow={toggleShow} />
+      {/* <AdminSidedrawer show={show} toggleShow={toggleShow} /> */}
       <div className={`flex flex-col flex-1 transition-all duration-300`} style={{
         width: collapsed ? "calc(100% - 256px)" : "calc(100% - 80px)",
       }}>

@@ -19,7 +19,8 @@ const AdminSidedrawer = ({ show, toggleShow }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const links = useAdminSidebarLinks("Super Admin");
+  const user = JSON.parse(localStorage.getItem('user')) || {};
+  const links = useAdminSidebarLinks(user.role);
 
   const handleClick = useCallback(
     (id) => {

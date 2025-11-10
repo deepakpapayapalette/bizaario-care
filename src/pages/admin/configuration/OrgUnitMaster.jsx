@@ -4,6 +4,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import api from "../../../api";
+import { __postApiData } from '@utils/api';
+
 import FormButton from "../../../components/common/FormButton";
 
 const OrgUnitMaster = () => {
@@ -19,10 +21,10 @@ const OrgUnitMaster = () => {
   /** ✅ Fetch List */
   const getAllOrgUnits = useCallback(async () => {
     try {
-      const resp = await api.post("api/v1/admin/LookupList", {
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
         lookupcodes: "org_unit_type",
       });
-      setAllOrgUnits(resp.data.data || []);
+      setAllOrgUnits(resp.data || []);
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +83,7 @@ const OrgUnitMaster = () => {
     {
       field: "sno",
       headerName: "S.No.",
-      flex: 0.3,
+      // flex: 0.3,
       renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.id) + 1,
     },
     { field: "lookup_value", headerName: "Org Unit", flex: 1 },
@@ -120,10 +122,18 @@ const OrgUnitMaster = () => {
 
   return (
     <div className="container mt-8">
+      <div className='mb-6'>
+        <h2 className="text-2xl font-semibold mb-2">
+          Enter Details for Org Unit Master
+        </h2>
+        <p className="text-para">
+          Add or update the required details for the org unit master to keep records accurate and complete.
+        </p>
+      </div>
       {/* ✅ Form */}
-      <div elevation={3} sx={{ p: 2, borderRadius: 2 }}>
+      <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-          <label className="form-label">Org Unit</label>
+          <label className="form-label text-[14px]">Org Unit</label>
           <TextField
             name="orgunit"
             placeholder="Enter org unit"
@@ -136,12 +146,12 @@ const OrgUnitMaster = () => {
         <FormButton variant="contained" onClick={addOrgUnit}>
           Submit
         </FormButton>
-      </div>
+      </Paper>
 
       {/* ✅ Table */}
-      <Paper elevation={3} sx={{ borderRadius: 2, marginTop: 4 }}>
+      <div className="mt-6">
         <DataGrid
-          className="p-3"
+          // className="p-3"
           rows={rows}
           columns={columns}
           disableColumnMenu
@@ -159,7 +169,7 @@ const OrgUnitMaster = () => {
             },
           }}
         />
-      </Paper>
+      </div>
     </div>
   );
 };

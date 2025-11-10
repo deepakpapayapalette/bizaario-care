@@ -7,18 +7,18 @@ const FormButton = ({
   variant = "contained",
   bgColor,
   textColor,
-  fullWidth = true,
+
   ...props
 }) => {
   return (
     <Button
       variant={variant}
       type="submit"
-      className={fullWidth ? "w-full md:max-w-[280px]" : ""}
+      className="w-full md:w-[280px]"
       sx={{
         borderRadius: "4px",
         fontFamily: "poppins, sans-serif",
-        padding: "10px 6px",
+        padding: "8px 12px",
 
         ...(variant === "contained" && {
           backgroundColor: bgColor
