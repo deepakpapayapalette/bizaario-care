@@ -35,11 +35,31 @@ const useAdminSidebarLinks = (role) => {
 
 
       ],
+
     },
     { id: "3", icon: <TbDeviceDesktopCog />, label: "Station Master", link: "/admindashboard/station-master", dock: true },
     { id: "4", icon: <TbDeviceDesktopCog />, label: "Assets Master", link: "/admindashboard/assets-master", dock: true },
     { id: "5", icon: <TbDeviceDesktopCog />, label: "Login Master", link: "/admindashboard/login-master", dock: true },
     { id: "6", icon: <TbDeviceDesktopCog />, label: "Content Master", link: "/admindashboard/content-master", dock: true },
+    { id: "7", icon: <TbDeviceDesktopCog />, label: "Event Master", link: "/admindashboard/event-master", dock: true },
+
+    {
+      id: "8",
+      icon: <Settings2 />,
+      label: "Bizaario Master Section",
+      link: "/admindashboard/bizaario-master",
+      dock: false,
+      subList: [
+        { id: "8-1", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/patient-referral-type", title: "Country Group Maste" },
+        { id: "8-2", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/symptom-class-master", title: "Symptom Class Master" },
+        { id: "8-3", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/symptom-master", title: "Symptom Master" },
+        { id: "8-4", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/aggravating-factor-master", title: "Aggravating Factor Master" },
+
+
+
+      ],
+
+    },
   ];
   const doctorsAdminLinks = [
     { id: "1", icon: <LayoutDashboard />, label: "Doctor Dashboard", link: "/doctordashboard", dock: true },

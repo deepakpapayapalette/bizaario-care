@@ -13,16 +13,20 @@ import { __postApiData } from '@utils/api';
 import FormButton from '../../../components/common/FormButton';
 const InsuranceProviderMaster = () => {
 
+  const [isLoading, setIsLoading] = useState(false);
 
   const [all_insurance_provider, setall_insurance_provider] = useState([])
   const getall_insurance_provider = async () => {
+    setIsLoading(true);
     try {
       const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "insurance_provider_master" })
       setall_insurance_provider(resp.data)
 
     } catch (error) {
       console.log(error);
-
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
@@ -245,7 +249,7 @@ const InsuranceProviderMaster = () => {
               pagination: { paginationModel: { pageSize: 10, page: 0 } },
             }}
             disableSelectionOnClick
-
+            loading={isLoading}
           />
         </div>
       </div>

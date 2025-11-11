@@ -22,18 +22,27 @@ const MedicalSpeciality = () => {
   const [medicalSpeciality, setMedicalSpeciality] = useState("");
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
-  // const [medical_speciality, setmedicalspeciality] = useState("")
-  console.log(medicalSpeciality, " medicalSpeciality ");
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 });
+  const [isLoading, setIsLoading] = useState(false);
+
+
 
   // ✅ Fetch Speciality List
   const getMedicalSpecialities = useCallback(async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData("/api/v1/admin/LookupList", {
         lookupcodes: "medical_speciality",
       });
       setSpecialities(resp.data || []);
+
+
     } catch (error) {
+
       console.log("❌ Error fetching speciality list", error);
+    }
+    finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -75,28 +84,27 @@ const MedicalSpeciality = () => {
         parent_lookup_id: null,
         lookup_value: medicalSpeciality.trim(),
       });
-      console.log(resp, " resp ");
+
+      console.log("SaveLookup response:", resp);
 
       if (resp.response?.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Medical Speciality Created",
           text: "Medical Speciality Created Successfully",
-          showConfirmButton: true,
-          customClass: {
-            confirmButton: "my-swal-button",
-          },
         });
 
-        // setMedicalSpeciality("");
-        // getMedicalSpecialities();
-      } else {
+        setMedicalSpeciality("");       // ✅ Clear input
+        getMedicalSpecialities();       // ✅ Refresh list
+      }
+      else {
         Swal.fire("Error", resp.response?.response_message, "error");
       }
     } catch (error) {
       console.error("❌ API Error:", error);
     }
   };
+
 
   // ✅ Table Columns
   const columns = useMemo(
@@ -146,17 +154,18 @@ const MedicalSpeciality = () => {
   );
 
   // ✅ Rows
-  const rows = useMemo(
-    () =>
-      specialities?.map((item, index) => ({
-        id: item._id || index,
-        ...item,
-      })),
+  const rows = useMemo(() =>
+    specialities?.map((item, index) => ({
+      id: item._id || index,
+      ...item,
+    })),
     [specialities]
   );
+
   return (
     <>
       <div className="container mt-8">
+
         <div>
           <h2 className="text-2xl font-semibold mb-2">
             Enter Details for Medical Speciality
@@ -196,12 +205,16 @@ const MedicalSpeciality = () => {
               columns={columns}
               pageSize={10}
               pageSizeOptions={[]}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 10, page: 0 } },
-              }}
+              // initialState={{
+              //   pagination: { paginationModel: { pageSize: 10, page: 1 } },
+              // }}
+              pagination
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
               disableSelectionOnClick
               disableColumnMenu
               autoHeight
+              loading={isLoading}
             />
 
           </div>

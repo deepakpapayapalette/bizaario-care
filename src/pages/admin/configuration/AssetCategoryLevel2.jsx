@@ -15,17 +15,20 @@ import FormButton from '../../../components/common/FormButton';
 
 
 const AssetCategoryLevel2 = () => {
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const [allassest_category, setallassest_category] = useState([])
   const getallassest_category = async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_2" })
       setallassest_category(resp.data)
 
     } catch (error) {
       console.log(error);
-
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
@@ -239,6 +242,7 @@ const AssetCategoryLevel2 = () => {
               pagination: { paginationModel: { pageSize: 10, page: 0 } },
             }}
             disableSelectionOnClick
+            loading={isLoading}
 
           />
         </div>

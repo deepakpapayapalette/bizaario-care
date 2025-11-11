@@ -9,20 +9,24 @@ import FormButton from '../../../components/common/FormButton';
 
 const EventType = () => {
   const [allevent, setallevent] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+
   const getallevent = async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "event_type" })
       setallevent(resp.data)
 
     } catch (error) {
       console.log(error);
-
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
     getallevent()
-
   }, [])
 
   const [menuAnchor, setMenuAnchor] = useState(null);
@@ -169,7 +173,6 @@ const EventType = () => {
 
       {/* Table */}
       <div className='mt-6'>
-
         <DataGrid
           className="custom-data-grid"
           rows={rowshospital}
@@ -181,7 +184,7 @@ const EventType = () => {
           }}
           disableSelectionOnClick
           disableColumnMenu
-
+          loading={isLoading}
         />
       </div>
     </div>

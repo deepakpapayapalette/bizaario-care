@@ -15,6 +15,7 @@ import FormButton from '../../components/common/FormButton';
 import FormInput from '../../components/common/FormInput';
 
 const LoginMaster = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [loginmaster, setloginmaster] = useState({
 
     ParentUserId: null,
@@ -30,13 +31,14 @@ const LoginMaster = () => {
 
   const [totalCount, setTotalCount] = useState(0);
   const [paginationModel, setPaginationModel] = useState({
-    page: 0, // DataGrid pages start from 0
+    page: 0,
     pageSize: 10,
   });
 
   const [alllogin_list, setalllogin_list] = useState([])
   const getalllogin_list = async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData("/api/v1/admin/UserList", {
         page: paginationModel.page + 1, // ✅ DataGrid uses 0-based index, API uses 1-based
         limit: paginationModel.pageSize,
@@ -50,6 +52,9 @@ const LoginMaster = () => {
     } catch (error) {
       console.log(error);
 
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
@@ -551,6 +556,7 @@ const LoginMaster = () => {
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10]}
           disableSelectionOnClick
+          loading={isLoading}
         />
       </div>
     </div>

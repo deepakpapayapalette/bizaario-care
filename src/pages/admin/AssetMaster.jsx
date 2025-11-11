@@ -10,6 +10,7 @@ import { __postApiData } from '@utils/api';
 import FormButton from '../../components/common/FormButton';
 import { customMenuProps } from '../../utils/CustomMenuProps';
 const AssetMaster = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [assetmaster, setassetmaster] = useState({
     AssetCategoryLevel1: null,
     AssetCategoryLevel2: null,
@@ -23,14 +24,16 @@ const AssetMaster = () => {
   const [allasset_master_list, setallasset_master_list] = useState([])
   const getall_assest_master = async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData('/api/v1/admin/AssetList')
-      console.log(resp);
-
       setallasset_master_list(resp.data.list)
 
     } catch (error) {
       console.log(error);
 
+    }
+    finally {
+      setIsLoading(false);
     }
   }
 
@@ -516,6 +519,7 @@ const AssetMaster = () => {
             pagination: { paginationModel: { pageSize: 10, page: 0 } },
           }}
           disableSelectionOnClick
+          loading={isLoading}
         />
 
       </div>

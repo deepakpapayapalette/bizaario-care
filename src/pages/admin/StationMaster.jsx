@@ -16,6 +16,8 @@ const StationMaster = () => {
   const [allcurrency, setallcurrency] = useState([]);
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const [stationmaster, setstationmaster] = useState({
     ParentStationId: null,
@@ -35,11 +37,15 @@ const StationMaster = () => {
   // ================= Fetch data ==================
   const getallstation_list = async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData('/api/v1/admin/StationList',
         { search: "", CountryGroupId: {}, });
       setallstationmaster(resp.data.list);
     } catch (error) {
       console.log(error);
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -358,6 +364,7 @@ const StationMaster = () => {
           pageSize={10}
           disableRowSelectionOnClick
           autoHeight
+          loading={isLoading}
         />
 
       </div>

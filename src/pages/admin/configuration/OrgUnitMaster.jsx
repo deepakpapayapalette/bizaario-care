@@ -19,15 +19,22 @@ const OrgUnitMaster = () => {
     rowId: null,
   });
 
+  // ✅ Loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   /** ✅ Fetch List */
   const getAllOrgUnits = useCallback(async () => {
     try {
+      setIsLoading(true); // ⬅ Start loading
       const resp = await __postApiData("/api/v1/admin/LookupList", {
         lookupcodes: "org_unit_type",
       });
+
       setAllOrgUnits(resp.data || []);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false); // ⬅ Stop loading
     }
   }, []);
 
@@ -43,6 +50,7 @@ const OrgUnitMaster = () => {
     }
 
     try {
+      setIsLoading(true);   // optional loading while submit
       const resp = await api.post("api/v1/admin/SaveLookup", {
         lookup_type: "org_unit_type",
         parent_lookup_id: null,
@@ -58,6 +66,8 @@ const OrgUnitMaster = () => {
       }
     } catch (error) {
       Swal.fire("Error", "Something went wrong", "error");
+    } finally {
+      setIsLoading(false); // stop loading
     }
   };
 
@@ -79,44 +89,23 @@ const OrgUnitMaster = () => {
     closeMenu();
   };
 
-  const handleDelete = async (row) => {
-    try {
-      // const result = await Popup("warning", "Are you sure?", "You won't be able to revert this!");
-      // console.log(result.isConfirmed, "result");
-      if (1 === 1) {
-
-        const res = await __postApiData(`/api/v1/admin/DeleteLookup`, { LookupId: row?._id });
-        if (res?.response?.response_code === "200") {
-          toast.success("Blood Group Type deleted successfully");
-
-        }
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "An error occurred");
-    }
-  };
-
   /** ✅ Table Columns */
   const columns = [
     {
       field: "sno",
       headerName: "S.No.",
-      // flex: 0.3,
       renderCell: (params) => params.api.getRowIndexRelativeToVisibleRows(params.id) + 1,
     },
     { field: "lookup_value", headerName: "Org Unit", flex: 1 },
     {
       field: "actions",
       headerName: "Actions",
-      // flex: 1,
       sortable: false,
       renderCell: (params) => (
         <>
           <IconButton onClick={(e) => openMenu(e, params.row._id)}>
             <MoreVertIcon />
           </IconButton>
-          {/* {console.log(params, "rows")} */}
-
           {menuData.rowId === params.row._id && (
             <Menu
               anchorEl={menuData.anchor}
@@ -125,7 +114,7 @@ const OrgUnitMaster = () => {
               disableScrollLock
             >
               <MenuItem onClick={() => editUnit(params.row._id)}>Edit</MenuItem>
-              <MenuItem onClick={() => handleDelete(params.row)}>Delete1</MenuItem>
+              <MenuItem onClick={() => deleteUnit(params.row._id)}>Delete</MenuItem>
             </Menu>
           )}
         </>
@@ -149,6 +138,7 @@ const OrgUnitMaster = () => {
           Add or update the required details for the org unit master to keep records accurate and complete.
         </p>
       </div>
+
       {/* ✅ Form */}
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <FormControl fullWidth size="small" sx={{ mb: 2 }}>
@@ -170,23 +160,15 @@ const OrgUnitMaster = () => {
       {/* ✅ Table */}
       <div className="mt-6">
         <DataGrid
-          // className="p-3"
           rows={rows}
           columns={columns}
+          loading={isLoading}   // ✅ <-- Add here
           disableColumnMenu
           pagination
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[5, 10, 20]}
           autoHeight
-          sx={{
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: "#000",
-
-              // color: "white",
-              fontWeight: "bold",
-            },
-          }}
         />
       </div>
     </div>

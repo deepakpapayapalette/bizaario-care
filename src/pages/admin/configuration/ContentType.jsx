@@ -16,15 +16,19 @@ import FormButton from '../../../components/common/FormButton';
 
 const ContentType = () => {
   const [allcontentType, setAllcontentType] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const getAllContentType = async () => {
     try {
+      setIsLoading(true);
       const resp = await __postApiData("/api/v1/admin/LookupList", {
         lookupcodes: "content_type"
       });
       setAllcontentType(resp.data);
     } catch (error) {
       console.log(error);
+    }
+    finally {
+      setIsLoading(false);
     }
   };
 
@@ -203,7 +207,7 @@ const ContentType = () => {
           {/* Table */}
           <div className="mt-6">
             <DataGrid
-              className=""
+              loading={isLoading}
               rows={rows}
               columns={columns}
               pageSize={10}
@@ -212,12 +216,7 @@ const ContentType = () => {
                 pagination: { paginationModel: { pageSize: 10, page: 0 } },
               }}
               disableSelectionOnClick
-              sx={{
-                "& .MuiDataGrid-columnHeaders": {
-                  backgroundColor: "#000",
-                  color: "white",
-                }
-              }}
+             
             />
 
           </div>

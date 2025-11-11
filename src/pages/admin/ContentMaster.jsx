@@ -119,7 +119,8 @@ const ContentMaster = () => {
     } catch (error) {
       console.error("Error fetching content list:", error);
       showToast("Error fetching content list", "error");
-    } finally {
+    }
+    finally {
       setIsLoading(false);
     }
   };
@@ -959,7 +960,7 @@ const ContentMaster = () => {
           pagination
         />
       </div>
-      
+
       <Snackbar
         open={toast.open}
         autoHideDuration={6000}

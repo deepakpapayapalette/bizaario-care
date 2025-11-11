@@ -1,36 +1,45 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
-  Box, Grid, Button, Typography, Card, Avatar,
-  TextField, FormControl, InputLabel, Select, MenuItem, Paper,
-  FormControlLabel, Radio, Fade, Chip, Menu, InputAdornment
-} from '@mui/material';
-import { IconButton, Tooltip } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-import { __postApiData } from '@utils/api';
-import Swal from 'sweetalert2';
-import { DataGrid } from '@mui/x-data-grid';
-import FormButton from '../../../components/common/FormButton';
+  Paper,
+  FormControl,
+  TextField,
+  Menu,
+  MenuItem,
+  IconButton,
+  CircularProgress,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Swal from "sweetalert2";
+import { DataGrid } from "@mui/x-data-grid";
+import { __postApiData } from "@utils/api";
+import FormButton from "../../../components/common/FormButton";
 
 const ServiceCategory = () => {
+  const [allservice, setallservice] = useState([]);
+  const [servicecategory, setservicecategory] = useState("");
 
-  const [allservice, setallservice] = useState([])
-  const getallservice = async () => {
+  const [isLoading, setIsLoading] = useState(false);   // ✅ single loading
+
+  /** ✅ Fetch Service Category */
+  const getallservice = useCallback(async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "service_category" })
-      setallservice(resp.data)
-
+      setIsLoading(true);
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "service_category",
+      });
+      setallservice(resp?.data ?? []);
     } catch (error) {
       console.log(error);
-
+    } finally {
+      setIsLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    getallservice()
+    getallservice();
+  }, [getallservice]);
 
-  }, [])
-
+  /** ✅ Menu handling */
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
 
@@ -44,152 +53,167 @@ const ServiceCategory = () => {
     setMenuRowId(null);
   };
 
-  const onEdithospital = () => {
-    alert("edit")
-  }
+  const onEdithospital = (id) => {
+    alert("Edit: " + id);
+  };
 
-  const onDeletehospital = () => {
-    alert("delete")
-  }
+  const onDeletehospital = (id) => {
+    alert("Delete: " + id);
+  };
 
-  const columnshospital = [
-    { field: 'sno', headerName: 'S.No.', flex: 0.2, renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1 },
-    // { field: 'lookup_type', headerName: 'Service Category Type', flex: 1 },
-    { field: 'lookup_value', headerName: 'Service Category', flex: 1 },
+  /** ✅ Columns */
+  const columnshospital = useMemo(
+    () => [
+      {
+        field: "sno",
+        headerName: "S.No.",
+        width: 90,
+        renderCell: (params) =>
+          params.api.getAllRowIds().indexOf(params.id) + 1,
+      },
+      { field: "lookup_value", headerName: "Service Category", flex: 1 },
 
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 80,
-      sortable: false,
-      filterable: false,
-      renderCell: (params) => (
-        <>
-          <IconButton onClick={(e) => handleOpenMenuhospital(e, params.row._id)}>
-            <MoreVertIcon />
-          </IconButton>
-
-          {menuRowId === params.row._id && (
-            <Menu
-              anchorEl={menuAnchor}
-              open={Boolean(menuAnchor)}
-              onClose={handleCloseMenuhospital}
-              disableScrollLock
+      {
+        field: "actions",
+        headerName: "Actions",
+        width: 80,
+        sortable: false,
+        renderCell: (params) => (
+          <>
+            <IconButton
+              onClick={(e) => handleOpenMenuhospital(e, params.row._id)}
             >
-              <MenuItem
-                onClick={() => {
-                  onEdithospital(params.row._id);
-                  handleCloseMenuhospital();
-                }}
+              <MoreVertIcon />
+            </IconButton>
+
+            {menuRowId === params.row._id && (
+              <Menu
+                anchorEl={menuAnchor}
+                open={Boolean(menuAnchor)}
+                onClose={handleCloseMenuhospital}
+                disableScrollLock
               >
-                Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  onDeletehospital(params.row._id);
-                  handleCloseMenuhospital();
-                }}
-              >
-                Delete
-              </MenuItem>
-            </Menu>
-          )}
-        </>
-      ),
+                <MenuItem
+                  onClick={() => {
+                    onEdithospital(params.row._id);
+                    handleCloseMenuhospital();
+                  }}
+                >
+                  Edit
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    onDeletehospital(params.row._id);
+                    handleCloseMenuhospital();
+                  }}
+                >
+                  Delete
+                </MenuItem>
+              </Menu>
+            )}
+          </>
+        ),
+      },
+    ],
+    [menuAnchor, menuRowId]
+  );
+
+  /** ✅ Rows */
+  const rowshospital = useMemo(
+    () =>
+      allservice?.map((doc, index) => ({
+        id: doc._id || index,
+        ...doc,
+      })) ?? [],
+    [allservice]
+  );
+
+  /** ✅ Add Service Category */
+  const add_service_category = async () => {
+    if (!servicecategory.trim()) {
+      Swal.fire("Warning", "Please enter service category", "warning");
+      return;
     }
 
-  ];
-
-  const rowshospital = allservice?.map((doc, index) => ({
-    id: doc._id || index,
-    ...doc,
-  }));
-
-  const [servicecategory, setservicecategory] = useState("")
-  const add_service_category = async () => {
     try {
+      setIsLoading(true);
+
       const resp = await __postApiData("/api/v1/admin/SaveLookup", {
         lookup_type: "service_category",
         parent_lookup_id: null,
-        lookup_value: servicecategory
+        lookup_value: servicecategory,
       });
 
-      if (resp.response.response_code === "200") {
+      if (resp?.response?.response_code === "200") {
         Swal.fire({
           icon: "success",
-          title: "Service Created",
-          text: "Service Created Successfully...",
-          showConfirmButton: true,
-          customClass: {
-            confirmButton: 'my-swal-button',
-          },
-        }).then(() => {
-          window.location.reload()
-        })
-        console.log("✅ Lookup list:", resp.data);
+          title: "Success",
+          text: "Service created successfully",
+        });
+        setservicecategory("");
+        getallservice(); // ✅ Refresh list
       } else {
-        console.warn("⚠️ Error:", resp.response.response_message);
+        Swal.fire("Error", resp?.response?.response_message, "error");
       }
     } catch (error) {
       console.error("❌ API Error:", error);
+      Swal.fire("Error", "Something went wrong", "error");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className='container mt-8'>
-      <div className='mb-6'>
+    <div className="container mt-8">
+      <div className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">
-          Enter Details for Service Category Master
+          Service Category Master
         </h2>
         <p className="text-para">
-          Add or update the required details for the service category master to keep records accurate and complete.
+          Add or update the required details for service category.
         </p>
       </div>
-      <div>
-        <div className='mb-8'>
-          <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
-            <div className=" mb-4">
-              <FormControl fullWidth size="small">
-                <label className="form-label text-[14px]">Service Category</label>
-                <TextField
-                  name="servicecategory"
-                  placeholder="Service Category"
-                  value={servicecategory}
-                  onChange={(e) => setservicecategory(e.target.value)}
-                  fullWidth
-                  size="small"
-                />
-              </FormControl>
-            </div>
-            <FormButton
-              variant="contained"
-              onClick={add_service_category}
 
-            >
-              Submit
-            </FormButton>
-          </Paper>
+      {/* ✅ Form */}
+      <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
+        <div className="mb-4">
+
+          <FormControl fullWidth size="small" className="mb-4">
+            <label className="form-label text-[14px]">Service Category</label>
+            <TextField
+              placeholder="Service Category"
+              value={servicecategory}
+              onChange={(e) => setservicecategory(e.target.value)}
+              size="small"
+            />
+          </FormControl>
         </div>
-        {/* Table */}
-        <div className='mt-6'>
 
-          <DataGrid
-            className="custom-data-grid"
-            rows={rowshospital}
-            columns={columnshospital}
-            pageSize={10}
-            pageSizeOptions={[]} // removes the rows per page selector
-            initialState={{
-              pagination: { paginationModel: { pageSize: 10, page: 0 } },
-            }}
-            disableSelectionOnClick
+        <FormButton
+          variant="contained"
+          onClick={add_service_category}
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Submit"}
+        </FormButton>
+      </Paper>
 
-          />
-        </div>
+      {/* ✅ Table */}
+      <div className="mt-6">
+        <DataGrid
+          rows={rowshospital}
+          columns={columnshospital}
+          pageSize={10}
+          disableSelectionOnClick
+          loading={isLoading}        // ✅ Grid loading
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10, page: 0 } },
+          }}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ServiceCategory
-
+export default ServiceCategory;

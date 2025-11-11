@@ -19,6 +19,12 @@ import StationMaster from "../pages/admin/StationMaster";
 import AssetMaster from "../pages/admin/AssetMaster";
 import LoginMaster from "../pages/admin/LoginMaster";
 import ContentMaster from "../pages/admin/ContentMaster";
+import EventMaster from "../pages/admin/EventMaster";
+import PatientReferralType from "../pages/admin/country-group-master/PatientReferralType";
+import SymptomClassMaster from "../pages/admin/country-group-master/SymptomClassMaster";
+import SymptomMaster from "../pages/admin/country-group-master/SymptomMaster";
+import AggravatingFactorMaster from "../pages/admin/country-group-master/AggravatingFactorMaster";
+
 
 
 
@@ -115,6 +121,28 @@ const AdminRoutes = () => (
         path="content-master"
         element={<ContentMaster />}
       />
+      <Route
+        path="event-master"
+        element={<EventMaster />}
+      />
+      <Route path="bizaario-master/">
+        <Route
+          path="patient-referral-type"
+          element={<ProtectedRoute><PatientReferralType /></ProtectedRoute>}
+        />
+        <Route
+          path="symptom-class-master"
+          element={<ProtectedRoute><SymptomClassMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="symptom-master"
+          element={<ProtectedRoute><SymptomMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="aggravating-factor-master"
+          element={<ProtectedRoute><AggravatingFactorMaster /></ProtectedRoute>}
+        />
+      </Route>
 
       {/* Catch-all inside admin */}
       <Route path="*" element={<ErrorPage />} />
