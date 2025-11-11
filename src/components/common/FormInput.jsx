@@ -1,6 +1,6 @@
 // src/components/common/FormInput.jsx
 import React from "react";
-import { TextField, MenuItem } from "@mui/material";
+import { TextField, MenuItem, Select } from "@mui/material";
 
 const FormInput = ({
   label,
@@ -14,7 +14,7 @@ const FormInput = ({
     switch (type) {
       case "select":
         return (
-          <TextField
+          <Select
             select
             fullWidth
             id={name}
@@ -29,10 +29,10 @@ const FormInput = ({
             </MenuItem>
             {options?.length > 0 && options?.map((opt) => (
               <MenuItem key={opt?._id} value={opt?._id}>
-                {opt?.lookup_value}
+                {opt?.lookup_value || opt?.UserName}
               </MenuItem>
             ))}
-          </TextField>
+          </Select>
         );
 
       case "number":

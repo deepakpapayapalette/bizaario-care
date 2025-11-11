@@ -102,14 +102,14 @@ const LiveSessions = () => {
 
 
         {/* Header */}
-        {/* <div className="z-10 flex flex-col items-start  mb-6">
+        <div className="z-10 flex flex-col items-start  mb-6">
           <h1 className="text-2xl md:text-4xl font-semibold mb-2 text-white">
             {sessionsData.header.title}
           </h1>
           <p className="  text-white/90">
             {sessionsData.header.description}
           </p>
-        </div> */}
+        </div>
 
         {/* Container */}
         <div className="z-10  flex flex-col gap-5 lg:flex-row">
@@ -153,7 +153,7 @@ const LiveSessions = () => {
           {/* Carousel */}
           <div className="relative lg:w-[60%] w-full">
 
-            <div className="relative h-[400px] lg:h-[460px] overflow-hidden">
+            <div className="relative h-[400px] lg:h-[560px] overflow-hidden">
 
               <div
                 className="flex h-full transition-transform duration-500 ease-in-out"

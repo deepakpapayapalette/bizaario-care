@@ -28,7 +28,7 @@ const DoctorRoutes = () => {
         </ProtectedRoute>
       }>
         <Route index element={<DoctorDashboard />} />
-        <Route path="test" element={<ProtectedRoute><h1>test</h1></ProtectedRoute>} />
+        {/* <Route path="test" element={<ProtectedRoute><h1>test</h1></ProtectedRoute>} /> */}
 
 
         {/* Catch-all */}

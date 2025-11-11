@@ -17,6 +17,9 @@ import RelationshipMaster from "../pages/admin/configuration/RelationshipMaster"
 import InsuranceProviderMaster from "../pages/admin/configuration/InsuranceProviderMaster";
 import StationMaster from "../pages/admin/StationMaster";
 import AssetMaster from "../pages/admin/AssetMaster";
+import LoginMaster from "../pages/admin/LoginMaster";
+import ContentMaster from "../pages/admin/ContentMaster";
+
 
 
 // ✅ ProtectedRoute inside same file
@@ -103,6 +106,14 @@ const AdminRoutes = () => (
       <Route
         path="assets-master"
         element={<AssetMaster />}
+      />
+      <Route
+        path="login-master"
+        element={<LoginMaster />}
+      />
+      <Route
+        path="content-master"
+        element={<ContentMaster />}
       />
 
       {/* Catch-all inside admin */}

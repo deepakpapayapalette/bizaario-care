@@ -136,7 +136,7 @@ const ServiceCategory = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='container mt-8'>
       <div className='mb-6'>
         <h2 className="text-2xl font-semibold mb-2">
           Enter Details for Service Category Master

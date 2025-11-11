@@ -143,7 +143,7 @@ const Admindashboard = ({ handleView, handleDelete }) => {
       sortable: false,
       flex: 1,
       renderCell: (params) => (
-        <div className='flex gap-4 items-center mt-3'>
+        <div className='flex gap-4 items-center mt-2'>
           <FormButton
             variant="outlined"
             size="small"

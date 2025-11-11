@@ -7,6 +7,7 @@ import api from "../../../api";
 import { __postApiData } from '@utils/api';
 
 import FormButton from "../../../components/common/FormButton";
+import { Popup } from '@components/common/Popup';
 
 const OrgUnitMaster = () => {
   const [orgUnit, setOrgUnit] = useState("");
@@ -78,6 +79,23 @@ const OrgUnitMaster = () => {
     closeMenu();
   };
 
+  const handleDelete = async (row) => {
+    try {
+      // const result = await Popup("warning", "Are you sure?", "You won't be able to revert this!");
+      // console.log(result.isConfirmed, "result");
+      if (1 === 1) {
+
+        const res = await __postApiData(`/api/v1/admin/DeleteLookup`, { LookupId: row?._id });
+        if (res?.response?.response_code === "200") {
+          toast.success("Blood Group Type deleted successfully");
+
+        }
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "An error occurred");
+    }
+  };
+
   /** ✅ Table Columns */
   const columns = [
     {
@@ -97,6 +115,7 @@ const OrgUnitMaster = () => {
           <IconButton onClick={(e) => openMenu(e, params.row._id)}>
             <MoreVertIcon />
           </IconButton>
+          {/* {console.log(params, "rows")} */}
 
           {menuData.rowId === params.row._id && (
             <Menu
@@ -106,7 +125,7 @@ const OrgUnitMaster = () => {
               disableScrollLock
             >
               <MenuItem onClick={() => editUnit(params.row._id)}>Edit</MenuItem>
-              <MenuItem onClick={() => deleteUnit(params.row._id)}>Delete</MenuItem>
+              <MenuItem onClick={() => handleDelete(params.row)}>Delete1</MenuItem>
             </Menu>
           )}
         </>

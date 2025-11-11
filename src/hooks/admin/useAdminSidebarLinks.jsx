@@ -37,7 +37,9 @@ const useAdminSidebarLinks = (role) => {
       ],
     },
     { id: "3", icon: <TbDeviceDesktopCog />, label: "Station Master", link: "/admindashboard/station-master", dock: true },
-    { id: "3", icon: <TbDeviceDesktopCog />, label: "Assets Master", link: "/admindashboard/assets-master", dock: true },
+    { id: "4", icon: <TbDeviceDesktopCog />, label: "Assets Master", link: "/admindashboard/assets-master", dock: true },
+    { id: "5", icon: <TbDeviceDesktopCog />, label: "Login Master", link: "/admindashboard/login-master", dock: true },
+    { id: "6", icon: <TbDeviceDesktopCog />, label: "Content Master", link: "/admindashboard/content-master", dock: true },
   ];
   const doctorsAdminLinks = [
     { id: "1", icon: <LayoutDashboard />, label: "Doctor Dashboard", link: "/doctordashboard", dock: true },

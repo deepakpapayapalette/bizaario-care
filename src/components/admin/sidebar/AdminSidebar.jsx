@@ -8,7 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { toast } from "react-toastify";
 
 import useAdminSidebarLinks from "../../../hooks/admin/useAdminSidebarLinks";
-import Logo from '@assets/images/website/logo-navbar.png'
+import Logo from '@assets/images/admin/logo.png'
 // import { useAuth } from "../../context/AuthContext";
 const AdminSidebar = ({ show, toggleDrawer }) => {
   const { pathname } = useLocation();
@@ -29,11 +29,11 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
   return (
     <aside>
       {/* Logo */}
-      <div className="flex items-center justify-center pt-14 pb-10">
+      <div className="flex items-center justify-center pt-20 pb-10">
         <Typography variant="h5" className="font-bold my-4 text-primary-foreground">
           {show ?
-            <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 164, height: 'auto', objectFit: "cover" }} /> :
-            <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 60, height: 'auto', objectFit: "cover" }} className="rounded-lg" />
+            <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 70, height: 'auto', objectFit: "cover" }} /> :
+            <Avatar variant="rounded" alt="brand" src={Logo} sx={{ width: 40, height: 'auto', objectFit: "cover" }} className="rounded-lg" />
           }
         </Typography>
       </div>
@@ -55,6 +55,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
         <Box className="">
           {links?.map((item) => (
             <React.Fragment key={item.id}>
+
               {item.dock ? (
                 <Link
                   to={item.link}

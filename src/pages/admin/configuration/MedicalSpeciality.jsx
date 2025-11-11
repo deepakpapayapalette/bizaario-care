@@ -23,6 +23,7 @@ const MedicalSpeciality = () => {
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
   // const [medical_speciality, setmedicalspeciality] = useState("")
+  console.log(medicalSpeciality, " medicalSpeciality ");
 
   // ✅ Fetch Speciality List
   const getMedicalSpecialities = useCallback(async () => {
@@ -74,7 +75,7 @@ const MedicalSpeciality = () => {
         parent_lookup_id: null,
         lookup_value: medicalSpeciality.trim(),
       });
-      console.log(resp);
+      console.log(resp, " resp ");
 
       if (resp.response?.response_code === "200") {
         Swal.fire({
@@ -87,8 +88,8 @@ const MedicalSpeciality = () => {
           },
         });
 
-        setMedicalSpeciality("");
-        getMedicalSpecialities();
+        // setMedicalSpeciality("");
+        // getMedicalSpecialities();
       } else {
         Swal.fire("Error", resp.response?.response_message, "error");
       }
