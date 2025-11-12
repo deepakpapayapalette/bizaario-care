@@ -45,6 +45,12 @@ import InvestigationMaster from "../pages/admin/country-group-master/Investigati
 import DiagnosisMaster from "../pages/admin/country-group-master/DiagnosisMaster";
 import DiagnosisTypeMaster from "../pages/admin/country-group-master/DiagnosisTypeMaster";
 import LifestyleInterventionMaster from "../pages/admin/country-group-master/LifestyleInterventionMaster";
+import SecondOpinionQueryMaster from "../pages/admin/country-group-master/SecondOpinionQueryMaster";
+import ComorbidityMaster from "../pages/admin/country-group-master/ComorbidityMaster";
+import RiskFactorMaster from "../pages/admin/country-group-master/RiskFactorMaster";
+import PatientConcernMaster from "../pages/admin/country-group-master/PatientConcernMaster";
+import LogsticalConsiderationMaster from "../pages/admin/country-group-master/LogsticalConsiderationMaster";
+import HealthProfillingQuestions from "../pages/admin/HealthProfillingQuestions";
 
 
 // ✅ ProtectedRoute inside same file
@@ -144,6 +150,7 @@ const AdminRoutes = () => (
         path="event-master"
         element={<EventMaster />}
       />
+
       <Route path="bizaario-master/">
         <Route
           path="patient-referral-type"
@@ -245,7 +252,33 @@ const AdminRoutes = () => (
           path="lifestyle-intervention-master"
           element={<ProtectedRoute><LifestyleInterventionMaster /></ProtectedRoute>}
         />
+        <Route
+          path="second-opinion-query-master"
+          element={<ProtectedRoute><SecondOpinionQueryMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="comorbidity-master"
+          element={<ProtectedRoute><ComorbidityMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="risk-factor-master"
+          element={<ProtectedRoute><RiskFactorMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="patient-concern-master"
+          element={<ProtectedRoute><PatientConcernMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="logstical-consideration-master"
+          element={<ProtectedRoute><LogsticalConsiderationMaster /></ProtectedRoute>}
+        />
       </Route>
+
+      <Route
+        path="health-profilling-questions"
+        element={<HealthProfillingQuestions />}
+      />
+
 
       {/* Catch-all inside admin */}
       <Route path="*" element={<ErrorPage />} />

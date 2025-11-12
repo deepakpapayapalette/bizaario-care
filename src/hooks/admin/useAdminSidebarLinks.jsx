@@ -42,7 +42,6 @@ const useAdminSidebarLinks = (role) => {
     { id: "5", icon: <TbDeviceDesktopCog />, label: "Login Master", link: "/admindashboard/login-master", dock: true },
     { id: "6", icon: <TbDeviceDesktopCog />, label: "Content Master", link: "/admindashboard/content-master", dock: true },
     { id: "7", icon: <TbDeviceDesktopCog />, label: "Event Master", link: "/admindashboard/event-master", dock: true },
-
     {
       id: "8",
       icon: <Settings2 />,
@@ -75,12 +74,14 @@ const useAdminSidebarLinks = (role) => {
         { id: "8-23", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/diagnosis-master", title: "Diagnosis Master" },
         { id: "8-24", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/diagnosis-type-master", title: "Diagnosis Type Master" },
         { id: "8-25", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/lifestyle-intervention-master", title: "Lifestyle Intervention Master" },
-
-
-
+        { id: "8-26", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/second-opinion-query-master", title: "Second Opinion Query Master" },
+        { id: "8-27", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/comorbidity-master", title: " Comorbidity Master" },
+        { id: "8-28", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/risk-factor-master", title: "Risk Factor Master" },
+        { id: "8-29", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/patient-concern-master", title: "Patient Concern Master" },
+        { id: "8-30", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/logstical-consideration-master", title: "Logstical Consideration Master" },
       ],
-
     },
+    { id: "9", icon: <TbDeviceDesktopCog />, label: "Health Profilling Questions", link: "/admindashboard/health-profilling-questions", dock: true },
   ];
   const doctorsAdminLinks = [
     { id: "1", icon: <LayoutDashboard />, label: "Doctor Dashboard", link: "/doctordashboard", dock: true },
