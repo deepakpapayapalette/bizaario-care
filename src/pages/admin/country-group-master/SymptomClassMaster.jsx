@@ -223,6 +223,7 @@ const SymptomClassMaster = () => {
               defaultValue={symptom_class_master.symptom_class}
               onChange={handlechange}
               placeholder='Symptom Class'
+              size="small"
             >
 
             </TextField>

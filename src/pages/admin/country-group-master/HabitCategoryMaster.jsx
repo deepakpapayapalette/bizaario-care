@@ -26,12 +26,16 @@ const HabitCategoryMaster = () => {
   /* ------------------------------ Fetch List ------------------------------ */
   const fetchHabitCategory = async () => {
     try {
+      setLoading(true)
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
         lookupcodes: "habit_category_type",
       });
       setHabitCategoryData(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
+    }
+    finally {
+      setLoading(false)
     }
   };
 

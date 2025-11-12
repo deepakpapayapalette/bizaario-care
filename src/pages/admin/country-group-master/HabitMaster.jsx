@@ -43,12 +43,16 @@ const HabitMaster = () => {
   /* ------------------------------ Fetch Habit Category (Dropdown) ------------------------------ */
   const fetchHabitCategory = async () => {
     try {
+      setLoading(true)
       const resp = await __postApiData("/api/v1/admin/LookupList", {
         lookupcodes: "habit_category_type",
       });
       setHabitCategoryOptions(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
+    }
+    finally {
+      setLoading(false)
     }
   };
 

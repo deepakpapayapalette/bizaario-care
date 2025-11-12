@@ -25,13 +25,18 @@ const OccupationCategoryMaster = () => {
 
   /* ------------------------------ Fetch List ------------------------------ */
   const fetchOccupationCategory = async () => {
+
     try {
+      setLoading(true)
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
         lookupcodes: "occupation_category_type",
       });
       setOccupationCategoryData(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
+    }
+    finally {
+      setLoading(false)
     }
   };
 

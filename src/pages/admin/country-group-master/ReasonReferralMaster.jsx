@@ -27,6 +27,7 @@ const ReasonReferralMaster = () => {
   /* ------------------------------ Fetch List ------------------------------ */
   const fetchReferralList = async () => {
     try {
+      setLoading(true)
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
         lookupcodes: "reason_for_referral_type",
       });
@@ -34,6 +35,7 @@ const ReasonReferralMaster = () => {
     } catch (error) {
       console.log("Error:", error);
     }
+    finally { setLoading(false) }
   };
 
   useEffect(() => {

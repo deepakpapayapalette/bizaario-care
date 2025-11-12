@@ -222,7 +222,7 @@ const MedicineFrequencyMaster = () => {
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
+        <div className=" mb-6">
           {/* MEDICINE FREQUENCY */}
           <FormControl fullWidth size="small">
             <label className="form-label">Medicine Frequency</label>

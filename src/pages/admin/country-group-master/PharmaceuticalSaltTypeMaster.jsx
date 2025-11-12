@@ -189,6 +189,7 @@ const PharmaceuticalSaltTypeMaster = () => {
               value={salt_type_master.salt_type}
               onChange={handlechange}
               placeholder="Pharmaceutical Salt Type"
+              size="small"
             />
           </FormControl>
         </div>

@@ -26,6 +26,7 @@ const InvestigationCategoryMaster = () => {
   /* ------------------------------ Fetch List ------------------------------ */
   const fetchInvestigationCategory = async () => {
     try {
+      setLoading(true)
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
         lookupcodes: "investigation_category_type",
       });
@@ -33,6 +34,7 @@ const InvestigationCategoryMaster = () => {
     } catch (error) {
       console.log("Error:", error);
     }
+    finally { setLoading(false) }
   };
 
   useEffect(() => {

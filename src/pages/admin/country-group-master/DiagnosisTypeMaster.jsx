@@ -26,12 +26,16 @@ const DiagnosisTypeMaster = () => {
   /* ------------------------------ Fetch List ------------------------------ */
   const fetchDiagnosisType = async () => {
     try {
+      setLoading(true)
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
         lookupcodes: "diagnosis_type",
       });
       setDiagnosisData(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
+    }
+    finally {
+      setLoading(false)
     }
   };
 
