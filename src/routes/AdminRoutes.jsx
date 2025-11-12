@@ -34,8 +34,7 @@ import DiseaseMaster from "../pages/admin/country-group-master/DiseaseMaster";
 import AllergyCategoryMaster from "../pages/admin/country-group-master/AllergyCategoryMaster";
 import AllergyMaster from "../pages/admin/country-group-master/AllergyMaster";
 import TrumaCategoryMaster from "../pages/admin/country-group-master/TrumaCategoryMaster";
-
-
+import TraumaMaster from "../pages/admin/country-group-master/TraumaMaster";
 
 
 // ✅ ProtectedRoute inside same file
@@ -191,6 +190,10 @@ const AdminRoutes = () => (
         <Route
           path="truma-category-master"
           element={<ProtectedRoute><TrumaCategoryMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="truma-master"
+          element={<ProtectedRoute><TraumaMaster /></ProtectedRoute>}
         />
       </Route>
 

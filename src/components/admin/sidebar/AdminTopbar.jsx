@@ -27,7 +27,7 @@ const AdminTopbar = ({ show, toggleShow }) => {
             </button>
           </div>
         </div>
-        <Menu onClick={toggleShow} className="md:hidden" />
+        <Menu onClick={() => toggleShow(true)} className="md:hidden" />
 
         <div className="flex items-center space-x-6 pe-lg-5">
           <div className="items-center space-x-1 hidden lg:flex cursor-pointer language-input">

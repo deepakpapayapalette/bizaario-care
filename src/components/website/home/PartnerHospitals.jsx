@@ -101,7 +101,7 @@ const PartnerHospitals = () => {
         <div>
           <Link
             className="theme-btn-fill px-15 py-3 inline-block "
-            to="/view-all-hospitals"
+            to="/hospital-partners"
           >
             View All <FaArrowRight size={18} className="inline" />
           </Link>

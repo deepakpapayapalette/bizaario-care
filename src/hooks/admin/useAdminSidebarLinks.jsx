@@ -64,6 +64,7 @@ const useAdminSidebarLinks = (role) => {
         { id: "8-12", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/allergy-category-master", title: "Allergy Category Master" },
         { id: "8-13", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/allergy-master", title: "Allergy  Master" },
         { id: "8-14", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/truma-category-master", title: "Truma Category Master" },
+        { id: "8-15", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/truma-master", title: "Truma  Master" },
 
 
 

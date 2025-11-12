@@ -10,6 +10,9 @@ const AdminLayout = ({ children }) => {
   const [show, setShow] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
 
+  console.log(show, "show sidebar")
+  console.log(collapsed, "collapsed sidebar")
+
 
   ///=======Function to show hide drwaer on mobile========///
   const toggleShow = (value) => {
@@ -26,11 +29,11 @@ const AdminLayout = ({ children }) => {
       <div className={`${collapsed ? "w-64" : "w-20"} overflow-y-auto hide-scrollbar bg-sidebar hidden  text-white md:flex flex-col  transition-all duration-300`}>
         <AdminSidebar show={collapsed} toggleDrawer={toggleDrawer} />
       </div>
-      {/* <AdminSidedrawer show={show} toggleShow={toggleShow} /> */}
+      <AdminSidedrawer show={show} toggleShow={toggleShow} />
       <div className={`flex flex-col flex-1 transition-all duration-300`} style={{
         width: collapsed ? "calc(100% - 256px)" : "calc(100% - 80px)",
       }}>
-        <AdminTopbar show={show} toggleShow={toggleShow} />
+        <AdminTopbar show={show} toggleShow={toggleShow} toggleDrawer={toggleDrawer} />
         <div className="h-[calc(100vh-70px)]  overflow-auto bg-foreground">
           {children}
           <Outlet />

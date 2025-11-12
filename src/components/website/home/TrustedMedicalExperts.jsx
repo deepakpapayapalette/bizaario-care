@@ -131,7 +131,7 @@ const TrustedMedicalExperts = () => {
           </p>
         </div>
         <div>
-          <Link className="theme-btn-fill px-15 py-3 inline-block  " to="/view-all-doctors">
+          <Link className="theme-btn-fill px-15 py-3 inline-block  " to="/medical-board">
             View All <FaArrowRight size="18" className="inline  " />
           </Link>
         </div>
