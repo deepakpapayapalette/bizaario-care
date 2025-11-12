@@ -14,22 +14,25 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const AggravatingFactorMaster = () => {
+const PharmaceuticalSaltMaster = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const [lookupId, setLookupId] = useState(null);
-  const [aggravatingForm, setAggravatingForm] = useState({
-    symptom_id: null,
-    aggravating_factor: "",
+
+  const [pharmaceutical_salt_master, setPharmaceuticalSaltMaster] = useState({
+    salt_type: null,
+    salt_composition: "",
+    purpose: "",
   });
 
-  const [aggravatingList, setAggravatingList] = useState([]);
-  const [symptomList, setSymptomList] = useState([]);
+  const [saltMasterList, setSaltMasterList] = useState([]);
+  const [saltTypeList, setSaltTypeList] = useState([]);
 
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
 
-  /* MENU */
+  /* ============================================================
+      MENU
+  ============================================================ */
   const handleOpenMenu = (event, rowId) => {
     setMenuAnchor(event.currentTarget);
     setMenuRowId(rowId);
@@ -40,15 +43,17 @@ const AggravatingFactorMaster = () => {
     setMenuRowId(null);
   };
 
-  /* ✅ Fetch Aggravating List */
-  const fetchAggravatingList = useCallback(async () => {
+  /* ============================================================
+      FETCH SALT MASTER LIST
+  ============================================================ */
+  const fetchSaltMasterList = useCallback(async () => {
     setIsLoading(true);
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "aggravating_factor_master",
+        lookupcodes: "pharmaceutical_salt_master",
       });
 
-      setAggravatingList(resp?.data || []);
+      setSaltMasterList(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -56,62 +61,74 @@ const AggravatingFactorMaster = () => {
     }
   }, []);
 
-  /* ✅ Fetch Symptoms */
-  const fetchSymptoms = useCallback(async () => {
+  /* ============================================================
+      FETCH SALT TYPE DROPDOWN OPTIONS
+  ============================================================ */
+  const fetchSaltTypes = useCallback(async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList", {
-        lookupcodes: "symptom_master",
+        lookupcodes: "pharmaceutical_salt_type",
       });
 
-      setSymptomList(resp?.data || []);
+      setSaltTypeList(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     }
   }, []);
 
   useEffect(() => {
-    fetchAggravatingList();
-    fetchSymptoms();
-  }, [fetchAggravatingList, fetchSymptoms]);
+    fetchSaltMasterList();
+    fetchSaltTypes();
+  }, [fetchSaltMasterList, fetchSaltTypes]);
 
-  /* ✅ Input Change Handler */
+  /* ============================================================
+      INPUT HANDLER
+  ============================================================ */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setAggravatingForm((prev) => ({
+    setPharmaceuticalSaltMaster((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  /* ✅ Edit */
+  /* ============================================================
+      EDIT
+  ============================================================ */
   const onEdit = (row) => {
     setLookupId(row?._id);
-    setAggravatingForm({
-      symptom_id: row?.parent_lookup_id,
-      aggravating_factor: row?.lookup_value,
+    setPharmaceuticalSaltMaster({
+      salt_type: row?.parent_lookup_id,
+      salt_composition: row?.lookup_value,
+      purpose: row?.other?.purpose || "",
     });
   };
 
-  /* ✅ Delete */
+  /* ============================================================
+      DELETE
+  ============================================================ */
   const onDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Aggravating Factor will be deleted!",
+      text: "Pharmaceutical Salt will be deleted!",
       icon: "warning",
       showCancelButton: true,
     });
   };
 
-  /* ✅ Submit / Update */
-  const addAggravatingMaster = async () => {
+  /* ============================================================
+      ADD / UPDATE
+  ============================================================ */
+  const addPharmaceuticalSaltMaster = async () => {
     setIsLoading(true);
     try {
       const payload = {
         lookup_id: lookupId,
-        lookup_type: "aggravating_factor_master",
-        lookup_value: aggravatingForm.aggravating_factor,
-        parent_lookup_id: aggravatingForm.symptom_id,
+        lookup_type: "pharmaceutical_salt_master",
+        lookup_value: pharmaceutical_salt_master.salt_composition,
+        parent_lookup_id: pharmaceutical_salt_master.salt_type,
+        other: { purpose: pharmaceutical_salt_master.purpose },
       };
 
       const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
@@ -126,12 +143,13 @@ const AggravatingFactorMaster = () => {
           },
         });
 
-        fetchAggravatingList();
+        fetchSaltMasterList();
 
         setLookupId(null);
-        setAggravatingForm({
-          symptom_id: null,
-          aggravating_factor: "",
+        setPharmaceuticalSaltMaster({
+          salt_type: null,
+          salt_composition: "",
+          purpose: "",
         });
       } else {
         Swal.fire({
@@ -146,17 +164,21 @@ const AggravatingFactorMaster = () => {
     }
   };
 
-  /* ✅ Rows */
+  /* ============================================================
+      DATAGRID ROWS
+  ============================================================ */
   const rows = useMemo(
     () =>
-      aggravatingList?.map((doc) => ({
+      saltMasterList?.map((doc) => ({
         id: doc._id,
         ...doc,
       })),
-    [aggravatingList]
+    [saltMasterList]
   );
 
-  /* ✅ Columns */
+  /* ============================================================
+      DATAGRID COLUMNS
+  ============================================================ */
   const columns = useMemo(
     () => [
       {
@@ -166,8 +188,15 @@ const AggravatingFactorMaster = () => {
         renderCell: (params) =>
           params.api.getAllRowIds().indexOf(params.id) + 1,
       },
-      { field: "parent_lookup_name", headerName: "Symptom", flex: 1 },
-      { field: "lookup_value", headerName: "Aggravating Factor", flex: 1 },
+      { field: "parent_lookup_name", headerName: "Salt Type", flex: 1 },
+      { field: "lookup_value", headerName: "Salt Composition", flex: 1 },
+      {
+        field: "purpose",
+        headerName: "Purpose",
+        flex: 1,
+
+
+      },
 
       {
         field: "actions",
@@ -215,37 +244,36 @@ const AggravatingFactorMaster = () => {
     [menuAnchor, menuRowId]
   );
 
+  /* ============================================================
+      UI
+  ============================================================ */
   return (
     <div className="container mt-8">
       <header className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">
-          Enter Details for Aggravating Factor Master
+          Pharmaceutical Salt Master
         </h2>
-        <p className="text-para">Add or update details for aggravating factor master.</p>
+        <p className="text-para">
+          Add or update pharmaceutical salt records.
+        </p>
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
+          {/* SALT TYPE */}
           <FormControl fullWidth size="small">
-            <label className="form-label">SYMPTOM</label>
+            <label className="form-label">Salt Type</label>
             <Select
-              name="symptom_id"
-              value={aggravatingForm.symptom_id}
+              name="salt_type"
+              value={pharmaceutical_salt_master.salt_type}
               onChange={handleChange}
               displayEmpty
-
-              renderValue={(selected) => {
-                if (!selected) {
-                  return <span style={{ color: "#9ca3af", textTransform: 'lowercase' }} >Select SYMPTOM</span>;
-                }
-                return symptomList.find((item) => item._id === selected)?.lookup_value;
-              }}
             >
               <MenuItem disabled value="">
-                <em>Select Symptom</em>
+                <em>Select Salt Type</em>
               </MenuItem>
 
-              {symptomList?.map((item) => (
+              {saltTypeList?.map((item) => (
                 <MenuItem key={item._id} value={item._id}>
                   {item.lookup_value}
                 </MenuItem>
@@ -253,13 +281,26 @@ const AggravatingFactorMaster = () => {
             </Select>
           </FormControl>
 
+          {/* SALT COMPOSITION */}
           <FormControl fullWidth size="small">
-            <label className="form-label">AGGRAVATING FACTOR</label>
+            <label className="form-label">Salt Composition</label>
             <TextField
-              name="aggravating_factor"
-              value={aggravatingForm.aggravating_factor}
+              name="salt_composition"
+              value={pharmaceutical_salt_master.salt_composition}
               onChange={handleChange}
-              placeholder="Aggravating Factor"
+              placeholder="Salt Composition"
+              size="small"
+            />
+          </FormControl>
+
+          {/* PURPOSE */}
+          <FormControl fullWidth size="small">
+            <label className="form-label">Purpose</label>
+            <TextField
+              name="purpose"
+              value={pharmaceutical_salt_master.purpose}
+              onChange={handleChange}
+              placeholder="Purpose"
               size="small"
             />
           </FormControl>
@@ -267,7 +308,7 @@ const AggravatingFactorMaster = () => {
 
         <FormButton
           variant="contained"
-          onClick={addAggravatingMaster}
+          onClick={addPharmaceuticalSaltMaster}
           disabled={isLoading}
         >
           {lookupId ? "Update" : "Submit"}
@@ -281,6 +322,7 @@ const AggravatingFactorMaster = () => {
           loading={isLoading}
           disableRowSelectionOnClick
           pagination
+          disableColumnMenu
           pageSizeOptions={[10]}
         />
       </div>
@@ -288,4 +330,4 @@ const AggravatingFactorMaster = () => {
   );
 };
 
-export default AggravatingFactorMaster;
+export default PharmaceuticalSaltMaster;

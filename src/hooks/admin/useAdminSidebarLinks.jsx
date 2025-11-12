@@ -54,6 +54,16 @@ const useAdminSidebarLinks = (role) => {
         { id: "8-2", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/symptom-class-master", title: "Symptom Class Master" },
         { id: "8-3", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/symptom-master", title: "Symptom Master" },
         { id: "8-4", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/aggravating-factor-master", title: "Aggravating Factor Master" },
+        { id: "8-5", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/pharmaceutical-salt-type-master", title: "Pharmaceutical Salt Type Master" },
+        { id: "8-6", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/pharmaceutical-salt-master", title: "Pharmaceutical Salt Master" },
+        { id: "8-7", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/dosage-master", title: "Dosage Master" },
+        { id: "8-8", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/medicine-frequency-master", title: "Medicine Frequency Master" },
+        { id: "8-9", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/therapy-master", title: "Therapy Master" },
+        { id: "8-10", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/procedure-master", title: "Procedure Master" },
+        { id: "8-11", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/disease-master", title: "Disease Master" },
+        { id: "8-12", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/allergy-category-master", title: "Allergy Category Master" },
+        { id: "8-13", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/allergy-master", title: "Allergy  Master" },
+        { id: "8-14", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/truma-category-master", title: "Truma Category Master" },
 
 
 

@@ -4,7 +4,6 @@ import {
   FormControl,
   MenuItem,
   Menu,
-  Select,
   Paper,
   IconButton,
 } from "@mui/material";
@@ -14,22 +13,22 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const AggravatingFactorMaster = () => {
+const DosageMaster = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const [lookupId, setLookupId] = useState(null);
-  const [aggravatingForm, setAggravatingForm] = useState({
-    symptom_id: null,
-    aggravating_factor: "",
+
+  const [dosage_master, setDosageMaster] = useState({
+    dosage_type: "",
   });
 
-  const [aggravatingList, setAggravatingList] = useState([]);
-  const [symptomList, setSymptomList] = useState([]);
+  const [dosageTypeList, setDosageTypeList] = useState([]);
 
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
 
-  /* MENU */
+  /* ============================================================
+      MENU
+  ============================================================ */
   const handleOpenMenu = (event, rowId) => {
     setMenuAnchor(event.currentTarget);
     setMenuRowId(rowId);
@@ -40,15 +39,17 @@ const AggravatingFactorMaster = () => {
     setMenuRowId(null);
   };
 
-  /* ✅ Fetch Aggravating List */
-  const fetchAggravatingList = useCallback(async () => {
+  /* ============================================================
+      FETCH DOSAGE LIST
+  ============================================================ */
+  const fetchDosageList = useCallback(async () => {
     setIsLoading(true);
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "aggravating_factor_master",
+        lookupcodes: "dosage_type",
       });
 
-      setAggravatingList(resp?.data || []);
+      setDosageTypeList(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -56,62 +57,53 @@ const AggravatingFactorMaster = () => {
     }
   }, []);
 
-  /* ✅ Fetch Symptoms */
-  const fetchSymptoms = useCallback(async () => {
-    try {
-      const resp = await __postApiData("/api/v1/admin/LookupList", {
-        lookupcodes: "symptom_master",
-      });
-
-      setSymptomList(resp?.data || []);
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  }, []);
-
   useEffect(() => {
-    fetchAggravatingList();
-    fetchSymptoms();
-  }, [fetchAggravatingList, fetchSymptoms]);
+    fetchDosageList();
+  }, [fetchDosageList]);
 
-  /* ✅ Input Change Handler */
+  /* ============================================================
+      INPUT HANDLER
+  ============================================================ */
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setAggravatingForm((prev) => ({
+    setDosageMaster((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  /* ✅ Edit */
+  /* ============================================================
+      EDIT
+  ============================================================ */
   const onEdit = (row) => {
     setLookupId(row?._id);
-    setAggravatingForm({
-      symptom_id: row?.parent_lookup_id,
-      aggravating_factor: row?.lookup_value,
+    setDosageMaster({
+      dosage_type: row?.lookup_value,
     });
   };
 
-  /* ✅ Delete */
+  /* ============================================================
+      DELETE (Pending)
+  ============================================================ */
   const onDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Aggravating Factor will be deleted!",
+      text: "Dosage record will be deleted!",
       icon: "warning",
       showCancelButton: true,
     });
   };
 
-  /* ✅ Submit / Update */
-  const addAggravatingMaster = async () => {
+  /* ============================================================
+      ADD / UPDATE
+  ============================================================ */
+  const addDosageMaster = async () => {
     setIsLoading(true);
     try {
       const payload = {
         lookup_id: lookupId,
-        lookup_type: "aggravating_factor_master",
-        lookup_value: aggravatingForm.aggravating_factor,
-        parent_lookup_id: aggravatingForm.symptom_id,
+        lookup_type: "dosage_type",
+        lookup_value: dosage_master.dosage_type,
       };
 
       const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
@@ -126,12 +118,11 @@ const AggravatingFactorMaster = () => {
           },
         });
 
-        fetchAggravatingList();
+        fetchDosageList();
 
         setLookupId(null);
-        setAggravatingForm({
-          symptom_id: null,
-          aggravating_factor: "",
+        setDosageMaster({
+          dosage_type: "",
         });
       } else {
         Swal.fire({
@@ -146,17 +137,21 @@ const AggravatingFactorMaster = () => {
     }
   };
 
-  /* ✅ Rows */
+  /* ============================================================
+      DATAGRID ROWS
+  ============================================================ */
   const rows = useMemo(
     () =>
-      aggravatingList?.map((doc) => ({
-        id: doc._id,
+      dosageTypeList?.map((doc) => ({
+        id: doc?._id,
         ...doc,
       })),
-    [aggravatingList]
+    [dosageTypeList]
   );
 
-  /* ✅ Columns */
+  /* ============================================================
+      DATAGRID COLUMNS
+  ============================================================ */
   const columns = useMemo(
     () => [
       {
@@ -166,8 +161,7 @@ const AggravatingFactorMaster = () => {
         renderCell: (params) =>
           params.api.getAllRowIds().indexOf(params.id) + 1,
       },
-      { field: "parent_lookup_name", headerName: "Symptom", flex: 1 },
-      { field: "lookup_value", headerName: "Aggravating Factor", flex: 1 },
+      { field: "lookup_value", headerName: "Dosage Type", flex: 1 },
 
       {
         field: "actions",
@@ -215,51 +209,26 @@ const AggravatingFactorMaster = () => {
     [menuAnchor, menuRowId]
   );
 
+  /* ============================================================
+      UI
+  ============================================================ */
   return (
     <div className="container mt-8">
       <header className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">
-          Enter Details for Aggravating Factor Master
-        </h2>
-        <p className="text-para">Add or update details for aggravating factor master.</p>
+        <h2 className="text-2xl font-semibold mb-2">Dosage Master</h2>
+        <p className="text-para">Add or update the required details for the dosage type type master to keep records accurate and complete.</p>
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
+          {/* DOSAGE TYPE */}
           <FormControl fullWidth size="small">
-            <label className="form-label">SYMPTOM</label>
-            <Select
-              name="symptom_id"
-              value={aggravatingForm.symptom_id}
-              onChange={handleChange}
-              displayEmpty
-
-              renderValue={(selected) => {
-                if (!selected) {
-                  return <span style={{ color: "#9ca3af", textTransform: 'lowercase' }} >Select SYMPTOM</span>;
-                }
-                return symptomList.find((item) => item._id === selected)?.lookup_value;
-              }}
-            >
-              <MenuItem disabled value="">
-                <em>Select Symptom</em>
-              </MenuItem>
-
-              {symptomList?.map((item) => (
-                <MenuItem key={item._id} value={item._id}>
-                  {item.lookup_value}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl fullWidth size="small">
-            <label className="form-label">AGGRAVATING FACTOR</label>
+            <label className="form-label">Dosage Type</label>
             <TextField
-              name="aggravating_factor"
-              value={aggravatingForm.aggravating_factor}
+              name="dosage_type"
+              value={dosage_master.dosage_type}
               onChange={handleChange}
-              placeholder="Aggravating Factor"
+              placeholder="Dosage Type"
               size="small"
             />
           </FormControl>
@@ -267,7 +236,7 @@ const AggravatingFactorMaster = () => {
 
         <FormButton
           variant="contained"
-          onClick={addAggravatingMaster}
+          onClick={addDosageMaster}
           disabled={isLoading}
         >
           {lookupId ? "Update" : "Submit"}
@@ -280,12 +249,15 @@ const AggravatingFactorMaster = () => {
           columns={columns}
           loading={isLoading}
           disableRowSelectionOnClick
+          disableColumnMenu
           pagination
           pageSizeOptions={[10]}
+          disableSelectionOnClick
         />
+
       </div>
     </div>
   );
 };
 
-export default AggravatingFactorMaster;
+export default DosageMaster;

@@ -13,6 +13,7 @@ const CountryGroupMaster = () => {
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [country_group, setcountry_group] = useState('');
 
   // ✅ New Loading State
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,46 @@ const CountryGroupMaster = () => {
   useEffect(() => {
     getallcountrygroup();
   }, []);
+
+  const add_country_group = async () => {
+    try {
+      const resp = await __postApiData('/api/v1/admin/SaveLookup', {
+        lookup_type: 'country_group_type',
+        parent_lookup_id: null,
+        lookup_value: country_group,
+      });
+
+      if (resp.response.response_code === '200') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Country Group Created',
+          text: 'Country Group Created Successfully...',
+          showConfirmButton: true,
+          customClass: {
+            confirmButton: 'my-swal-button',
+          },
+        }).then(() => {
+          window.location.reload();
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text:
+            resp.response.response_message || 'Something went wrong!',
+          showConfirmButton: true,
+        });
+      }
+    } catch (error) {
+      console.error('❌ API Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Server Error',
+        text: error.message || 'Something went wrong!',
+        showConfirmButton: true,
+      });
+    }
+  };
 
   const handleOpenMenuhospital = (event, rowId) => {
     setMenuAnchor(event.currentTarget);
@@ -117,8 +158,39 @@ const CountryGroupMaster = () => {
 
         {/* form fields */}
         <div className='mt-6'>
-          <div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold mb-2">
+              Enter Details for Country Group Master
+            </h2>
+            <p className="text-para">
+              Add or update the required details for the country group master to keep records accurate and complete.
+            </p>
+          </div>
 
+          <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
+            <div className="form-grid mb-6">
+              <FormControl fullWidth size="small">
+                <label className="form-label">Country Group</label>
+                <TextField
+                  name="country_group"
+                  placeholder="Country Group"
+                  value={country_group}
+                  onChange={(e) => setcountry_group(e.target.value)}
+                  fullWidth
+                  size="small"
+                />
+              </FormControl>
+            </div>
+
+            <FormButton
+              className='submit-button'
+
+              onClick={add_country_group}
+            >
+              Submit
+            </FormButton>
+          </Paper>
+          <div className='mt-6'>
             {/* ✅ Loading added here */}
             <DataGrid
               rows={rowshospital}

@@ -24,6 +24,16 @@ import PatientReferralType from "../pages/admin/country-group-master/PatientRefe
 import SymptomClassMaster from "../pages/admin/country-group-master/SymptomClassMaster";
 import SymptomMaster from "../pages/admin/country-group-master/SymptomMaster";
 import AggravatingFactorMaster from "../pages/admin/country-group-master/AggravatingFactorMaster";
+import PharmaceuticalSaltTypeMaster from "../pages/admin/country-group-master/PharmaceuticalSaltTypeMaster";
+import PharmaceuticalSaltMaster from "../pages/admin/country-group-master/PharmaceuticalSaltMaster";
+import DosageMaster from "../pages/admin/country-group-master/DosageMaster";
+import MedicineFrequencyMaster from "../pages/admin/country-group-master/MedicineFrequencyMaster";
+import TherapyMaster from "../pages/admin/country-group-master/TherapyMaster";
+import ProcedureMaster from "../pages/admin/country-group-master/ProcedureMaster";
+import DiseaseMaster from "../pages/admin/country-group-master/DiseaseMaster";
+import AllergyCategoryMaster from "../pages/admin/country-group-master/AllergyCategoryMaster";
+import AllergyMaster from "../pages/admin/country-group-master/AllergyMaster";
+import TrumaCategoryMaster from "../pages/admin/country-group-master/TrumaCategoryMaster";
 
 
 
@@ -141,6 +151,46 @@ const AdminRoutes = () => (
         <Route
           path="aggravating-factor-master"
           element={<ProtectedRoute><AggravatingFactorMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="pharmaceutical-salt-type-master"
+          element={<ProtectedRoute><PharmaceuticalSaltTypeMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="pharmaceutical-salt-master"
+          element={<ProtectedRoute><PharmaceuticalSaltMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="dosage-master"
+          element={<ProtectedRoute><DosageMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="medicine-frequency-master"
+          element={<ProtectedRoute><MedicineFrequencyMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="therapy-master"
+          element={<ProtectedRoute><TherapyMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="procedure-master"
+          element={<ProtectedRoute><ProcedureMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="disease-master"
+          element={<ProtectedRoute><DiseaseMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="allergy-category-master"
+          element={<ProtectedRoute><AllergyCategoryMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="allergy-master"
+          element={<ProtectedRoute><AllergyMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="truma-category-master"
+          element={<ProtectedRoute><TrumaCategoryMaster /></ProtectedRoute>}
         />
       </Route>
 
