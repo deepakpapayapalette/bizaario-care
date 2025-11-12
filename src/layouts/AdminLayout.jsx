@@ -10,8 +10,7 @@ const AdminLayout = ({ children }) => {
   const [show, setShow] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
 
-  console.log(show, "show sidebar")
-  console.log(collapsed, "collapsed sidebar")
+
 
 
   ///=======Function to show hide drwaer on mobile========///

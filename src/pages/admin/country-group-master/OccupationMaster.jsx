@@ -1,4 +1,3 @@
-// TraumaMaster.jsx
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   TextField,
@@ -15,18 +14,22 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const TraumaMaster = () => {
+const OccupationMaster = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lookupId, setLookupId] = useState(null);
 
-  const [truma_master, setTraumaMaster] = useState({
-    truma_category: null,
-    truma_name: "",
-    explanation: "",
+  const [occupation_master, setOccupationMaster] = useState({
+    occupation_category: [],
+    occupation_name: "",
+    possible_complications: "",
   });
 
-  const [traumaMasterList, setTraumaMasterList] = useState([]);
-  const [traumaCategoryList, setTraumaCategoryList] = useState([]);
+  const [occupationMasterList, setOccupationMasterList] = useState([]);
+  const [occupationCategoryList, setOccupationCategoryList] = useState([]);
+  // console.log(occupationMasterList, "occupationMasterList")
+
+  // console.log(occupationCategoryList, "list")
+
 
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
@@ -45,16 +48,17 @@ const TraumaMaster = () => {
   };
 
   /* ------------------------------------------
-      FETCH TRAUMA MASTER
+      FETCH OCCUPATION MASTER
   ------------------------------------------ */
-  const fetchTraumaMasterList = useCallback(async () => {
+  const fetchOccupationMasterList = useCallback(async () => {
     setIsLoading(true);
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "trauma_master",
+        lookupcodes: "occupation_master",
       });
+      // console.log(resp, "resp")
 
-      setTraumaMasterList(resp?.data || []);
+      setOccupationMasterList(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     } finally {
@@ -63,31 +67,31 @@ const TraumaMaster = () => {
   }, []);
 
   /* ------------------------------------------
-      FETCH TRAUMA CATEGORY
+      FETCH OCCUPATION CATEGORY
   ------------------------------------------ */
-  const fetchTraumaCategories = useCallback(async () => {
+  const fetchOccupationCategories = useCallback(async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList", {
-        lookupcodes: "trauma_category_type",
+        lookupcodes: "occupation_category_type",
       });
 
-      setTraumaCategoryList(resp?.data || []);
+      setOccupationCategoryList(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     }
   }, []);
 
   useEffect(() => {
-    fetchTraumaMasterList();
-    fetchTraumaCategories();
-  }, [fetchTraumaMasterList, fetchTraumaCategories]);
+    fetchOccupationMasterList();
+    fetchOccupationCategories();
+  }, [fetchOccupationMasterList, fetchOccupationCategories]);
 
   /* ------------------------------------------
       FORM INPUT HANDLER
   ------------------------------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTraumaMaster((prev) => ({
+    setOccupationMaster((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -99,10 +103,10 @@ const TraumaMaster = () => {
   const onEdit = (row) => {
     setLookupId(row?._id);
 
-    setTraumaMaster({
-      truma_category: row?.parent_lookup_id,
-      truma_name: row?.lookup_value,
-      explanation: row?.other?.explanation || "",
+    setOccupationMaster({
+      occupation_category: row?.parent_lookup_id,
+      occupation_name: row?.lookup_value,
+      possible_complications: row?.other?.possible_complications || "",
     });
   };
 
@@ -121,15 +125,15 @@ const TraumaMaster = () => {
   /* ------------------------------------------
       ADD / UPDATE
   ------------------------------------------ */
-  const addOrUpdateTrauma = async () => {
+  const addOrUpdateOccupation = async () => {
     setIsLoading(true);
     try {
       const payload = {
         lookup_id: lookupId,
-        lookup_type: "trauma_master",
-        lookup_value: truma_master.truma_name,
-        parent_lookup_id: truma_master.truma_category,
-        other: { explanation: truma_master.explanation },
+        lookup_type: "occupation_master",
+        lookup_value: occupation_master.occupation_name,
+        parent_lookup_id: occupation_master.occupation_category,
+        other: { possible_complications: occupation_master.possible_complications },
       };
 
       const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
@@ -142,13 +146,13 @@ const TraumaMaster = () => {
           customClass: { confirmButton: "my-swal-button" },
         });
 
-        fetchTraumaMasterList();
+        fetchOccupationMasterList();
 
         setLookupId(null);
-        setTraumaMaster({
-          truma_category: null,
-          truma_name: "",
-          explanation: "",
+        setOccupationMaster({
+          occupation_category: null,
+          occupation_name: "",
+          possible_complications: "",
         });
       } else {
         Swal.fire({
@@ -166,22 +170,15 @@ const TraumaMaster = () => {
   /* ------------------------------------------
       DATAGRID ROWS
   ------------------------------------------ */
-  // const rows = useMemo(
-  //   () =>
-  //     traumaMasterList?.map((doc) => ({
-  //       id: doc._id,
-  //       ...doc,
-  //     })),
-  //   [traumaMasterList]
-  // );
-  const rows = traumaMasterList?.map((doc, index) => ({
+  const rows = occupationMasterList?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
     other: doc.other || {},
   }));
 
-
-  /* -----------------------------------------DATAGRID COLUMNS ------------------------------------------ */
+  /* -----------------------------------------
+      DATAGRID COLUMNS
+  ------------------------------------------ */
   const columns = useMemo(
     () => [
       {
@@ -193,19 +190,19 @@ const TraumaMaster = () => {
       },
       {
         field: "parent_lookup_name",
-        headerName: "Trauma Category",
+        headerName: "Occupation Category",
         flex: 1,
       },
       {
         field: "lookup_value",
-        headerName: "Trauma Name",
+        headerName: "Occupation Name",
         flex: 1,
       },
       {
-        field: "explanation",
-        headerName: "Explanation",
+        field: "possible_complications",
+        headerName: "Possible Complications",
         flex: 1,
-        renderCell: (params) => params?.row?.other?.explanation || "",
+        renderCell: (params) => params?.row?.other?.possible_complications || "",
       },
 
       {
@@ -258,9 +255,9 @@ const TraumaMaster = () => {
   return (
     <div className="container mt-8">
       <header className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Trauma Master</h2>
+        <h2 className="text-2xl font-semibold mb-2">Occupation Master</h2>
         <p className="text-para">
-          Add or update trauma master records to maintain structured data.
+          Add or update occupation master records to maintain structured data.
         </p>
       </header>
 
@@ -268,17 +265,17 @@ const TraumaMaster = () => {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
 
           <FormControl fullWidth size="small">
-            <label className="form-label">Trauma Category</label>
+            <label className="form-label">Occupation Category</label>
             <Select
-              name="truma_category"
-              value={truma_master.truma_category}
+              name="occupation_category"
+              value={occupation_master.occupation_category}
               onChange={handleChange}
               displayEmpty
             >
               <MenuItem disabled value="">
                 <em>Select Category</em>
               </MenuItem>
-              {traumaCategoryList?.map((item) => (
+              {occupationCategoryList?.map((item) => (
                 <MenuItem key={item._id} value={item._id}>
                   {item.lookup_value}
                 </MenuItem>
@@ -287,23 +284,23 @@ const TraumaMaster = () => {
           </FormControl>
 
           <FormControl fullWidth size="small">
-            <label className="form-label">Trauma Name</label>
+            <label className="form-label">Occupation Name</label>
             <TextField
-              name="truma_name"
-              value={truma_master.truma_name}
+              name="occupation_name"
+              value={occupation_master.occupation_name}
               onChange={handleChange}
-              placeholder="Trauma Name"
+              placeholder="Occupation Name"
               size="small"
             />
           </FormControl>
 
           <FormControl fullWidth size="small">
-            <label className="form-label">Explanation</label>
+            <label className="form-label">Possible Complications</label>
             <TextField
-              name="explanation"
-              value={truma_master.explanation}
+              name="possible_complications"
+              value={occupation_master.possible_complications}
               onChange={handleChange}
-              placeholder="Explanation"
+              placeholder="Possible Complications"
               size="small"
             />
           </FormControl>
@@ -311,7 +308,7 @@ const TraumaMaster = () => {
 
         <FormButton
           variant="contained"
-          onClick={addOrUpdateTrauma}
+          onClick={addOrUpdateOccupation}
           disabled={isLoading}
         >
           {lookupId ? "Update" : "Submit"}
@@ -333,4 +330,4 @@ const TraumaMaster = () => {
   );
 };
 
-export default TraumaMaster;
+export default OccupationMaster;

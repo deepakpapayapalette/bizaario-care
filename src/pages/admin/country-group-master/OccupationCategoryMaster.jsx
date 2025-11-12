@@ -13,30 +13,30 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const TrumaCategoryMaster = () => {
+const OccupationCategoryMaster = () => {
   const [isLoading, setLoading] = useState(false);
   const [lookup_id, setlookup_id] = useState(null);
 
-  const [truma_category_master, settruma_category_master] = useState({
-    truma_category: "",
+  const [occupation_category_master, setOccupationcategorymaster] = useState({
+    occupation_category: "",
   });
 
-  const [trumaCategoryData, setTrumaCategoryData] = useState([]);
+  const [occupationCategoryData, setOccupationCategoryData] = useState([]);
 
   /* ------------------------------ Fetch List ------------------------------ */
-  const fetchTrumaCategory = async () => {
+  const fetchOccupationCategory = async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "trauma_category_type",
+        lookupcodes: "occupation_category_type",
       });
-      setTrumaCategoryData(resp?.data || []);
+      setOccupationCategoryData(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     }
   };
 
   useEffect(() => {
-    fetchTrumaCategory();
+    fetchOccupationCategory();
   }, []);
 
   /* ------------------------------ Menu Handling ------------------------------ */
@@ -56,7 +56,9 @@ const TrumaCategoryMaster = () => {
   /* ------------------------------ Edit ------------------------------ */
   const onEdit = (row) => {
     setlookup_id(row._id);
-    settruma_category_master({ truma_category: row.lookup_value });
+    setOccupationcategorymaster({
+      occupation_category: row.lookup_value,
+    });
   };
 
   /* ------------------------------ Delete ------------------------------ */
@@ -72,17 +74,17 @@ const TrumaCategoryMaster = () => {
   /* ------------------------------ Input Handler ------------------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    settruma_category_master((prev) => ({ ...prev, [name]: value }));
+    setOccupationcategorymaster((prev) => ({ ...prev, [name]: value }));
   };
 
   /* ------------------------------ Add / Update ------------------------------ */
-  const addTrumaCategory = async () => {
+  const addOccupationCategory = async () => {
     setLoading(true);
     try {
       const payload = {
         lookup_id: lookup_id,
-        lookup_type: "trauma_category_type",
-        lookup_value: truma_category_master.truma_category,
+        lookup_type: "occupation_category_type",
+        lookup_value: occupation_category_master.occupation_category,
       };
 
       const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
@@ -97,9 +99,9 @@ const TrumaCategoryMaster = () => {
           },
         });
 
-        fetchTrumaCategory();
+        fetchOccupationCategory();
         setlookup_id(null);
-        settruma_category_master({ truma_category: "" });
+        setOccupationcategorymaster({ occupation_category: "" });
       } else {
         Swal.fire({
           icon: "error",
@@ -114,7 +116,7 @@ const TrumaCategoryMaster = () => {
   };
 
   /* ------------------------------ Rows ------------------------------ */
-  const rows = trumaCategoryData?.map((doc, index) => ({
+  const rows = occupationCategoryData?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
   }));
@@ -125,11 +127,12 @@ const TrumaCategoryMaster = () => {
       field: "sno",
       headerName: "S.No.",
       width: 80,
-      renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1,
+      renderCell: (params) =>
+        params.api.getAllRowIds().indexOf(params.id) + 1,
     },
     {
       field: "lookup_value",
-      headerName: "Trauma Category",
+      headerName: "Occupation Category",
       flex: 1,
     },
     {
@@ -179,25 +182,33 @@ const TrumaCategoryMaster = () => {
   return (
     <div className="container mt-8">
       <header className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Trauma Category Master</h2>
-        <p className="text-para">Add or update trauma category records.</p>
+        <h2 className="text-2xl font-semibold mb-2">
+          Occupation Category Master
+        </h2>
+        <p className="text-para">
+          Add or update occupation category records.
+        </p>
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <div className="form-grid mb-4">
           <FormControl fullWidth size="small">
-            <label className="form-label">Trauma Category</label>
+            <label className="form-label">Occupation Category</label>
             <TextField
-              name="truma_category"
-              value={truma_category_master.truma_category}
+              name="occupation_category"
+              value={occupation_category_master.occupation_category}
               onChange={handleChange}
-              placeholder="Trauma Category"
+              placeholder="Occupation Category"
               size="small"
             />
           </FormControl>
         </div>
 
-        <FormButton variant="contained" onClick={addTrumaCategory} disabled={isLoading}>
+        <FormButton
+          variant="contained"
+          onClick={addOccupationCategory}
+          disabled={isLoading}
+        >
           {lookup_id ? "Update" : "Submit"}
         </FormButton>
       </Paper>
@@ -217,4 +228,4 @@ const TrumaCategoryMaster = () => {
   );
 };
 
-export default TrumaCategoryMaster;
+export default OccupationCategoryMaster;

@@ -65,6 +65,16 @@ const useAdminSidebarLinks = (role) => {
         { id: "8-13", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/allergy-master", title: "Allergy  Master" },
         { id: "8-14", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/truma-category-master", title: "Truma Category Master" },
         { id: "8-15", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/truma-master", title: "Truma  Master" },
+        { id: "8-16", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/occupation-category-master", title: "Occupation Category Master" },
+        { id: "8-17", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/occupation-master", title: "Occupation  Master" },
+        { id: "8-18", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/habit-category-master", title: "Habit Category Master" },
+        { id: "8-19", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/habit-master", title: "Habit Master" },
+        { id: "8-20", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/reason-referral-master", title: "Reason For Referral Master" },
+        { id: "8-21", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/investigation-category-master", title: "Investigation Category Master" },
+        { id: "8-22", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/investigation-master", title: "Investigation Master" },
+        { id: "8-23", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/diagnosis-master", title: "Diagnosis Master" },
+        { id: "8-24", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/diagnosis-type-master", title: "Diagnosis Type Master" },
+        { id: "8-25", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/lifestyle-intervention-master", title: "Lifestyle Intervention Master" },
 
 
 

@@ -41,7 +41,7 @@ const AdminSidedrawer = ({ show, toggleShow }) => {
       <Collapse in={openMenu === item.id} timeout="auto" unmountOnExit>
         <List
           component="div"
-          className="bg-sidebar-foreground text-white max-h-64 overflow-y-auto hide-scrollbar py-3"
+          className="bg-sidebar-foreground text-white max-h-80 overflow-y-auto hide-scrollbar py-3"
         >
 
           {item.subList.map((child) => {
@@ -72,7 +72,7 @@ const AdminSidedrawer = ({ show, toggleShow }) => {
     () => (
       <Box
         className="bg-sidebar pt-8 text-white h-full overflow-auto"
-        sx={{ width: 250 }}
+        sx={{ width: 280 }}
         role="presentation"
       >
         <List>

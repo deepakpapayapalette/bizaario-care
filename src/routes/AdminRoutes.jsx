@@ -35,6 +35,16 @@ import AllergyCategoryMaster from "../pages/admin/country-group-master/AllergyCa
 import AllergyMaster from "../pages/admin/country-group-master/AllergyMaster";
 import TrumaCategoryMaster from "../pages/admin/country-group-master/TrumaCategoryMaster";
 import TraumaMaster from "../pages/admin/country-group-master/TraumaMaster";
+import OccupationCategoryMaster from "../pages/admin/country-group-master/OccupationCategoryMaster";
+import OccupationMaster from "../pages/admin/country-group-master/OccupationMaster";
+import HabitCategoryMaster from "../pages/admin/country-group-master/HabitCategoryMaster";
+import HabitMaster from "../pages/admin/country-group-master/HabitMaster";
+import ReasonReferralMaster from "../pages/admin/country-group-master/ReasonReferralMaster";
+import InvestigationCategoryMaster from "../pages/admin/country-group-master/InvestigationCategoryMaster";
+import InvestigationMaster from "../pages/admin/country-group-master/InvestigationMaster";
+import DiagnosisMaster from "../pages/admin/country-group-master/DiagnosisMaster";
+import DiagnosisTypeMaster from "../pages/admin/country-group-master/DiagnosisTypeMaster";
+import LifestyleInterventionMaster from "../pages/admin/country-group-master/LifestyleInterventionMaster";
 
 
 // ✅ ProtectedRoute inside same file
@@ -194,6 +204,46 @@ const AdminRoutes = () => (
         <Route
           path="truma-master"
           element={<ProtectedRoute><TraumaMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="occupation-category-master"
+          element={<ProtectedRoute><OccupationCategoryMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="occupation-master"
+          element={<ProtectedRoute><OccupationMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="habit-category-master"
+          element={<ProtectedRoute><HabitCategoryMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="habit-master"
+          element={<ProtectedRoute><HabitMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="reason-referral-master"
+          element={<ProtectedRoute><ReasonReferralMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="investigation-category-master"
+          element={<ProtectedRoute><InvestigationCategoryMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="investigation-master"
+          element={<ProtectedRoute><InvestigationMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="diagnosis-master"
+          element={<ProtectedRoute><DiagnosisMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="diagnosis-type-master"
+          element={<ProtectedRoute><DiagnosisTypeMaster /></ProtectedRoute>}
+        />
+        <Route
+          path="lifestyle-intervention-master"
+          element={<ProtectedRoute><LifestyleInterventionMaster /></ProtectedRoute>}
         />
       </Route>
 

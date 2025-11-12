@@ -13,30 +13,30 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const TrumaCategoryMaster = () => {
+const DiagnosisTypeMaster = () => {
   const [isLoading, setLoading] = useState(false);
   const [lookup_id, setlookup_id] = useState(null);
 
-  const [truma_category_master, settruma_category_master] = useState({
-    truma_category: "",
+  const [diagnosis_type_master, setDiagnosisTypeMaster] = useState({
+    diagnosis_type: "",
   });
 
-  const [trumaCategoryData, setTrumaCategoryData] = useState([]);
+  const [diagnosisData, setDiagnosisData] = useState([]);
 
   /* ------------------------------ Fetch List ------------------------------ */
-  const fetchTrumaCategory = async () => {
+  const fetchDiagnosisType = async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "trauma_category_type",
+        lookupcodes: "diagnosis_type",
       });
-      setTrumaCategoryData(resp?.data || []);
+      setDiagnosisData(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     }
   };
 
   useEffect(() => {
-    fetchTrumaCategory();
+    fetchDiagnosisType();
   }, []);
 
   /* ------------------------------ Menu Handling ------------------------------ */
@@ -56,7 +56,7 @@ const TrumaCategoryMaster = () => {
   /* ------------------------------ Edit ------------------------------ */
   const onEdit = (row) => {
     setlookup_id(row._id);
-    settruma_category_master({ truma_category: row.lookup_value });
+    setDiagnosisTypeMaster({ diagnosis_type: row.lookup_value });
   };
 
   /* ------------------------------ Delete ------------------------------ */
@@ -72,20 +72,20 @@ const TrumaCategoryMaster = () => {
   /* ------------------------------ Input Handler ------------------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    settruma_category_master((prev) => ({ ...prev, [name]: value }));
+    setDiagnosisTypeMaster((prev) => ({ ...prev, [name]: value }));
   };
 
   /* ------------------------------ Add / Update ------------------------------ */
-  const addTrumaCategory = async () => {
+  const addDiagnosisType = async () => {
     setLoading(true);
     try {
       const payload = {
         lookup_id: lookup_id,
-        lookup_type: "trauma_category_type",
-        lookup_value: truma_category_master.truma_category,
+        lookup_type: "diagnosis_type",
+        lookup_value: diagnosis_type_master.diagnosis_type,
       };
 
-      const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
+      const resp = await __postApiData("api/v1/admin/SaveLookup", payload);
 
       if (resp?.response?.response_code === "200") {
         Swal.fire({
@@ -97,9 +97,9 @@ const TrumaCategoryMaster = () => {
           },
         });
 
-        fetchTrumaCategory();
+        fetchDiagnosisType();
         setlookup_id(null);
-        settruma_category_master({ truma_category: "" });
+        setDiagnosisTypeMaster({ diagnosis_type: "" });
       } else {
         Swal.fire({
           icon: "error",
@@ -114,7 +114,7 @@ const TrumaCategoryMaster = () => {
   };
 
   /* ------------------------------ Rows ------------------------------ */
-  const rows = trumaCategoryData?.map((doc, index) => ({
+  const rows = diagnosisData?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
   }));
@@ -129,7 +129,7 @@ const TrumaCategoryMaster = () => {
     },
     {
       field: "lookup_value",
-      headerName: "Trauma Category",
+      headerName: "Diagnosis Type",
       flex: 1,
     },
     {
@@ -179,25 +179,31 @@ const TrumaCategoryMaster = () => {
   return (
     <div className="container mt-8">
       <header className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Trauma Category Master</h2>
-        <p className="text-para">Add or update trauma category records.</p>
+        <h2 className="text-2xl font-semibold mb-2">Diagnosis Type Master</h2>
+        <p className="text-para">
+          Add or update the required details for the diagnosis type master to keep records accurate and complete.
+        </p>
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <div className="form-grid mb-4">
           <FormControl fullWidth size="small">
-            <label className="form-label">Trauma Category</label>
+            <label className="form-label">Diagnosis Type</label>
             <TextField
-              name="truma_category"
-              value={truma_category_master.truma_category}
+              name="diagnosis_type"
+              value={diagnosis_type_master.diagnosis_type}
               onChange={handleChange}
-              placeholder="Trauma Category"
+              placeholder="Diagnosis Type"
               size="small"
             />
           </FormControl>
         </div>
 
-        <FormButton variant="contained" onClick={addTrumaCategory} disabled={isLoading}>
+        <FormButton
+          variant="contained"
+          onClick={addDiagnosisType}
+          disabled={isLoading}
+        >
           {lookup_id ? "Update" : "Submit"}
         </FormButton>
       </Paper>
@@ -217,4 +223,4 @@ const TrumaCategoryMaster = () => {
   );
 };
 
-export default TrumaCategoryMaster;
+export default DiagnosisTypeMaster;

@@ -6,37 +6,55 @@ import {
   Menu,
   Paper,
   IconButton,
+  Select,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import { __postApiData } from "@utils/api";
 import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const TrumaCategoryMaster = () => {
+const HabitMaster = () => {
   const [isLoading, setLoading] = useState(false);
   const [lookup_id, setlookup_id] = useState(null);
 
-  const [truma_category_master, settruma_category_master] = useState({
-    truma_category: "",
+  const [habit_master, setHabitMaster] = useState({
+    habit_name: "",
+    habit_category: "",
+    possible_complications: "",
   });
 
-  const [trumaCategoryData, setTrumaCategoryData] = useState([]);
+  const [habitCategoryOptions, setHabitCategoryOptions] = useState([]);
+  const [habitData, setHabitData] = useState([]);
 
-  /* ------------------------------ Fetch List ------------------------------ */
-  const fetchTrumaCategory = async () => {
+  /* ------------------------------ Fetch Habit List ------------------------------ */
+  const fetchHabitList = async () => {
     try {
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "trauma_category_type",
+        lookupcodes: "habit_master",
       });
-      setTrumaCategoryData(resp?.data || []);
+      setHabitData(resp?.data || []);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  /* ------------------------------ Fetch Habit Category (Dropdown) ------------------------------ */
+  const fetchHabitCategory = async () => {
+    try {
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "habit_category_type",
+      });
+      setHabitCategoryOptions(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
     }
   };
 
   useEffect(() => {
-    fetchTrumaCategory();
+    fetchHabitList();
+    fetchHabitCategory();
   }, []);
 
   /* ------------------------------ Menu Handling ------------------------------ */
@@ -56,7 +74,11 @@ const TrumaCategoryMaster = () => {
   /* ------------------------------ Edit ------------------------------ */
   const onEdit = (row) => {
     setlookup_id(row._id);
-    settruma_category_master({ truma_category: row.lookup_value });
+    setHabitMaster({
+      habit_name: row.lookup_value,
+      habit_category: row.parent_lookup_id,
+      possible_complications: row?.other?.possible_complications || "",
+    });
   };
 
   /* ------------------------------ Delete ------------------------------ */
@@ -72,17 +94,21 @@ const TrumaCategoryMaster = () => {
   /* ------------------------------ Input Handler ------------------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    settruma_category_master((prev) => ({ ...prev, [name]: value }));
+    setHabitMaster((prev) => ({ ...prev, [name]: value }));
   };
 
   /* ------------------------------ Add / Update ------------------------------ */
-  const addTrumaCategory = async () => {
+  const addHabit = async () => {
     setLoading(true);
     try {
       const payload = {
         lookup_id: lookup_id,
-        lookup_type: "trauma_category_type",
-        lookup_value: truma_category_master.truma_category,
+        lookup_type: "habit_master",
+        lookup_value: habit_master.habit_name,
+        parent_lookup_id: habit_master.habit_category,
+        other: {
+          possible_complications: habit_master.possible_complications,
+        },
       };
 
       const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
@@ -97,9 +123,14 @@ const TrumaCategoryMaster = () => {
           },
         });
 
-        fetchTrumaCategory();
+        fetchHabitList();
+
         setlookup_id(null);
-        settruma_category_master({ truma_category: "" });
+        setHabitMaster({
+          habit_name: "",
+          habit_category: "",
+          possible_complications: "",
+        });
       } else {
         Swal.fire({
           icon: "error",
@@ -114,7 +145,7 @@ const TrumaCategoryMaster = () => {
   };
 
   /* ------------------------------ Rows ------------------------------ */
-  const rows = trumaCategoryData?.map((doc, index) => ({
+  const rows = habitData?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
   }));
@@ -129,9 +160,27 @@ const TrumaCategoryMaster = () => {
     },
     {
       field: "lookup_value",
-      headerName: "Trauma Category",
+      headerName: "Habit Name",
       flex: 1,
     },
+    {
+      field: "parent_lookup_id",
+      headerName: "Habit Category",
+      flex: 1,
+      renderCell: (params) => {
+        const val = habitCategoryOptions?.find(
+          (itm) => itm._id === params.value
+        );
+        return val?.lookup_value || "-";
+      },
+    },
+    {
+      field: "possible_complications",
+      headerName: "Possible Complications",
+      flex: 1,
+      renderCell: (params) => params?.row?.other?.possible_complications || "-",
+    },
+
     {
       field: "actions",
       headerName: "Actions",
@@ -179,25 +228,55 @@ const TrumaCategoryMaster = () => {
   return (
     <div className="container mt-8">
       <header className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Trauma Category Master</h2>
-        <p className="text-para">Add or update trauma category records.</p>
+        <h2 className="text-2xl font-semibold mb-2">Habit Master</h2>
+        <p className="text-para">Add or update the required details for the habit master to keep records accurate and complete.</p>
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
-        <div className="form-grid mb-4">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
+          {/* Habit Category */}
           <FormControl fullWidth size="small">
-            <label className="form-label">Trauma Category</label>
-            <TextField
-              name="truma_category"
-              value={truma_category_master.truma_category}
+            <label className="form-label">Habit Category</label>
+            <Select
+              name="habit_category"
+              value={habit_master.habit_category}
               onChange={handleChange}
-              placeholder="Trauma Category"
+              size="small"
+            >
+              {habitCategoryOptions?.map((opt, index) => (
+                <MenuItem key={index} value={opt._id}>
+                  {opt.lookup_value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          {/* Habit Name */}
+          <FormControl fullWidth size="small">
+            <label className="form-label">Habit Name</label>
+            <TextField
+              name="habit_name"
+              value={habit_master.habit_name}
+              onChange={handleChange}
+              placeholder="Habit Name"
+              size="small"
+            />
+          </FormControl>
+
+          {/* Possible Complications */}
+          <FormControl fullWidth size="small">
+            <label className="form-label">Possible Complications</label>
+            <TextField
+              name="possible_complications"
+              value={habit_master.possible_complications}
+              onChange={handleChange}
+              placeholder="Possible Complications"
               size="small"
             />
           </FormControl>
         </div>
 
-        <FormButton variant="contained" onClick={addTrumaCategory} disabled={isLoading}>
+        <FormButton variant="contained" onClick={addHabit} disabled={isLoading}>
           {lookup_id ? "Update" : "Submit"}
         </FormButton>
       </Paper>
@@ -217,4 +296,4 @@ const TrumaCategoryMaster = () => {
   );
 };
 
-export default TrumaCategoryMaster;
+export default HabitMaster;

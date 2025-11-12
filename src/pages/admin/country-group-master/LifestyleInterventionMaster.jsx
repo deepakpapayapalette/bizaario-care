@@ -6,6 +6,7 @@ import {
   Menu,
   Paper,
   IconButton,
+  LinearProgress,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { __postApiData } from "@utils/api";
@@ -13,33 +14,40 @@ import Swal from "sweetalert2";
 import { DataGrid } from "@mui/x-data-grid";
 import FormButton from "../../../components/common/FormButton";
 
-const TrumaCategoryMaster = () => {
-  const [isLoading, setLoading] = useState(false);
+const LifestyleInterventionMaster = () => {
+  /* -------------------------------- States ------------------------------- */
+  const [formLoading, setFormLoading] = useState(false);   // For Submit / Update button
+  const [tableLoading, setTableLoading] = useState(false); // For DataGrid
+
   const [lookup_id, setlookup_id] = useState(null);
 
-  const [truma_category_master, settruma_category_master] = useState({
-    truma_category: "",
-  });
+  const [lifestyle_intervention_master, setLifestyleInterventionMaster] =
+    useState({
+      lifestyle_intervention: "",
+    });
 
-  const [trumaCategoryData, setTrumaCategoryData] = useState([]);
+  const [lifestyleData, setLifestyleData] = useState([]);
 
   /* ------------------------------ Fetch List ------------------------------ */
-  const fetchTrumaCategory = async () => {
+  const fetchLifestyleIntervention = async () => {
     try {
+      setTableLoading(true);
       const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: "trauma_category_type",
+        lookupcodes: "lifestyle_intervention_type",
       });
-      setTrumaCategoryData(resp?.data || []);
+      setLifestyleData(resp?.data || []);
     } catch (error) {
       console.log("Error:", error);
+    } finally {
+      setTableLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchTrumaCategory();
+    fetchLifestyleIntervention();
   }, []);
 
-  /* ------------------------------ Menu Handling ------------------------------ */
+  /* ----------------------------- Menu Handling ---------------------------- */
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
 
@@ -53,13 +61,15 @@ const TrumaCategoryMaster = () => {
     setMenuRowId(null);
   };
 
-  /* ------------------------------ Edit ------------------------------ */
+  /* -------------------------------- Edit ---------------------------------- */
   const onEdit = (row) => {
     setlookup_id(row._id);
-    settruma_category_master({ truma_category: row.lookup_value });
+    setLifestyleInterventionMaster({
+      lifestyle_intervention: row.lookup_value,
+    });
   };
 
-  /* ------------------------------ Delete ------------------------------ */
+  /* ------------------------------- Delete --------------------------------- */
   const onDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -69,20 +79,20 @@ const TrumaCategoryMaster = () => {
     });
   };
 
-  /* ------------------------------ Input Handler ------------------------------ */
+  /* ---------------------------- Input Handler ----------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    settruma_category_master((prev) => ({ ...prev, [name]: value }));
+    setLifestyleInterventionMaster((prev) => ({ ...prev, [name]: value }));
   };
 
-  /* ------------------------------ Add / Update ------------------------------ */
-  const addTrumaCategory = async () => {
-    setLoading(true);
+  /* ----------------------- Add / Update Handler --------------------------- */
+  const addLifestyleIntervention = async () => {
+    setFormLoading(true);
     try {
       const payload = {
         lookup_id: lookup_id,
-        lookup_type: "trauma_category_type",
-        lookup_value: truma_category_master.truma_category,
+        lookup_type: "lifestyle_intervention_type",
+        lookup_value: lifestyle_intervention_master.lifestyle_intervention,
       };
 
       const resp = await __postApiData("/api/v1/admin/SaveLookup", payload);
@@ -97,9 +107,9 @@ const TrumaCategoryMaster = () => {
           },
         });
 
-        fetchTrumaCategory();
+        fetchLifestyleIntervention();
         setlookup_id(null);
-        settruma_category_master({ truma_category: "" });
+        setLifestyleInterventionMaster({ lifestyle_intervention: "" });
       } else {
         Swal.fire({
           icon: "error",
@@ -109,17 +119,17 @@ const TrumaCategoryMaster = () => {
     } catch (error) {
       console.log("API Error:", error);
     } finally {
-      setLoading(false);
+      setFormLoading(false);
     }
   };
 
-  /* ------------------------------ Rows ------------------------------ */
-  const rows = trumaCategoryData?.map((doc, index) => ({
+  /* --------------------------------- Rows --------------------------------- */
+  const rows = lifestyleData?.map((doc, index) => ({
     id: doc._id || index,
     ...doc,
   }));
 
-  /* ------------------------------ Columns ------------------------------ */
+  /* -------------------------------- Columns ------------------------------- */
   const columns = [
     {
       field: "sno",
@@ -129,7 +139,7 @@ const TrumaCategoryMaster = () => {
     },
     {
       field: "lookup_value",
-      headerName: "Trauma Category",
+      headerName: "Lifestyle Intervention",
       flex: 1,
     },
     {
@@ -145,12 +155,7 @@ const TrumaCategoryMaster = () => {
           </IconButton>
 
           {menuRowId === params.row._id && (
-            <Menu
-              anchorEl={menuAnchor}
-              open={Boolean(menuAnchor)}
-              onClose={handleCloseMenu}
-              disableScrollLock
-            >
+            <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleCloseMenu}>
               <MenuItem
                 onClick={() => {
                   onEdit(params.row);
@@ -175,38 +180,43 @@ const TrumaCategoryMaster = () => {
     },
   ];
 
-  /* ------------------------------ UI ------------------------------ */
   return (
     <div className="container mt-8">
+      {/* Page Loader */}
+
+
       <header className="mb-6">
-        <h2 className="text-2xl font-semibold mb-2">Trauma Category Master</h2>
-        <p className="text-para">Add or update trauma category records.</p>
+        <h2 className="text-2xl font-semibold mb-2">Lifestyle Intervention Master</h2>
+        <p className="text-para">
+          Add or update the required lifestyle intervention master to keep records accurate.
+        </p>
       </header>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
         <div className="form-grid mb-4">
           <FormControl fullWidth size="small">
-            <label className="form-label">Trauma Category</label>
+            <label className="form-label">Lifestyle Intervention</label>
             <TextField
-              name="truma_category"
-              value={truma_category_master.truma_category}
+              name="lifestyle_intervention"
+              value={lifestyle_intervention_master.lifestyle_intervention}
               onChange={handleChange}
-              placeholder="Trauma Category"
+              placeholder="Lifestyle Intervention"
               size="small"
             />
           </FormControl>
         </div>
 
-        <FormButton variant="contained" onClick={addTrumaCategory} disabled={isLoading}>
-          {lookup_id ? "Update" : "Submit"}
+        <FormButton variant="contained" onClick={addLifestyleIntervention} disabled={formLoading}>
+          {formLoading ? "Processing..." : lookup_id ? "Update" : "Submit"}
         </FormButton>
       </Paper>
 
       <div className="mt-6">
+        {tableLoading && <LinearProgress />}
         <DataGrid
           rows={rows}
           columns={columns}
-          loading={isLoading}
+          loading={tableLoading}
           disableSelectionOnClick
           pagination
           pageSizeOptions={[10]}
@@ -217,4 +227,4 @@ const TrumaCategoryMaster = () => {
   );
 };
 
-export default TrumaCategoryMaster;
+export default LifestyleInterventionMaster;
