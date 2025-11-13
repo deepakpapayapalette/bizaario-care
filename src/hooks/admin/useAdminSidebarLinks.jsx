@@ -84,8 +84,14 @@ const useAdminSidebarLinks = (role) => {
     { id: "9", icon: <TbDeviceDesktopCog />, label: "Health Profilling Questions", link: "/admindashboard/health-profilling-questions", dock: true },
   ];
   const doctorsAdminLinks = [
-    { id: "1", icon: <LayoutDashboard />, label: "Doctor Dashboard", link: "/doctordashboard", dock: true },
-    { id: "2", icon: <LayoutDashboard />, label: "Doctor Dashboard", link: "/doctordashboard/test", dock: true },
+    { id: "1", icon: <LayoutDashboard />, label: "Dashboard", link: "/doctordashboard", dock: true },
+    { id: "2", icon: <TbDeviceDesktopCog />, label: "Digital CME", link: "/doctordashboard/digital-cme", dock: true },
+    { id: "3", icon: <TbDeviceDesktopCog />, label: "News Article", link: "/doctordashboard/news-article", dock: true },
+    { id: "4", icon: <TbDeviceDesktopCog />, label: "Awards & Recognitions", link: "/doctordashboard/awards-recognitions", dock: true },
+    { id: "5", icon: <TbDeviceDesktopCog />, label: "Patient Testimonials", link: "/doctordashboard/patient-testimonials", dock: true },
+    { id: "6", icon: <TbDeviceDesktopCog />, label: "OPD Surgical Camps", link: "/doctordashboard/opd-srugicla-camps", dock: true },
+    { id: "7", icon: <TbDeviceDesktopCog />, label: "Workshop", link: "/doctordashboard/workshop", dock: true },
+    // { id: "8", icon: <TbDeviceDesktopCog />, label: "Complete Doctor Profileshop", link: "/doctordashboard/complete-doctor-profile", dock: true },
   ];
 
   const hospitalAdminLinks = [

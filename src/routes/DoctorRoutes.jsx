@@ -4,6 +4,13 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout";
 import DoctorDashboard from "../pages/doctor/DoctorDashboard";
 import ErrorPage from "../pages/ErrorPage";
+import DigitalCME from "../pages/doctor/DigitalCME";
+import NewsArticleDoctor from "../pages/doctor/NewsArticleDoctor";
+import AwardsRecognitions from "../pages/doctor/AwardsRecognitions";
+import PatientTestimonials from "../pages/doctor/PatientTestimonials";
+import OpdSurgicalCamps from "../pages/doctor/OpdSurgicalCamps";
+import Workshop from "../pages/doctor/Workshop";
+import CompleteDoctorProfile from "../pages/doctor/CompleteDoctorProfile";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -28,7 +35,13 @@ const DoctorRoutes = () => {
         </ProtectedRoute>
       }>
         <Route index element={<DoctorDashboard />} />
-        {/* <Route path="test" element={<ProtectedRoute><h1>test</h1></ProtectedRoute>} /> */}
+        <Route path="digital-cme" element={<ProtectedRoute><DigitalCME /></ProtectedRoute>} />
+        <Route path="news-article" element={<ProtectedRoute><NewsArticleDoctor /></ProtectedRoute>} />
+        <Route path="awards-recognitions" element={<ProtectedRoute><AwardsRecognitions /></ProtectedRoute>} />
+        <Route path="patient-testimonials" element={<ProtectedRoute><PatientTestimonials /></ProtectedRoute>} />
+        <Route path="opd-srugicla-camps" element={<ProtectedRoute><OpdSurgicalCamps /></ProtectedRoute>} />
+        <Route path="workshop" element={<ProtectedRoute><Workshop /></ProtectedRoute>} />
+        {/* <Route path="complete-doctor-profile" element={<ProtectedRoute><CompleteDoctorProfile /></ProtectedRoute>} /> */}
 
 
         {/* Catch-all */}
