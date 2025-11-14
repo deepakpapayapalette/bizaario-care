@@ -10,9 +10,9 @@ function Bankdetails() {
       <div className="flex justify-start mb-6 border-gray-200 rounded-lg overflow-auto">
         <button
           onClick={() => setprofile_sub_tab("Bank Details")}
-          className={`px-2 md:px-4 py-3 rounded-tl-[10px] bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Bank Details"
-              ? "underline webprimary"
-              : "text-webprimary"
+          className={`px-2 md:px-4 py-3 rounded-tl-[10px] bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Bank Details"
+            ? "underline webprimary"
+            : "text-webprimary"
             }`}
         >
           Bank Details

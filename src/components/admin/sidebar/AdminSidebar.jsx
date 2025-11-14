@@ -22,6 +22,7 @@ const AdminSidebar = ({ show, toggleDrawer }) => {
     // logout();
     localStorage.removeItem('user')
     localStorage.removeItem('token')
+    localStorage.clear();
     toast.success("Logout successfully");
     window.location.href = "/";
   }

@@ -13,7 +13,7 @@ function Specialties() {
         {/* Medical Specialties Tab */}
         <button
           onClick={() => setprofile_sub_tab("Medical Specialties")}
-          className={`px-2 md:px-4 py-3 rounded-tl-[10px] bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Medical Specialties"
+          className={`px-2 md:px-4 py-3 rounded-tl-[10px] bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Medical Specialties"
             ? "underline webprimary"
             : "text-webprimary"
             }`}
@@ -24,7 +24,7 @@ function Specialties() {
         {/* Treatment Package Tab */}
         <button
           onClick={() => setprofile_sub_tab("Treatment Package")}
-          className={`px-2 md:px-4 py-3 bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Treatment Package"
+          className={`px-2 md:px-4 py-3 bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Treatment Package"
             ? "underline webprimary"
             : "text-webprimary"
             }`}
@@ -35,7 +35,7 @@ function Specialties() {
         {/* Fees & Charge Tab */}
         <button
           onClick={() => setprofile_sub_tab("Fees & Charge")}
-          className={`px-2 md:px-4 py-3 rounded-tr-[10px] bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Fees & Charge"
+          className={`px-2 md:px-4 py-3 rounded-tr-[10px] bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Fees & Charge"
             ? "underline webprimary"
             : "text-webprimary"
             }`}

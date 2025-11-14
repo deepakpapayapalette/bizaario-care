@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Radio, FormControlLabel, RadioGroup, FormLabel } from '@mui/material';
-// import api from '../../../../api'
+import { __postApiData, __putApiData, __getApiData } from '@utils/api';
 import Swal from 'sweetalert2';
+import UniqueLoader from '../../../../components/common/UniqueLoader';
 // import UniqueLoader from '../../../loader';
 
 export default function ContactInformation() {
@@ -23,14 +24,14 @@ export default function ContactInformation() {
   const save_contact_information = async () => {
     setisloading_for(true)
     try {
-      const resp = await api.put(
-        `api/v1/asset-sections/contact-info/${doctor_details._id}`,
+      const resp = await __putApiData(
+        `/api/v1/asset-sections/contact-info/${doctor_details._id}`,
         contact_details,
-        { headers: { "Content-Type": "application/json" } }
+        // { headers: { "Content-Type": "application/json" } }
       );
 
       // Check response_code instead of HTTP status
-      if (resp.data?.response?.response_code === "200") {
+      if (resp.response?.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Details Updated",
@@ -41,8 +42,8 @@ export default function ContactInformation() {
           window.location.reload();
         });
       } else {
-        const errType = resp.data?.response?.response_message?.errorType || "Error";
-        const errMsg = resp.data?.response?.response_message?.error || "Something went wrong";
+        const errType = resp.response?.response_message?.errorType || "Error";
+        const errMsg = resp.response?.response_message?.error || "Something went wrong";
 
         Swal.fire({
           icon: "error",
@@ -73,9 +74,9 @@ export default function ContactInformation() {
 
   const get_online_clinic = async () => {
     try {
-      const resp = await api.get(`api/v1/asset-sections/contact-info/${doctor_details._id}`)
-      if (resp.data?.data) {
-        const { _id, ...rest } = resp.data.data;
+      const resp = await __getApiData(`/api/v1/asset-sections/contact-info/${doctor_details._id}`)
+      if (resp.data) {
+        const { _id, ...rest } = resp.data;
         setcontact_details(rest);
       }
     } catch (error) {

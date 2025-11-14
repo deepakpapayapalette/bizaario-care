@@ -43,18 +43,23 @@ const Login = () => {
           Email: values.email,
           Password: values.password,
         });
+        console.log(resp, "login page 46");
 
         Swal.fire({
           icon: "success",
           title: "Login Successful",
           text: resp.data.message || "Welcome!",
           showConfirmButton: true,
+          timer: 1000
         });
 
         localStorage.setItem("token", resp.data.data.token);
         localStorage.setItem(
           "user",
-          JSON.stringify({ ...resp.data.data.user, role: resp.data.data.user.IsAdmin ? "Super Admin" : resp.data?.data?.user?.Entity?.AssetCategoryLevel1?.lookup_value } || {})
+          JSON.stringify({
+            ...resp.data.data.user.Entity,
+            role: resp.data.data.user.IsAdmin ? "Super Admin" : resp.data?.data?.user?.Entity?.AssetCategoryLevel1?.lookup_value
+          } || {})
         );
         localStorage.setItem("main_user", JSON.stringify(resp.data.data.user));
 

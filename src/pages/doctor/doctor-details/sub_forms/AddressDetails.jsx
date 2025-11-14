@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Radio, FormControlLabel, RadioGroup, FormLabel } from '@mui/material';
-import { __postApiData } from '@utils/api';
+import { __postApiData, __putApiData } from '@utils/api';
+import api from '../../../../api'
 import Swal from 'sweetalert2';
+import { __getApiData } from '../../../../utils/api';
 
 
 export default function AddressDetails() {
@@ -26,10 +28,10 @@ export default function AddressDetails() {
   const save_address = async () => {
     setisloading_for(true)
     try {
-      const resp = await __postApiData(`/api/v1/asset-sections/address/${doctor_details._id}`, address,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+      const resp = await __putApiData(`/api/v1/asset-sections/address/${doctor_details._id}`, address,
+        // {
+        //   headers: { "Content-Type": "application/json" },
+        // }
       )
       if (resp.status === 200) {
         console.log(resp, "resp");
@@ -69,7 +71,7 @@ export default function AddressDetails() {
 
   const get_address_details = async () => {
     try {
-      const resp = await __postApiData(`/api/v1/asset-sections/address/${doctor_details._id}`)
+      const resp = await __getApiData(`/api/v1/asset-sections/address/${doctor_details._id}`)
       if (resp.data) {
         const { _id, ...rest } = resp.data;
         setaddress(rest);
@@ -161,7 +163,7 @@ export default function AddressDetails() {
         </div>
 
 
-        {isloading_for && (
+        {/* {isloading_for && (
           <div
             style={{
               position: 'fixed',
@@ -175,7 +177,7 @@ export default function AddressDetails() {
           >
             <UniqueLoader />
           </div>
-        )}
+        )} */}
 
       </div>
 

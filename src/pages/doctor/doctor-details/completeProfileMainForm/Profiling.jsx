@@ -12,7 +12,7 @@ function Profiling() {
         {/* Asset Profile Tab */}
         <button
           onClick={() => setprofile_sub_tab("Asset Profile")}
-          className={`px-2 md:px-4 py-3 rounded-tl-[10px] bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Asset Profile"
+          className={`px-2 md:px-4 py-3 rounded-tl-[10px] bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Asset Profile"
             ? "underline webprimary"
             : "text-webprimary"
             }`}
@@ -23,7 +23,7 @@ function Profiling() {
         {/* Social Media Assets Tab */}
         <button
           onClick={() => setprofile_sub_tab("Social Media Asset")}
-          className={`px-2 md:px-4 py-3 bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Social Media Asset"
+          className={`px-2 md:px-4 py-3 bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Social Media Asset"
             ? "underline webprimary"
             : "text-webprimary"
             }`}
@@ -34,7 +34,7 @@ function Profiling() {
         {/* Contact Details Tab */}
         <button
           onClick={() => setprofile_sub_tab("Contact Details")}
-          className={`px-2 md:px-4 py-3 rounded-tr-[10px] bg-[rgba(189,196,212,0.3)] text-center font-lora text-[18px] font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Contact Details"
+          className={`px-2 md:px-4 py-3 rounded-tr-[10px] bg-[rgba(189,196,212,0.3)] text-center montserrat font-semibold leading-normal whitespace-nowrap transition-all duration-200 ${profile_sub_tab === "Contact Details"
             ? "underline webprimary"
             : "text-webprimary"
             }`}

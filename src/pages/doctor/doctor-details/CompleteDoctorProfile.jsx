@@ -84,26 +84,26 @@ const CompleteDoctorProfile = () => {
 
   const formSections = {
     "Clinic Details": <ClinicDetailsForm />,
-    Profiling: <Profiling />,
+    "Profiling": <Profiling />,
     "Specialties & Charge": <Specialties />,
     "Bank Details": <BankDetails />,
     "Clinic Schedule": <ClinicSchedule />,
   };
 
-  const previewSections = [
-    "Incorporative Details",
-    "Hospital Size",
-    "Address",
-    "Assets Profile",
-    "Social Media Assets",
-    "Contact Details",
-    "Medical Specialties",
-    "Treatment Package",
-    "Fee & Charge",
-    "Bank Details",
-    "OPD Schedule",
-    "Online Clinic",
-  ];
+  // const previewSections = [
+  //   "Incorporative Details",
+  //   "Hospital Size",
+  //   "Address",
+  //   "Assets Profile",
+  //   "Social Media Assets",
+  //   "Contact Details",
+  //   "Medical Specialties",
+  //   "Treatment Package",
+  //   "Fee & Charge",
+  //   "Bank Details",
+  //   "OPD Schedule",
+  //   "Online Clinic",
+  // ];
 
   return (
     <div className="container my-8 ">
@@ -116,12 +116,12 @@ const CompleteDoctorProfile = () => {
           <h2 className="font-semibold text-xl">
             {assetCategory === "Hospital" ? "Hospital's Profiling" : "Doctor's Profiling"}
           </h2>
-          <button
+          {/* <button
             onClick={() => setShowPreview(true)}
             className="flex items-center gap-2 py-2 px-5 rounded-md border border-[#52677D] text-[#52677D] text-sm font-medium"
           >
             <FaEye /> Preview
-          </button>
+          </button> */}
         </div>
 
         <div className="flex gap-2 overflow-x-auto pb-4">
@@ -142,7 +142,7 @@ const CompleteDoctorProfile = () => {
       </div>
 
       {/* Preview Drawer */}
-      {showPreview && (
+      {/* {showPreview && (
         <>
           <div className="fixed inset-0 z-40 bg-black/40" onClick={() => setShowPreview(false)} />
           <div
@@ -171,7 +171,7 @@ const CompleteDoctorProfile = () => {
             </div>
           </div>
         </>
-      )}
+      )} */}
     </div>
   );
 };
