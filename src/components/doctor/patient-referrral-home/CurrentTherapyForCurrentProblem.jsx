@@ -3,11 +3,12 @@ import React from 'react';
 import { Plus, Edit } from 'lucide-react';
 import { useEffect, useState } from 'react'
 import { TextField, Select, MenuItem, FormControl, Button, } from '@mui/material';
-import api from '../../../../../api'
+import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 import Swal from 'sweetalert2';
-import UniqueLoader from '../../../../loader';
-import { customMenuProps } from '../../../../../utils/mui_select_scroll_bar';
-import { Modal, } from 'react-bootstrap';
+// import UniqueLoader from '../../../../loader';
+// import { customMenuProps } from '../../../../../utils/mui_select_scroll_bar';
+// import { Modal, } from 'react-bootstrap';
+import UniqueLoader from '../../common/UniqueLoader';
 
 
 

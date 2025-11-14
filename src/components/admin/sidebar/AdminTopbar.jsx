@@ -63,9 +63,9 @@ const AdminTopbar = ({ toggleShow }) => {
           <input
             type="text"
             placeholder="Search..."
-            className="flex-grow px-3 py-3 bg-transparent text-gray-700 outline-none"
+            className="flex-grow px-3  bg-transparent text-gray-700 outline-none"
           />
-          <button className="bg-webprimary px-3 flex items-center justify-center">
+          <button className="bg-webprimary px-3 py-3 flex items-center justify-center" >
             <Search className="text-white" size={20} />
           </button>
         </div>

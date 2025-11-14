@@ -2,18 +2,19 @@
 import React from 'react';
 import { Plus, Edit } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react'
-import { TextField, Select, MenuItem, FormControl, Button, } from '@mui/material';
-import api from '../../../../../api'
+import { TextField, Select, MenuItem, FormControl, Button, Dialog, } from '@mui/material';
+// import api from '../../../api'
+import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 import Swal from 'sweetalert2';
-import UniqueLoader from '../../../../loader';
-import { customMenuProps } from '../../../../../utils/mui_select_scroll_bar';
-import { Modal, } from 'react-bootstrap';
+// import UniqueLoader from '../../../../loader';
+// import { customMenuProps } from '../../../../../utils/mui_select_scroll_bar';
+// import { Modal, } from 'react-bootstrap';
+import UniqueLoader from '../../common/UniqueLoader';
+import { customMenuProps } from '../../../utils/CustomMenuProps';
 
 
 
 const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_file_data, onRefresh }) => {
-
-
   const doctordetails = JSON.parse(localStorage.getItem("user"))
 
 
@@ -195,8 +196,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
   const [all_symptom_class_master, setall_symptom_class_master] = useState([])
   const getall_symptom_class_master = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "symptom_class_type" })
-      setall_symptom_class_master(resp.data.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "symptom_class_type" })
+      setall_symptom_class_master(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -229,7 +230,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
     if (!selectedSymptomClass || selectedSymptomClass.length === 0) return;
 
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', {
+      const resp = await __postApiData('/api/v1/admin/LookupList/', {
         lookupcodes: "symptom_master",
         parent_lookup_id: selectedSymptomClass, // send array or first ID
       });
@@ -259,8 +260,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
   const [allaggravating_master, setallaggravating_master] = useState([])
   const getall_aggravating_master = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "aggravating_factor_master" })
-      setallaggravating_master(resp.data.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "aggravating_factor_master" })
+      setallaggravating_master(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -278,8 +279,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
   const [all_unit_list, setall_unit_list] = useState([])
   const getall_unitlist = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "duration_unit_type" })
-      setall_unit_list(resp.data.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "duration_unit_type" })
+      setall_unit_list(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -309,12 +310,10 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
       }
 
 
-      const resp = await api.post(
-        `api/v1/admin/medical-history/chief-complaints/add-multiple`,
+      const resp = await __postApiData(
+        `/api/v1/admin/medical-history/chief-complaints/add-multiple`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+
       );
 
 
@@ -368,29 +367,35 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
 
   const [patient_all_cheif_complaints, setpatient_all_cheif_complaints] = useState([])
 
-  const getall_patient_medical_history = async () => {
-    try {
-      //  setLoadingSpeciality(true);
-      const resp = await api.get(`api/v1/admin/medical-history/list?PatientId=${patientId}&Status=Ongoing`);
-
-      const formatted = resp.data.data.list.map(item => ({
-        caseFileId: item.CaseFileId,
-        complaints: item.ChiefComplaints
-      }));
-      setpatient_all_cheif_complaints(formatted);
 
 
 
-    } catch (error) {
-      console.error(error);
-    } finally {
-      //  setLoadingSpeciality(false);
-    }
-  };
 
-  useEffect(() => {
-    getall_patient_medical_history()
-  }, [])
+  // const getall_patient_medical_history = async () => {
+  //   try {
+  //     const resp = await __getApiData(
+  //       `/ api / v1 / admin / medical - history / list ? PatientId = ${patientId} & Status=Ongoing`
+  //     );
+
+  //     const list = resp?.data?.list || [];
+
+  //     const formatted = list.map(item => ({
+  //       caseFileId: item.CaseFileId,
+  //       complaints: item.ChiefComplaints,
+  //     }));
+
+  //     setpatient_all_cheif_complaints(formatted);
+
+  //   } catch (error) {
+  //     console.error("Error fetching medical history:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getall_patient_medical_history();
+  // }, []);
+
+
 
 
   //========================== modal open or close start==========================================
@@ -500,15 +505,16 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
       }
 
 
-      const resp = await api.put(
-        `api/v1/admin/medical-history/chief-complaints/edit-multiple`,
+      const resp = await __putApiData(
+        `/api/v1/admin/medical-history/chief-complaints/edit-multiple`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        // {
+        //   headers: { "Content-Type": "application/json" },
+        // }
       );
 
-      const { response_code, response_message } = resp.data.response;
+
+      const { response_code, response_message } = resp.response;
 
       if (response_code === "200") {
         Swal.fire({
@@ -578,13 +584,14 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
         ...medical_case_file,
         PatientId: patientId
       }
-      const resp = await api.post(
-        `api/v1/admin/patientCaseFile/savepatientCaseFile`,
+      const resp = await __postApiData(
+        `/api/v1/admin/patientCaseFile/savepatientCaseFile`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        // {
+        //   headers: { "Content-Type": "application/json" },
+        // }
       );
+
 
 
 
@@ -681,8 +688,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
     case_file_data[0]?.ChiefComplaints?.map((item, index) => (
       <div
         key={item.id}
-        className={`grid grid-cols-4 gap-4 p-4 ${
-          index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
+        className={`grid grid - cols - 4 gap - 4 p - 4 ${
+        index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
         }`}
       >
         <div className="text-sm text-gray-900 font-medium table-body">
@@ -729,8 +736,9 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
               {caseFile.complaints.map((item, index) => (
                 <div
                   key={index}
-                  className={`grid grid-cols-4 gap-4 p-4 ${index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
-                    }`}
+                  className={`grid grid - cols - 4 gap - 4 p - 4 ${
+      index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
+    } `}
                 >
                   {/* Chief Complaints Symptoms */}
 
@@ -770,25 +778,27 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
         </p>
       </div>
 
-
-      <Modal show={show} onHide={handleClose} centered size="lg">
-
-        <Modal.Header closeButton>
-          <Modal.Title className='form-title'>Add Medical History(Chief Complaints) </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-
+      <Dialog
+        open={show}
+        onClose={handleClose}
+        fullWidth
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            width: "1000px",
+            maxWidth: "1200px",
+            padding: "20px",
+          }
+        }}
+      >
+        <div>
+          <h2 className='text-2xl mb-2 '>Add Medical History(Chief Complaints)</h2>
           <div>
-
+            {/*======================== chief complaints============================================ */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
-
-              {/*======================== chief complaints============================================ */}
-
               <div className='col-span-2'>
                 <h5 className='form-title'>Chief Complaints</h5>
                 {medical_history.ChiefComplaints.map((details, index) => (
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
 
                     <div className="col-span-2">
@@ -801,8 +811,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                               <span
                                 key={item._id}
                                 onClick={() => handleSymptomClassClick(item._id)}
-                                className={`px-3 py-1 text-sm rounded-md cursor-pointer flex items-center gap-2
-              ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'}`}
+                                className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
+              ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -822,9 +832,6 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                         </div>
                       </FormControl>
                     </div>
-
-
-
                     <div className="col-span-2">
                       <FormControl fullWidth size="small">
                         <label className="form-label">Compliant </label>
@@ -835,8 +842,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                               <span
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "Symptoms", item._id)}
-                                className={`px-3 py-1 text-sm rounded-md cursor-pointer flex items-center gap-2
-                                        ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'}`}
+                                className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
+                                        ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -856,9 +863,6 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                         </div>
                       </FormControl>
                     </div>
-
-
-
 
                     <div className="col-span-2">
                       <FormControl fullWidth size="small">
@@ -870,8 +874,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                               <span
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "AggravatingFactors", item._id)}
-                                className={`px-3 py-1 text-sm rounded-md cursor-pointer flex items-center gap-2
-                          ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'}`}
+                                className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
+                          ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -891,8 +895,6 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                         </div>
                       </FormControl>
                     </div>
-
-
 
                     <FormControl fullWidth size="small">
                       <label className="form-label">Duration</label>
@@ -952,22 +954,11 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
 
 
                     </div>
-
                   </div>
-
-
-
                 ))}
-
               </div>
-
             </div>
-
-
-
             <div className="flex justify-end mt-4">
-
-
               <Button
                 style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }}
                 onClick={save_chif_complaints}
@@ -975,33 +966,36 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                 Save
               </Button>
             </div>
-
-
           </div>
+        </div>
+      </Dialog>
 
-        </Modal.Body>
 
-
-      </Modal>
 
 
 
       {/* ====================================edit modal ============================================*/}
 
-
-      <Modal show={showEdit} onHide={handleCloseEdit} centered size="lg">
-
-        <Modal.Header closeButton>
-          <Modal.Title className='form-title'>Edit Medical History(Chief Complaints) </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-
+      <Dialog
+        open={showEdit}
+        onClose={handleCloseEdit}
+        fullWidth
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            width: "1000px",
+            maxWidth: "1200px",
+            padding: "20px",
+          }
+        }}
+      >
+        <div>
+          <h2 className='text-2xl mb-2'>Edit Medical History(Chief Complaints)</h2>
           <div>
 
+            {/*======================== chief complaints============================================ */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
 
-              {/*======================== chief complaints============================================ */}
 
               <div className='col-span-2'>
                 <h5 className='form-title'>Chief Complaints</h5>
@@ -1019,8 +1013,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                               <span
                                 key={item._id}
                                 onClick={() => handleSymptomClassClick(item._id)}
-                                className={`px-3 py-1 text-sm rounded-md cursor-pointer flex items-center gap-2
-              ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'}`}
+                                className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
+              ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -1053,8 +1047,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                               <span
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "Symptoms", item._id)}
-                                className={`px-3 py-1 text-sm rounded-md cursor-pointer flex items-center gap-2
-                                        ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'}`}
+                                className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
+                                        ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -1088,8 +1082,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                               <span
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "AggravatingFactors", item._id)}
-                                className={`px-3 py-1 text-sm rounded-md cursor-pointer flex items-center gap-2
-                          ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'}`}
+                                className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
+                          ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -1196,11 +1190,10 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
 
 
           </div>
+        </div>
 
-        </Modal.Body>
+      </Dialog>
 
-
-      </Modal>
 
       {isloading && (
         <div
@@ -1217,9 +1210,6 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
           <UniqueLoader />
         </div>
       )}
-
-
-
     </div>
   );
 }

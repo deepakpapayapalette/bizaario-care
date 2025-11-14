@@ -18,7 +18,7 @@ const ProfileCard1 = (selected_patient_details) => {
   return (
     <div className="h-full flex flex-col">
 
-      <h4>Patient ID:{PatientDetails?.PatientId ? PatientDetails.PatientId : "N/A"}</h4>
+      <h1 className=' text-md'>Patient ID:{PatientDetails?.PatientId ? PatientDetails.PatientId : "N/A"}</h1>
 
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2, height: "100%" }} >
         <div className="bg-white">

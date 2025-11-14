@@ -1,13 +1,12 @@
 import React from 'react';
 import { Plus, Edit } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react'
-import { Modal, } from 'react-bootstrap';
+// import { Modal, } from 'react-bootstrap';
 import { TextField, Select, MenuItem, FormControl, Button, } from '@mui/material';
-
-import api from '../../../../../api'
+// import api from '../../../../../api'
 import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 import Swal from 'sweetalert2';
-import UniqueLoader from '../../../../loader';
+// import UniqueLoader from '../../../../loader';
 import ChiefComplaintsForCurrentProblem from './ChiefComplaintsForCurrentProblem';
 import CurrentTherapyForCurrentProblem from './CurrentTherapyForCurrentProblem';
 import DiagnosticsInvestigationsForCurrentProblem from './DiagnosticsInvestigationsForCurrentProblem';
@@ -57,8 +56,8 @@ const CurrentProblemMain = ({ patientId, selected_case_file }) => {
   const getcase_filedetails = async () => {
     try {
 
-      const resp = await api.get(`api/v1/admin/medical-history/list?CaseFileId=${selected_case_file}`)
-      setcase_file_data(resp?.data?.data?.list || []);
+      const resp = await __getApiData(`/api/v1/admin/medical-history/list?CaseFileId=${selected_case_file}`)
+      setcase_file_data(resp?.data?.list || []);
 
     } catch (error) {
       console.log(error);
@@ -169,7 +168,7 @@ const CurrentProblemMain = ({ patientId, selected_case_file }) => {
             />
           </div>
 
-          <div className="card-details">
+          {/* <div className="card-details">
             <CurrentMedicinesForCurrentProblem
               key={refreshKeys.currentmedicine}
               onRefresh={() => handleComponentRefresh("currentmedicine")}
@@ -197,7 +196,7 @@ const CurrentProblemMain = ({ patientId, selected_case_file }) => {
               selected_case_file={selected_case_file}
               case_file_data={case_file_data}
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

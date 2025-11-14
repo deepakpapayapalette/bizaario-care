@@ -915,10 +915,11 @@ const AwardsRecognitions = () => {
           </div>
 
           {/* Submit Button */}
-          <Button
+          <button
             onClick={__handleSaveContent}
             disabled={isLoading}
-            className="submit-button"
+            className="theme-btn-fill min-w-[160px]"
+
           >
             {isLoading ? (
               <CircularProgress size={24} color="inherit" />
@@ -927,7 +928,7 @@ const AwardsRecognitions = () => {
             ) : (
               "Save Content"
             )}
-          </Button>
+          </button>
         </Paper>
 
         <div className=" mt-6">

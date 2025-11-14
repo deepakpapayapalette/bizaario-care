@@ -33,11 +33,12 @@ const PatientReferral = () => {
   const navigate = useNavigate();
 
   const [patient_details, setpatient_details] = useState("");
+  // console.log(patient_details, "patient_details")
 
   const get_patient_details = async () => {
     try {
       const resp = await __getApiData(`/api/v1/admin/getPatientbyphonenumber/${inputValue}`);
-      console.log(resp);
+      // console.log(resp, "40");
 
       if (resp.response.response_code !== "200") {
         Swal.fire({
@@ -520,10 +521,11 @@ const PatientReferral = () => {
             <div className="p-6">
               <div className="flex flex-col gap-4 lg:flex-row">
                 <Paper
-                  elevation={3}
-                  sx={{ p: 2, borderRadius: 2 }}
+                  elevation={0}
+
                   className="w-full"
                 >
+
                   <div className="flex flex-col w-full gap-4 lg:flex-row">
                     <div className="flex-1">
                       <ProfileCard1 patient_details={patient_details} />
