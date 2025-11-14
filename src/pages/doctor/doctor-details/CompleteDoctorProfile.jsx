@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FaEye } from "react-icons/fa";
 
-import ClinicDetailsForm from "./completeProfileMainForm/clinic_details_forms";
+
 import Profiling from "./completeProfileMainForm/Profiling";
 import Specialties from "./completeProfileMainForm/Specialties";
 import ClinicSchedule from "./completeProfileMainForm/ClinicSchedule";
 import BankDetails from "./sub_forms/BankDetails";
+import ClinicDetailsForm from "./completeProfileMainForm/ClinicDetailsForm";
 
 const TabButton = ({ step, label, active, onClick }) => (
   <div className="">

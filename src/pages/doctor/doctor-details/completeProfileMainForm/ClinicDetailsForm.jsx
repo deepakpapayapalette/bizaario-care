@@ -7,7 +7,7 @@ import HospitalSizeDetails from "../sub_forms/HospitalSizeDetails";
 import AddressDetails from "../sub_forms/AddressDetails";
 //
 
-function Clinic_details_forms() {
+function ClinicDetailsForm() {
   const [clinic_details_sub_tab, setclinic_details_sub_tab] = useState(
     "Incorporative Details"
   );
@@ -104,4 +104,4 @@ function Clinic_details_forms() {
   );
 }
 
-export default Clinic_details_forms;
+export default ClinicDetailsForm;
