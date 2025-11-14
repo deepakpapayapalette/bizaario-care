@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import ProfileCard1 from '../../components/doctor/patient-referral/ProfileCard1';
 import ProfileCard2 from '../../components/doctor/patient-referral/ProfileCard2';
+import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 
 const PatientReferral = () => {
   const [selectedOption, setSelectedOption] = useState("mobile");
@@ -35,12 +36,10 @@ const PatientReferral = () => {
 
   const get_patient_details = async () => {
     try {
-      const resp = await api.get(
-        `api/v1/admin/getPatientbyphonenumber/${inputValue}`
-      );
+      const resp = await __getApiData(`/api/v1/admin/getPatientbyphonenumber/${inputValue}`);
       console.log(resp);
 
-      if (resp.data.response.response_code !== "200") {
+      if (resp.response.response_code !== "200") {
         Swal.fire({
           icon: "error",
           title: "Not Found",
@@ -55,7 +54,7 @@ const PatientReferral = () => {
         });
         return false; // ❌ not found
       }
-      setpatient_details(resp.data.data);
+      setpatient_details(resp.data);
       return true;
     } catch (error) {
       console.log(error);
@@ -547,23 +546,24 @@ const PatientReferral = () => {
                   <div className="flex gap-4 ">
                     <button
                       onClick={() =>
-                        navigate("/patient-referral-home", {
+                        navigate("/doctordashboard/patient-referral-home", {
                           state: { patient_details },
                         })
                       }
-                      className={`px-6 py-3 rounded-lg font-medium text-[var(--primary-color)] transition-colors border-[var(--primary-color)]  border-2 hover:bg-[var(--primary-color)] cursor-pointer
-                      hover:text-white
-                      w-[140px]
+                      className={`theme-btn-ouline
                    `}
                     >
-                      Edit
+                      <div className='px-10'>
+
+                        Edit
+                      </div>
                     </button>
                     <button
-                      className={`px-6 py-3 rounded-lg font-medium text-white transition-colors bg-[var(--primary-color)] hover:bg-slate-700 cursor-pointer
-                      w-[140px]
-                   `}
+                      className={`theme-btn-fill `}
                     >
-                      Preview
+                      <div className='px-10'>
+                        Preview
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -604,8 +604,8 @@ const PatientReferral = () => {
             <> </>
           )}
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 

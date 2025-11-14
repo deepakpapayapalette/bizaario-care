@@ -388,16 +388,12 @@ export default function TreatmentPackages() {
             Add More
           </Button>
 
-          <Button
-            style={{
-              backgroundColor: "#52677D",
-              color: "white",
-              fontFamily: "Lora",
-            }}
-            onClick={save_treatement_packages}
-          >
-            Save
-          </Button>
+
+          <button onClick={save_treatement_packages} className="theme-btn-fill">
+            <div className="px-10">
+              Save
+            </div>
+          </button>
         </div>
       </div>
 

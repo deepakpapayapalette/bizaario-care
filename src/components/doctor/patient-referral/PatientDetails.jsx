@@ -414,12 +414,8 @@ const PatientDetails = (patientId) => {
         <Modal.Header closeButton>
           <Modal.Title>Add Patient Details</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-
-
+        <Modal.Body> 
           <div >
-
-
             <Box sx={{ position: 'relative', display: 'inline-block', minWidth: 100, height: 100, marginLeft: "40%" }}>
               <Avatar
                 src={patient_details.ProfilePic}

@@ -3,6 +3,8 @@ import { Calendar, MapPin } from 'lucide-react';
 // import user1 from '../assets/images/user1.svg';
 import { Paper } from '@mui/material';
 // import patientdefaultimage from '../../AllSubForms/assets/images/patient default image.png'
+import { FaUser } from "react-icons/fa6";
+import image from '@assets/images/admin/doctor/patient.png';
 const ProfileCard1 = (selected_patient_details) => {
 
 
@@ -37,7 +39,7 @@ const ProfileCard1 = (selected_patient_details) => {
             <div className="w-44 h-44 border-2 border-gray-800 rounded-lg p-4 bg-white">
               <div className="w-full h-full bg-white relative ">
                 <img
-                  src={PatientDetails?.ProfilePic ? PatientDetails.ProfilePic : ""}
+                  src={PatientDetails?.ProfilePic ? PatientDetails.ProfilePic : image}
                   alt="no image"
                   className="w-full h-full object-cover"
                   onClick={() => setIsOpen(true)}

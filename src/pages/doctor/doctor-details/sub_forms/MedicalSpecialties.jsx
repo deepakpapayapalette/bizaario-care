@@ -217,9 +217,13 @@ export default function MedicalSpecialties() {
 
         </div>
 
-
         <div className="flex justify-end gap-3 mt-4">
-          <Button style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }} onClick={save_medical_specialities}>Save</Button>
+          <button onClick={save_medical_specialities} className="theme-btn-fill">
+            <div className="px-10">
+              Save
+            </div>
+          </button>
+
         </div>
 
       </div>

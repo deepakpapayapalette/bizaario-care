@@ -3,10 +3,12 @@ import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Radio, Fo
 // import api from '../../../../api'
 import Swal from 'sweetalert2';
 // import UniqueLoader from '../../../loader';
+import { __postApiData, __putApiData, __deleteApiData } from '@utils/api';
+import { __getApiData } from '../../../../utils/api';
 
 export default function FeeCharges() {
 
-  const[isloading_for,setisloading_for]=useState(false)
+  const [isloading_for, setisloading_for] = useState(false)
 
   const [feecharges, setfeecharges] = useState([{
     ServiceCategory: null,
@@ -14,17 +16,12 @@ export default function FeeCharges() {
     FeeAmount: '',
   }]);
 
-
-
-const handleChange = (index, field, value) => {
-  const updated = [...feecharges];
-  updated[index][field] = value;
-  setfeecharges(updated);
-};
-
-
-
-    // Add new package form
+  const handleChange = (index, field, value) => {
+    const updated = [...feecharges];
+    updated[index][field] = value;
+    setfeecharges(updated);
+  };
+  // Add new package form
   const addMore = () => {
     setfeecharges([
       ...feecharges,
@@ -38,158 +35,142 @@ const handleChange = (index, field, value) => {
 
   //============================== get all service category======================================
 
-     const[allservice,setallservice]=useState([])
-      const getallservice=async()=>
-      {
-        try {
-          const resp=await api.post('api/v1/admin/LookupList',{ lookupcodes:"service_category"})
-          setallservice(resp.data.data)
+  const [allservice, setallservice] = useState([])
+  const getallservice = async () => {
+    try {
+      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "service_category" })
+      setallservice(resp.data)
 
-        } catch (error) {
-          console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getallservice()
 
-        }
+  }, [])
+
+  //====================================== get all currency type=======================================
+
+  const [all_currency, setall_currency] = useState([])
+  const get_all_currency = async () => {
+    try {
+      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "currency_type" })
+      setall_currency(resp.data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    get_all_currency()
+  }, [])
+
+
+
+  const doctor_details = JSON.parse(localStorage.getItem("user"))
+
+  const save_fee_details = async () => {
+    setisloading_for(true)
+    try {
+      const payload = feecharges.map(({ _id, ...rest }) => rest);
+      const resp = await __putApiData(
+        `/api/v1/asset-sections/fees-charges/${doctor_details._id}`,
+        payload,
+        // { headers: { "Content-Type": "application/json" } }
+      );
+
+      // Check response_code instead of HTTP status
+      if (resp.response?.response_code === "200") {
+        Swal.fire({
+          icon: "success",
+          title: "Details Updated",
+          text: "Doctor Social Media Details Updated Successfully...",
+          showConfirmButton: true,
+          customClass: { confirmButton: "my-swal-button" },
+          timer: 1000
+        }).then(() => {
+          window.location.reload();
+        });
+      } else {
+        const errType = resp.response?.response_message?.errorType || "Error";
+        const errMsg = resp.response?.response_message?.error || "Something went wrong";
+
+        Swal.fire({
+          icon: "error",
+          title: errType,
+          text: errMsg,
+          showConfirmButton: true,
+          customClass: { confirmButton: "my-swal-button" },
+        });
       }
-
-      useEffect(()=>
-      {
-        getallservice()
-
-      },[])
-
-//====================================== get all currency type=======================================
-
-   const[all_currency,setall_currency]=useState([])
-      const get_all_currency=async()=>
-      {
-        try {
-          const resp=await api.post('api/v1/admin/LookupList',{ lookupcodes:"currency_type"})
-          setall_currency(resp.data.data)
-
-        } catch (error) {
-          console.log(error);
-
-        }
-      }
-
-      useEffect(()=>
-      {
-        get_all_currency()
-
-      },[])
-
-
-
-  const doctor_details=JSON.parse(localStorage.getItem("user"))
-
- const save_fee_details = async () => {
-  setisloading_for(true)
-  try {
-       const payload = feecharges.map(({ _id, ...rest }) => rest);
-    const resp = await api.put(
-      `api/v1/asset-sections/fees-charges/${doctor_details._id}`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
-
-
-
-    // Check response_code instead of HTTP status
-    if (resp.data?.response?.response_code === "200") {
-      Swal.fire({
-        icon: "success",
-        title: "Details Updated",
-        text: "Doctor Social Media Details Updated Successfully...",
-        showConfirmButton: true,
-        customClass: { confirmButton: "my-swal-button" },
-      }).then(() => {
-        window.location.reload();
-      });
-    } else {
-      const errType = resp.data?.response?.response_message?.errorType || "Error";
-      const errMsg = resp.data?.response?.response_message?.error || "Something went wrong";
+    } catch (error) {
+      console.log(error);
 
       Swal.fire({
         icon: "error",
-        title: errType,
-        text: errMsg,
+        title: "Network/Error",
+        text: error.message,
         showConfirmButton: true,
         customClass: { confirmButton: "my-swal-button" },
       });
     }
-  } catch (error) {
-    console.log(error);
-
-    Swal.fire({
-      icon: "error",
-      title: "Network/Error",
-      text: error.message,
-      showConfirmButton: true,
-      customClass: { confirmButton: "my-swal-button" },
-    });
-  }
-  finally
-  {
-    setisloading_for(false)
-  }
-};
-
-
-// ==================================get feecharges data========================================
-
-const get_fee_charges = async () => {
-  try {
-    const resp = await api.get(
-      `api/v1/asset-sections/fees-charges/${doctor_details._id}`
-    );
-
-    if (resp.data?.data) {
-      // Remove top-level _id
-      const { _id, ...rest } = resp.data.data;
-
-      // Map each fee object to only what you need for form
-      const normalizedFees = rest.FeesAndCharges.map((fee) => ({
-        _id:fee._id,
-        FeeAmount: fee.FeeAmount,
-        FeeCurrency: fee.FeeCurrency._id,       // store only ID
-        ServiceCategory: fee.ServiceCategory._id // store only ID
-      }));
-
-      setfeecharges(normalizedFees); // now state is clean
+    finally {
+      setisloading_for(false)
     }
-  } catch (error) {
-    console.log(error);
-  }
-};
+  };
 
 
-  useEffect(()=>
-  {
-    get_fee_charges()
-  },[])
+  // ==================================get feecharges data========================================
 
-
-// ================================delete fee charges===========================================
-
-  const delete_fee_charge=async(id)=>
-  {
+  const get_fee_charges = async () => {
     try {
-      const resp=await api.delete(`api/v1/asset-sections/fees-charges/${doctor_details._id}/${id}`)
-       if(resp.status===200)
-          {
-             Swal.fire({
-              icon:"success",
-              title:"Profile Updated",
-              text:resp.data.data.message,
-              showConfirmButton:true,
-              customClass: {
-              confirmButton: 'my-swal-button',
-            },
-            }).then(()=>
-            {
-              window.location.reload()
-            })
-          }
+      const resp = await __getApiData(
+        `/api/v1/asset-sections/fees-charges/${doctor_details._id}`
+      );
+
+      if (resp.data) {
+        // Remove top-level _id
+        const { _id, ...rest } = resp.data;
+
+        // Map each fee object to only what you need for form
+        const normalizedFees = rest.FeesAndCharges.map((fee) => ({
+          _id: fee._id,
+          FeeAmount: fee.FeeAmount,
+          FeeCurrency: fee.FeeCurrency._id,       // store only ID
+          ServiceCategory: fee.ServiceCategory._id // store only ID
+        }));
+
+        setfeecharges(normalizedFees); // now state is clean
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    get_fee_charges()
+  }, [])
+
+
+  // ================================delete fee charges===========================================
+
+  const delete_fee_charge = async (id) => {
+    try {
+      const resp = await __deleteApiData(`/api/v1/asset-sections/fees-charges/${doctor_details._id}/${id}`)
+      if (resp.response?.response_code === "200") {
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated",
+          text: resp.data.message,
+          showConfirmButton: true,
+          customClass: {
+            confirmButton: 'my-swal-button',
+          },
+        }).then(() => {
+          window.location.reload()
+        })
+      }
 
 
     } catch (error) {
@@ -198,21 +179,13 @@ const get_fee_charges = async () => {
     }
   }
 
-
-
-
   return (
     <>
-
-
-     <div >
-
-           {feecharges?.map((fee, index) => (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-
-
-          <FormControl fullWidth size="small">
-             <label className='form-label'>Service Category</label>
+      <div >
+        {feecharges?.map((fee, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4" key={index}>
+            <FormControl fullWidth size="small">
+              <label className='form-label'>Service Category</label>
               <Select
                 name="ServiceCategory"
                 value={fee.ServiceCategory}
@@ -221,7 +194,7 @@ const get_fee_charges = async () => {
                   disablePortal: true,
                   disableScrollLock: true,
                 }}
-                  displayEmpty
+                displayEmpty
                 renderValue={(selected) => {
                   if (!selected) {
                     return <span style={{ color: "#9ca3af" }}>Service Category</span>; // grey placeholder
@@ -229,21 +202,21 @@ const get_fee_charges = async () => {
                   return allservice.find((item) => item._id === selected)?.lookup_value;
                 }}
               >
-             <MenuItem value="">
-              <em>Select Service Category</em>
-            </MenuItem>
+                <MenuItem value="">
+                  <em>Select Service Category</em>
+                </MenuItem>
                 {
-                  allservice.map((item)=>
+                  allservice.map((item) =>
                   (
-                     <MenuItem value={item._id}>{item.lookup_value}</MenuItem>
+                    <MenuItem value={item._id}>{item.lookup_value}</MenuItem>
                   ))
                 }
 
               </Select>
             </FormControl>
 
-             <FormControl fullWidth size="small">
-             <label className='form-label'>Fee Currency</label>
+            <FormControl fullWidth size="small">
+              <label className='form-label'>Fee Currency</label>
               <Select
                 name="FeeCurrency"
                 value={fee.FeeCurrency}
@@ -252,7 +225,7 @@ const get_fee_charges = async () => {
                   disablePortal: true,
                   disableScrollLock: true,
                 }}
-                    displayEmpty
+                displayEmpty
                 renderValue={(selected) => {
                   if (!selected) {
                     return <span style={{ color: "#9ca3af" }}>Fee Currency</span>; // grey placeholder
@@ -260,53 +233,56 @@ const get_fee_charges = async () => {
                   return all_currency.find((item) => item._id === selected)?.lookup_value;
                 }}
               >
-                 <MenuItem value="">
-              <em>Select Fee Currency</em>
-            </MenuItem>
+                <MenuItem value="">
+                  <em>Select Fee Currency</em>
+                </MenuItem>
                 {
-                  all_currency.map((item)=>
+                  all_currency.map((item) =>
                   (
-                     <MenuItem value={item._id}>{item.lookup_value}</MenuItem>
+                    <MenuItem value={item._id}>{item.lookup_value}</MenuItem>
                   ))
                 }
 
               </Select>
             </FormControl>
 
-             <FormControl fullWidth size="small">
-             <label className='form-label'>Fee Amount</label>
-            <TextField
-            placeholder="Fee Amount"
-            name="FeeAmount"
-            size="small"
-            value={fee.FeeAmount}
-            onChange={(e) => handleChange(index, e.target.name, e.target.value)}
-            />
-        </FormControl>
+            <FormControl fullWidth size="small">
+              <label className='form-label'>Fee Amount</label>
+              <TextField
+                placeholder="Fee Amount"
+                name="FeeAmount"
+                size="small"
+                value={fee.FeeAmount}
+                onChange={(e) => handleChange(index, e.target.name, e.target.value)}
+              />
+            </FormControl>
 
-               <button
-              style={{fontFamily:"Lora"}}
-                type="button"
-                 onClick={() => delete_fee_charge(fee._id)}
-                className="flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors text-sm sm:text-base w-[155px] whitespace-nowrap"
-              >
-                {/* <span className="material-icons text-red-500 text-xl">delete</span> */}
-                Delete Fee
-              </button>
-
-          </div>
-             ))}
-
-
-          <div className="flex justify-between mt-4">
-            <Button variant="outlined" onClick={addMore}>Add More</Button>
-
-            <Button style={{backgroundColor:"#52677D",fontFamily:"Lora",color:"white"}} onClick={save_fee_details}>Save</Button>
+            <button
+              style={{ fontFamily: "Lora" }}
+              type="button"
+              onClick={() => delete_fee_charge(fee._id)}
+              className="flex items-center justify-center bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors text-sm sm:text-base w-[155px] whitespace-nowrap"
+            >
+              {/* <span className="material-icons text-red-500 text-xl">delete</span> */}
+              Delete Fee
+            </button>
 
           </div>
+        ))}
+
+
+        <div className="flex justify-between mt-4">
+          <Button variant="outlined" onClick={addMore}>Add More</Button>
+
+          <button onClick={save_fee_details} className="theme-btn-fill">
+            <div className="px-10">
+              Save
+            </div>
+          </button>
         </div>
+      </div>
 
-           {/* <div className="bg-white rounded-xl shadow p-4">
+      {/* <div className="bg-white rounded-xl shadow p-4">
                   <h3 className="font-semibold mb-4">Preview</h3>
                   <div className="flex items-center justify-between mb-3">
                     <p className="font-semibold">Charges And Fee Details</p>
@@ -334,25 +310,25 @@ const get_fee_charges = async () => {
 
 
 
-       {isloading_for&& (
-            <div
-              style={{
-                position: 'fixed',
-                inset: 0,
-                background: 'rgba(255, 255, 255, 0.6)',
-                zIndex: 9999,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <UniqueLoader />
-            </div>
-          )}
+      {isloading_for && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(255, 255, 255, 0.6)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <UniqueLoader />
+        </div>
+      )}
 
 
     </>
-    )
+  )
 }
 
 

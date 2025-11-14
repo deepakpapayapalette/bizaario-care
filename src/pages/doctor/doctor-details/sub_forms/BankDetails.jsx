@@ -3,7 +3,9 @@ import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Radio, Fo
 // import api from '../../../../api'
 import Swal from 'sweetalert2';
 // import UniqueLoader from '../../../loader';
-
+import { __postApiData, __putApiData } from '@utils/api';
+import { __getApiData } from '../../../../utils/api';
+import UniqueLoader from '../../../../components/common/UniqueLoader';
 export default function BankDetails() {
 
   const [isloading_for, setisloading_for] = useState(false)
@@ -29,14 +31,14 @@ export default function BankDetails() {
   const save_bank_details = async () => {
     setisloading_for(true)
     try {
-      const resp = await api.put(
-        `api/v1/asset-sections/bank-details/${doctor_details._id}`,
+      const resp = await __putApiData(
+        `/api/v1/asset-sections/bank-details/${doctor_details._id}`,
         bankdetails,
-        { headers: { "Content-Type": "application/json" } }
+        // { headers: { "Content-Type": "application/json" } }
       );
 
       // Check response_code instead of HTTP status
-      if (resp.data?.response?.response_code === "200") {
+      if (resp.response?.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Details Updated",
@@ -47,8 +49,8 @@ export default function BankDetails() {
           window.location.reload();
         });
       } else {
-        const errType = resp.data?.response?.response_message?.errorType || "Error";
-        const errMsg = resp.data?.response?.response_message?.error || "Something went wrong";
+        const errType = resp.response?.response_message?.errorType || "Error";
+        const errMsg = resp.response?.response_message?.error || "Something went wrong";
 
         Swal.fire({
           icon: "error",
@@ -79,9 +81,9 @@ export default function BankDetails() {
 
   const get_bank_details = async () => {
     try {
-      const resp = await api.get(`api/v1/asset-sections/bank-details/${doctor_details._id}`)
-      if (resp.data?.data) {
-        const { _id, ...rest } = resp.data.data;
+      const resp = await __getApiData(`/api/v1/asset-sections/bank-details/${doctor_details._id}`)
+      if (resp.data) {
+        const { _id, ...rest } = resp.data;
         setbankdetails(rest);
       }
     } catch (error) {
@@ -97,10 +99,7 @@ export default function BankDetails() {
 
   return (
     <>
-
-
       <div >
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <FormControl fullWidth size="small">
             <label className="form-label">Account Name</label>
@@ -169,11 +168,12 @@ export default function BankDetails() {
           </FormControl>
 
         </div>
-
-
-
         <div className="flex justify-end gap-3 mt-4">
-          <Button style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }} onClick={save_bank_details}>Save</Button>
+          <button onClick={save_bank_details} className="theme-btn-fill">
+            <div className="px-10">
+              Save
+            </div>
+          </button>
         </div>
 
         {isloading_for && (

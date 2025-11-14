@@ -49,8 +49,8 @@ export default function SocialMediaAssets({ initialData = {}, onPrevious, onNext
           window.location.reload();
         });
       } else {
-        const errType = resp.data?.response?.response_message?.errorType || "Error";
-        const errMsg = resp.data?.response?.response_message?.error || "Something went wrong";
+        const errType = resp.response?.response_message?.errorType || "Error";
+        const errMsg = resp.response?.response_message?.error || "Something went wrong";
 
         Swal.fire({
           icon: "error",

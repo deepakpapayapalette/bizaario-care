@@ -138,7 +138,11 @@ export default function ContactInformation() {
 
 
         <div className="flex justify-end gap-3 mt-4">
-          <Button style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }} onClick={save_contact_information}>Save</Button>
+          <button onClick={save_contact_information} className="theme-btn-fill">
+            <div className="px-10">
+              Save
+            </div>
+          </button>
         </div>
 
         {isloading_for && (

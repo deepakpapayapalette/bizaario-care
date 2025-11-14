@@ -92,7 +92,7 @@ const useAdminSidebarLinks = (role) => {
     { id: "6", icon: <TbDeviceDesktopCog />, label: "OPD Surgical Camps", link: "/doctordashboard/opd-srugicla-camps", dock: true },
     { id: "7", icon: <TbDeviceDesktopCog />, label: "Workshop", link: "/doctordashboard/workshop", dock: true },
     { id: "8", icon: <TbDeviceDesktopCog />, label: "Complete Doctor Profileshop", link: "/doctordashboard/complete-doctor-profile", dock: true },
-    // { id: "9", icon: <TbDeviceDesktopCog />, label: "Patient Referral", link: "/doctordashboard/patient-referral", dock: true },
+    { id: "9", icon: <TbDeviceDesktopCog />, label: "Patient Referral", link: "/doctordashboard/patient-referral", dock: true },
   ];
 
   const hospitalAdminLinks = [
