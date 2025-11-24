@@ -381,9 +381,9 @@ const PatientReferral = () => {
                     <button
                       onClick={handleGenerateOTP}
                       disabled={!validateInput()}
-                      className={`px-6 py-3 rounded-lg font-medium text-white transition-colors ${validateInput()
-                        ? "bg-webprimary hover:bg-slate-700 cursor-pointer"
-                        : "bg-gray-500 cursor-not-allowed"
+                      className={`px-6 py-3 rounded-lg font-medium  transition-colors ${validateInput()
+                        ? "bg-webprimary hover:bg-webhoverprimary cursor-pointe text-white"
+                        : "bg-websecondary text-webprimary cursor-not-allowed"
                         }`}
                     >
                       {/* <Link to="/patient-referral/patient-verify"> */}
@@ -413,10 +413,10 @@ const PatientReferral = () => {
           {otpBox ? (
             <div className="flex justify-center">
               <div
-                className="p-6"
+                className="p-8"
               // style={{ backgroundColor: '#f2f3f6' }}
               >
-                <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
+                <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
                   {/* Header */}
                   <div className="mb-6">
                     <div className="flex items-center justify-between ">
@@ -426,7 +426,7 @@ const PatientReferral = () => {
                     </div>
 
                     {/* Phone Number Display */}
-                    <div className="flex gap-10">
+                    <div className="flex gap-4 justify-between">
                       <div>
                         <span className="text-gray-700">OTP sent to </span>
                         <span className="font-semibold text-gray-900">
@@ -473,21 +473,21 @@ const PatientReferral = () => {
                   <button
                     onClick={handleVerifyOTP}
                     disabled={otp.join("").length !== 4}
-                    className={`w-48 py-4 rounded-lg font-medium text-white transition-colors mb-6 ${otp.join("").length === 4
-                      ? "bg-slate-600 hover:bg-slate-700 cursor-pointer"
-                      : "bg-gray-400 cursor-not-allowed"
+                    className={`w-full py-4 rounded-lg font-medium  transition-colors mb-6 ${otp.join("").length === 4
+                      ? "bg-webprimary hover:bg-webhoverprimary cursor-pointe text-white"
+                      : "bg-websecondary text-webprimary cursor-not-allowed"
                       }`}
                   >
                     Verify OTP
                   </button>
 
                   {/* Timer and Resend Section */}
-                  <div className="flex gap-6">
+                  <div className="flex gap-6 justify-between">
                     <div className="text-gray-600">
                       {!isResendAvailable ? (
                         <span>Available in {formatTime(timer)} Sec</span>
                       ) : (
-                        <span className="text-green-600">
+                        <span className="">
                           Ready to resend
                         </span>
                       )}

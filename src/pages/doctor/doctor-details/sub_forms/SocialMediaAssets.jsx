@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Radio, FormControlLabel, RadioGroup, FormLabel } from '@mui/material';
-import api from '../../../../api'
 import { __postApiData, __putApiData, __getApiData } from '@utils/api';
 import Swal from 'sweetalert2';
 import UniqueLoader from '../../../../components/common/UniqueLoader';
@@ -81,9 +80,9 @@ export default function SocialMediaAssets({ initialData = {}, onPrevious, onNext
 
   const get_social_media_details = async () => {
     try {
-      const resp = await __getApiData(`api/v1/asset-sections/social-media/${doctor_details._id}`)
-      if (resp.data?.data) {
-        const { _id, ...rest } = resp.data.data;
+      const resp = await __getApiData(`/api/v1/asset-sections/social-media/${doctor_details._id}`)
+      if (resp.data) {
+        const { _id, ...rest } = resp.data;
         setsocial_media_assets(rest);
       }
     } catch (error) {
