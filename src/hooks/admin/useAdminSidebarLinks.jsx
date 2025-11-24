@@ -7,9 +7,9 @@ import MedicalServicesTwoToneIcon from '@mui/icons-material/MedicalServicesTwoTo
 import { TbDeviceDesktopCog } from "react-icons/tb";
 const useAdminSidebarLinks = (role) => {
 
-  // const cleanRole = role?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+  const cleanRole = role?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
-  console.log(role, "role")
+
 
   const superAdminLinks = [
     { id: "1", icon: <LayoutDashboard />, label: "Dashboard", link: "/admindashboard", dock: true },
@@ -97,7 +97,6 @@ const useAdminSidebarLinks = (role) => {
 
   const hospitalAdminLinks = [
     { id: "1", icon: <LayoutDashboard />, label: "Dashboard", link: "/hospitaldashboard", dock: true },
-
     { id: "2", icon: <TbDeviceDesktopCog />, label: "Digital CME", link: "/hospitaldashboard/digital-cme", dock: true },
     { id: "3", icon: <TbDeviceDesktopCog />, label: "News Article", link: "/hospitaldashboard/news-article", dock: true },
     { id: "4", icon: <TbDeviceDesktopCog />, label: "Awards & Recognitions", link: "/hospitaldashboard/awards-recognitions", dock: true },
@@ -109,7 +108,6 @@ const useAdminSidebarLinks = (role) => {
   ];
 
   if (role === "Doctor") {
-    // console.log(role)
     return doctorsAdminLinks;
   }
   if (role === "Hospital") {

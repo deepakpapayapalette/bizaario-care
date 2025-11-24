@@ -56,7 +56,7 @@ const AdminTopbar = ({ toggleShow }) => {
     <header className="bg-white border-b border-gray-200 shadow-sm px-4 py-3 flex items-center justify-between">
       {/* Left Section */}
       <div className="flex items-center w-full md:w-1/3">
-        <Menu className="md:hidden cursor-pointer" onClick={() => toggleShow(true)} />
+        {/* <Menu className="md:hidden cursor-pointer" onClick={() => toggleShow(true)} /> */}
 
         {/* Search Bar */}
         <div className="hidden md:flex items-center w-full max-w-sm ml-3 bg-gray-100 rounded-md overflow-hidden">
@@ -112,8 +112,8 @@ const AdminTopbar = ({ toggleShow }) => {
         >
           <Avatar className="w-8 h-8 rounded-full" />
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold text-primary">{doctordetails?.AssetName}</span>
-            <span className="text-xs text-gray-500">{user?.AssetType || "Admin"}</span>
+            <span className="text-sm font-semibold text-primary">{doctordetails?.AssetName || "Admin"}</span>
+            {/* <span className="text-xs text-gray-500">{user?.AssetType || "Admin"}</span> */}
           </div>
 
           {/* Dropdown */}
@@ -131,7 +131,8 @@ const AdminTopbar = ({ toggleShow }) => {
         {/* Mobile settings + search */}
         <div className="md:hidden flex items-center space-x-3 cursor-pointer">
           <Search className="text-gray-600" />
-          <Menu onClick={() => setDropdownOpen(!dropdownOpen)} />
+          {/* <Menu onClick={() => setDropdownOpen(!dropdownOpen)} /> */}
+          <Menu className="md:hidden cursor-pointer" onClick={() => toggleShow(true)} />
         </div>
       </div>
     </header>

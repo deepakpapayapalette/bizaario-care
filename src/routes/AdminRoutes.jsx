@@ -1,8 +1,10 @@
 import { Route, Routes, Navigate } from "react-router-dom";
+
 import ErrorPage from "../pages/ErrorPage";
 import AdminLayout from "../layouts/AdminLayout";
 import Admindashboard from "../pages/admin/dashboard/Admindashboard";
 
+// Configuration Masters
 import CountryGroupMaster from "../pages/admin/configuration/CountryGroupMaster";
 import OrgUnitMaster from "../pages/admin/configuration/OrgUnitMaster";
 import MedicalSpeciality from "../pages/admin/configuration/MedicalSpeciality";
@@ -15,11 +17,15 @@ import AssetCategoryLevel3 from "../pages/admin/configuration/AssetCategoryLevel
 import SubscriptionTypeMaster from "../pages/admin/configuration/SubscriptionTypeMaster";
 import RelationshipMaster from "../pages/admin/configuration/RelationshipMaster";
 import InsuranceProviderMaster from "../pages/admin/configuration/InsuranceProviderMaster";
+
+// Other Masters
 import StationMaster from "../pages/admin/StationMaster";
 import AssetMaster from "../pages/admin/AssetMaster";
 import LoginMaster from "../pages/admin/LoginMaster";
 import ContentMaster from "../pages/admin/ContentMaster";
 import EventMaster from "../pages/admin/EventMaster";
+
+// Country Group Master details
 import PatientReferralType from "../pages/admin/country-group-master/PatientReferralType";
 import SymptomClassMaster from "../pages/admin/country-group-master/SymptomClassMaster";
 import SymptomMaster from "../pages/admin/country-group-master/SymptomMaster";
@@ -50,13 +56,16 @@ import ComorbidityMaster from "../pages/admin/country-group-master/ComorbidityMa
 import RiskFactorMaster from "../pages/admin/country-group-master/RiskFactorMaster";
 import PatientConcernMaster from "../pages/admin/country-group-master/PatientConcernMaster";
 import LogsticalConsiderationMaster from "../pages/admin/country-group-master/LogsticalConsiderationMaster";
+
 import HealthProfillingQuestions from "../pages/admin/HealthProfillingQuestions";
 
 
-// ✅ ProtectedRoute inside same file
+// -------------------------------------------------------------------------
+// ✅ CLEAN & FIXED PROTECTED ROUTE
+// -------------------------------------------------------------------------
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   if (!token) return <Navigate to="/login" replace />;
 
@@ -66,9 +75,12 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-
+// -------------------------------------------------------------------------
+// ✅ MAIN ADMIN ROUTES
+// -------------------------------------------------------------------------
 const AdminRoutes = () => (
   <Routes>
+    {/* ADMIN LAYOUT WRAPPED IN PROTECTED ROUTE */}
     <Route
       path="/"
       element={
@@ -77,214 +89,74 @@ const AdminRoutes = () => (
         </ProtectedRoute>
       }
     >
+
+      {/* Dashboard */}
       <Route index element={<Admindashboard />} />
 
-      <Route path="configuration/">
-        <Route
-          path="country-group-master"
-          element={<ProtectedRoute><CountryGroupMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="org-unit-master"
-          element={<ProtectedRoute><OrgUnitMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="medical-speciality"
-          element={<ProtectedRoute><MedicalSpeciality /></ProtectedRoute>}
-        />
-        <Route
-          path="service-category"
-          element={<ProtectedRoute><ServiceCategory /></ProtectedRoute>}
-        />
-        <Route
-          path="content-type"
-          element={<ProtectedRoute><ContentType /></ProtectedRoute>}
-        />
-        <Route
-          path="event-type"
-          element={<ProtectedRoute><EventType /></ProtectedRoute>}
-        />
-        <Route
-          path="asset-category-level1"
-          element={<ProtectedRoute><AssetCategoryLevel1 /></ProtectedRoute>}
-        />
-        <Route
-          path="asset-category-level2"
-          element={<ProtectedRoute><AssetCategoryLevel2 /></ProtectedRoute>}
-        />
-        <Route
-          path="asset-category-level3"
-          element={<ProtectedRoute><AssetCategoryLevel3 /></ProtectedRoute>}
-        />
-        <Route
-          path="subscription-type-master"
-          element={<ProtectedRoute><SubscriptionTypeMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="relationship-master"
-          element={<ProtectedRoute><RelationshipMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="insurance-provider-master"
-          element={<ProtectedRoute><InsuranceProviderMaster /></ProtectedRoute>}
-        />
+      {/* ---------------- CONFIGURATION ROUTES ---------------- */}
+      <Route path="configuration">
+        <Route path="country-group-master" element={<CountryGroupMaster />} />
+        <Route path="org-unit-master" element={<OrgUnitMaster />} />
+        <Route path="medical-speciality" element={<MedicalSpeciality />} />
+        <Route path="service-category" element={<ServiceCategory />} />
+        <Route path="content-type" element={<ContentType />} />
+        <Route path="event-type" element={<EventType />} />
+        <Route path="asset-category-level1" element={<AssetCategoryLevel1 />} />
+        <Route path="asset-category-level2" element={<AssetCategoryLevel2 />} />
+        <Route path="asset-category-level3" element={<AssetCategoryLevel3 />} />
+        <Route path="subscription-type-master" element={<SubscriptionTypeMaster />} />
+        <Route path="relationship-master" element={<RelationshipMaster />} />
+        <Route path="insurance-provider-master" element={<InsuranceProviderMaster />} />
       </Route>
 
-      <Route
-        path="station-master"
-        element={<StationMaster />}
-      />
-      <Route
-        path="assets-master"
-        element={<AssetMaster />}
-      />
-      <Route
-        path="login-master"
-        element={<LoginMaster />}
-      />
-      <Route
-        path="content-master"
-        element={<ContentMaster />}
-      />
-      <Route
-        path="event-master"
-        element={<EventMaster />}
-      />
+      {/* ---------------- OTHER MASTERS ---------------- */}
+      <Route path="station-master" element={<StationMaster />} />
+      <Route path="assets-master" element={<AssetMaster />} />
+      <Route path="login-master" element={<LoginMaster />} />
+      <Route path="content-master" element={<ContentMaster />} />
+      <Route path="event-master" element={<EventMaster />} />
 
-      <Route path="bizaario-master/">
-        <Route
-          path="patient-referral-type"
-          element={<ProtectedRoute><PatientReferralType /></ProtectedRoute>}
-        />
-        <Route
-          path="symptom-class-master"
-          element={<ProtectedRoute><SymptomClassMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="symptom-master"
-          element={<ProtectedRoute><SymptomMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="aggravating-factor-master"
-          element={<ProtectedRoute><AggravatingFactorMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="pharmaceutical-salt-type-master"
-          element={<ProtectedRoute><PharmaceuticalSaltTypeMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="pharmaceutical-salt-master"
-          element={<ProtectedRoute><PharmaceuticalSaltMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="dosage-master"
-          element={<ProtectedRoute><DosageMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="medicine-frequency-master"
-          element={<ProtectedRoute><MedicineFrequencyMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="therapy-master"
-          element={<ProtectedRoute><TherapyMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="procedure-master"
-          element={<ProtectedRoute><ProcedureMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="disease-master"
-          element={<ProtectedRoute><DiseaseMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="allergy-category-master"
-          element={<ProtectedRoute><AllergyCategoryMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="allergy-master"
-          element={<ProtectedRoute><AllergyMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="truma-category-master"
-          element={<ProtectedRoute><TrumaCategoryMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="truma-master"
-          element={<ProtectedRoute><TraumaMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="occupation-category-master"
-          element={<ProtectedRoute><OccupationCategoryMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="occupation-master"
-          element={<ProtectedRoute><OccupationMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="habit-category-master"
-          element={<ProtectedRoute><HabitCategoryMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="habit-master"
-          element={<ProtectedRoute><HabitMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="reason-referral-master"
-          element={<ProtectedRoute><ReasonReferralMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="investigation-category-master"
-          element={<ProtectedRoute><InvestigationCategoryMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="investigation-master"
-          element={<ProtectedRoute><InvestigationMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="diagnosis-master"
-          element={<ProtectedRoute><DiagnosisMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="diagnosis-type-master"
-          element={<ProtectedRoute><DiagnosisTypeMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="lifestyle-intervention-master"
-          element={<ProtectedRoute><LifestyleInterventionMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="second-opinion-query-master"
-          element={<ProtectedRoute><SecondOpinionQueryMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="comorbidity-master"
-          element={<ProtectedRoute><ComorbidityMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="risk-factor-master"
-          element={<ProtectedRoute><RiskFactorMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="patient-concern-master"
-          element={<ProtectedRoute><PatientConcernMaster /></ProtectedRoute>}
-        />
-        <Route
-          path="logstical-consideration-master"
-          element={<ProtectedRoute><LogsticalConsiderationMaster /></ProtectedRoute>}
-        />
+      {/* ---------------- COUNTRY GROUP NESTED MASTERS ---------------- */}
+      <Route path="bizaario-master">
+        <Route path="patient-referral-type" element={<PatientReferralType />} />
+        <Route path="symptom-class-master" element={<SymptomClassMaster />} />
+        <Route path="symptom-master" element={<SymptomMaster />} />
+        <Route path="aggravating-factor-master" element={<AggravatingFactorMaster />} />
+        <Route path="pharmaceutical-salt-type-master" element={<PharmaceuticalSaltTypeMaster />} />
+        <Route path="pharmaceutical-salt-master" element={<PharmaceuticalSaltMaster />} />
+        <Route path="dosage-master" element={<DosageMaster />} />
+        <Route path="medicine-frequency-master" element={<MedicineFrequencyMaster />} />
+        <Route path="therapy-master" element={<TherapyMaster />} />
+        <Route path="procedure-master" element={<ProcedureMaster />} />
+        <Route path="disease-master" element={<DiseaseMaster />} />
+        <Route path="allergy-category-master" element={<AllergyCategoryMaster />} />
+        <Route path="allergy-master" element={<AllergyMaster />} />
+        <Route path="truma-category-master" element={<TrumaCategoryMaster />} />
+        <Route path="truma-master" element={<TraumaMaster />} />
+        <Route path="occupation-category-master" element={<OccupationCategoryMaster />} />
+        <Route path="occupation-master" element={<OccupationMaster />} />
+        <Route path="habit-category-master" element={<HabitCategoryMaster />} />
+        <Route path="habit-master" element={<HabitMaster />} />
+        <Route path="reason-referral-master" element={<ReasonReferralMaster />} />
+        <Route path="investigation-category-master" element={<InvestigationCategoryMaster />} />
+        <Route path="investigation-master" element={<InvestigationMaster />} />
+        <Route path="diagnosis-master" element={<DiagnosisMaster />} />
+        <Route path="diagnosis-type-master" element={<DiagnosisTypeMaster />} />
+        <Route path="lifestyle-intervention-master" element={<LifestyleInterventionMaster />} />
+        <Route path="second-opinion-query-master" element={<SecondOpinionQueryMaster />} />
+        <Route path="comorbidity-master" element={<ComorbidityMaster />} />
+        <Route path="risk-factor-master" element={<RiskFactorMaster />} />
+        <Route path="patient-concern-master" element={<PatientConcernMaster />} />
+        <Route path="logstical-consideration-master" element={<LogsticalConsiderationMaster />} />
       </Route>
 
-      <Route
-        path="health-profilling-questions"
-        element={<HealthProfillingQuestions />}
-      />
+      {/* ---------------- HEALTH PROFILING ---------------- */}
+      <Route path="health-profilling-questions" element={<HealthProfillingQuestions />} />
 
-
-      {/* Catch-all inside admin */}
+      {/* 404 INSIDE ADMIN */}
       <Route path="*" element={<ErrorPage />} />
     </Route>
   </Routes>
 );
 
 export default AdminRoutes;
-

@@ -22,6 +22,18 @@ const AdminLayout = ({ children }) => {
     setCollapsed(!collapsed);
   };
 
+  // Close drawer on resize to desktop
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setShow(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Check on mount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   return (
     <div className='flex h-screen'>
@@ -34,7 +46,7 @@ const AdminLayout = ({ children }) => {
       }}>
         <AdminTopbar show={show} toggleShow={toggleShow} toggleDrawer={toggleDrawer} />
         <div className="h-[calc(100vh-70px)]  overflow-auto bg-foreground">
-          {children}
+          {/* {children} */}
           <Outlet />
         </div>
       </div>
