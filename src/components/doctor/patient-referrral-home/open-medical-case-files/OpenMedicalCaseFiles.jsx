@@ -8,19 +8,20 @@ import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 import { customMenuProps } from '@utils/CustomMenuProps';
 import UniqueLoader from '../../../common/UniqueLoader';
 
+import { IoMdClose } from "react-icons/io";
+
 
 
 
 const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_file }) => {
-
-
-
+  // console.log("OpenMedicalCaseFiles rendered. setselected_case_file prop:", setselected_case_file);
   const doctor_details = JSON.parse(localStorage.getItem("user"))
 
   const [isloading_for, setisloading_for] = useState(false)
 
   const [medical_case_file, setmedical_case_file] = useState({
     ParentCaseFileId: null,
+    PatientName: "",
     PatientId: "",
     TreatmentType: '',
     DoctorId: '',
@@ -42,6 +43,16 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
       [name]: type === "checkbox" ? checked : value
     }));
   };
+
+  useEffect(() => {
+    if (patient_details) {
+      setmedical_case_file((prev) => ({
+        ...prev,
+        PatientName: patient_details.Name || "",
+        PatientId: patientId || ""
+      }));
+    }
+  }, [patient_details, patientId]);
 
 
 
@@ -113,10 +124,6 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
   const handleShow_medical_files = () => setshow_medical_files(true);
   // function to close modal
   const handleClose_medical_files = () => setshow_medical_files(false);
-
-
-
-
 
   //====================================== get all medical speciality =====================================
 
@@ -226,7 +233,8 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
   //============================ get all case file=========================================
 
 
-  const [caseFiles, setCaseFiles] = useState([])
+  const [caseFiles, setCaseFiles] = useState([]);
+  // console.log(caseFiles, "caseFiles")
   const getall_case_file = async () => {
     try {
       const resp = await __getApiData(`/api/v1/admin/patientCaseFile/listPatientCaseFile?PatientId=${patientId}`);
@@ -325,7 +333,13 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
         <div>
           <div className="flex flex-col">
             {/* Main title */}
-            <h2 className="text-lg font-bold text-gray-900 w-full">Create New File</h2>
+            <div className='flex justify-between'>
+
+              <h2 className="text-lg font-bold text-gray-900 w-full">Create New File</h2>
+              <div>
+                <button className='bg-gray-200 p-2' onClick={handleClose_medical_files}><IoMdClose /></button>
+              </div>
+            </div>
             <hr className="w-full border-gray-800 my-2" />
 
             {/* Patient details */}
@@ -339,12 +353,8 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
               )}
             </div>
           </div>
-
           <div>
-
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Parent Case File</label>
                 <Select
@@ -377,21 +387,17 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
 
                 </Select>
               </FormControl>
-
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Patient Name </label>
                 <TextField
                   type='text'
                   placeholder="Patient Name"
-                  name="Date"
+                  name="PatientName"
                   size="small"
-                  inputProps={{ readOnly: true }}
-                  value={patient_details?.Name}
+                  value={medical_case_file.PatientName}
                   onChange={handleChange}
                 />
               </FormControl>
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Date Of Birth</label>
                 <TextField
@@ -406,7 +412,6 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
                   onChange={handleChange}
                 />
               </FormControl>
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Gender</label>
 
@@ -425,7 +430,6 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
 
                 </RadioGroup>
               </FormControl>
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Medical Speciality </label>
                 <Select
@@ -465,8 +469,6 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
 
                 </Select>
               </FormControl>
-
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Select Doctor</label>
                 <Select
@@ -475,7 +477,7 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
                   value={medical_case_file.DoctorId}
                   onOpen={() => {
                     if (allDoctor.length === 0) { // prevent multiple calls
-                      getallmedical_speciality();
+                      getall_doctorlist();
                     }
                   }}
                   onChange={handleChange}
@@ -507,7 +509,6 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
                 </Select>
               </FormControl>
 
-
               <FormControl fullWidth size="small">
                 <label className="form-label">Doctor Name </label>
                 <TextField
@@ -528,7 +529,7 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
                   value={medical_case_file.HospitalId}
                   onOpen={() => {
                     if (allHospital.length === 0) { // prevent multiple calls
-                      getallmedical_speciality();
+                      getall_hospitallist();
                     }
                   }}
                   onChange={handleChange}
@@ -734,97 +735,118 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
 
 
             <div className="flex justify-end mt-4">
-
-
               <button
                 className='theme-btn-fill '
                 onClick={save_patient_case_file}
               >
-                Save
+                <div className='px-10'>
+                  Save
+                </div>
               </button>
             </div>
 
-            <div className="col-span-1 mt-6 bg-[rgba(82, 103, 125, 0.10)]">
+            <div className="col-span-1 mt-10 ">
               {caseFiles?.length === 0 ? (
                 <p>No case files yet.</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-3 ">
+                <div className="grid grid-cols-1  lg:grid-cols-2 gap-4">
                   {caseFiles?.map((file, index) => (
                     <div
                       key={index}
-                      className="border rounded-lg shadow-md p-3 bg-[rgba(82,103,125,0.10)]"
+                      className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                     >
-                      <div className='flex justify-between'>
-                        <h3 className=" text-lg text-gray-800 font-thin">
-                          Medical Case File ID:<br></br>
-                          <span className="form-title text-lg font-semibold text-gray-800">{file._id || 'N/A'}</span>
+                      {/* Header */}
+                      <div className="flex justify-between items-start">
+                        <h3 className="text-base font-semibold text-gray-800 leading-tight">
+                          Medical Case File ID
+                          <span className="block text-lg font-bold text-webprimary mt-1">
+                            {file._id || "N/A"}
+                          </span>
                         </h3>
-                        <button onClick={() => handle_edit_case_file(file)} className="flex items-center space-x-2 text-[var(--primary-color)] hover:text-blue-700 transition-colors">
+
+                        {/* Edit Button */}
+                        <button
+                          onClick={() => handle_edit_case_file(file)}
+                          className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 transition"
+                        >
                           <Edit className="w-4 h-4" />
-                          <span className="text-sm font-medium underline">Edit</span>
+                          <span className="text-sm underline">Edit</span>
                         </button>
                       </div>
-                      <p className="flex text-sm text-gray-600 gap-2">
-                        {/* <img src={calendericon} alt='' className='h-5'></img> */}
-                        {new Date(file.Date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+
+                      {/* Date */}
+                      <p className="text-sm text-gray-500 mt-2">
+                        {new Date(file.Date).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
                       </p>
-                      <p className="text-sm text-gray-600">
-                        Treatment Type: <strong>{file?.TreatmentType || 'N/A'}</strong>
+
+                      {/* Treatment Type */}
+                      <p className="text-sm text-gray-700 mt-2">
+                        <span className="font-medium">Treatment Type:</span>{" "}
+                        {file?.TreatmentType || "N/A"}
                       </p>
-                      <p className="form-title  text-gray-600">
+
+                      {/* Doctor */}
+                      <p className="text-sm text-gray-700">
                         {file?.DoctorName || file?.DoctorId?.AssetName}
                       </p>
-                      <div className='flex justify-between'>
-                        <p className=" flex text-sm text-gray-600">
-                          <strong>Medical Speciality:</strong>
 
-                          {
-                            file.MedicalSpeciality?.lookup_value ? file.MedicalSpeciality.lookup_value : "N/A"
-                          }
+                      {/* Bottom Section */}
+                      <div className="mt-4 space-y-2">
+                        {/* Speciality & Status */}
+                        <div className="flex justify-between text-sm text-gray-700">
+                          <p>
+                            <span className="font-medium">Medical Speciality:</span>{" "}
+                            {file?.MedicalSpeciality?.lookup_value || "N/A"}
+                          </p>
 
-                        </p>
+                          <p>
+                            <span className="font-medium">Status:</span> {file.Status}
+                          </p>
+                        </div>
 
-                        <p className=" flex text-sm text-gray-600">
-                          <strong>Status:</strong>
-                          {
-                            file.Status
-                          }
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 mt-3">
+                          {file.Status !== "Ongoing" && (
+                            <button
+                              onClick={() => change_casefile_status(file._id, "Ongoing")}
+                              className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-webprimary transition"
+                            >
+                              Ongoing
+                            </button>
+                          )}
 
-                        </p>
+                          {file.Status !== "Past" && (
+                            <button
+                              onClick={() => change_casefile_status(file._id, "Past")}
+                              className="theme-btn"
+                            >
+                              Past
+                            </button>
+                          )}
 
-                        <div className='flex justify-between gap-2'>
-                          <button className='classic-button' onClick={() => change_casefile_status(file._id, "Ongoing")} style={{ display: file.Status === "Ongoing" ? "none" : "flex" }}>
-                            Ongoing
-                          </button>
-                          <button className='classic-button' onClick={() => change_casefile_status(file._id, "Past")} style={{ display: file.Status === "Past" ? "none" : "flex" }}>
-                            Past
-                          </button>
                           <button
-                            className='classic-button'
                             onClick={() => {
                               setselected_case_file(file._id);
                               handleClose_medical_files();
                             }}
+                            className="theme-btn-fill"
                           >
                             View
                           </button>
-
                         </div>
-
                       </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-
-
-
           </div>
-
         </div>
       </Dialog>
-
       {isloading_for && (
         <div
           style={{

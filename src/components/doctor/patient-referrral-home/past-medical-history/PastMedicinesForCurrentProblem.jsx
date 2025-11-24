@@ -27,6 +27,11 @@ const PastMedicinesForCurrentProblem = ({
 }) => {
   const isMountedRef = useRef(true);
 
+  console.log(case_file_data, "case_file_data30");
+
+
+
+
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
@@ -137,7 +142,6 @@ const PastMedicinesForCurrentProblem = ({
         formData.append("file", files[i]);
       }
 
-      // Many wrappers accept config as 3rd arg (axios style). Adjust if your wrapper differs.
       const resp = await __postApiData(
         "/api/v1/common/AddImage",
         formData,
@@ -185,8 +189,8 @@ const PastMedicinesForCurrentProblem = ({
   // -------------------- lookup list fetchers --------------------
   const getall_salt_master = async () => {
     try {
-      const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: ["pharmaceutical_salt_master"],
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "pharmaceutical_salt_master",
       });
       if (resp?.response?.response_code === "200" && Array.isArray(resp?.data)) {
         setall_salt_master(resp.data);
@@ -200,8 +204,8 @@ const PastMedicinesForCurrentProblem = ({
 
   const getall_dosage_type = async () => {
     try {
-      const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: ["dosage_type"],
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "dosage_type",
       });
       if (resp?.response?.response_code === "200" && Array.isArray(resp?.data)) {
         setall_dosage_type(resp.data);
@@ -215,8 +219,8 @@ const PastMedicinesForCurrentProblem = ({
 
   const getall_unitlist = async () => {
     try {
-      const resp = await __postApiData("/api/v1/admin/LookupList/", {
-        lookupcodes: ["duration_unit_type"],
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "duration_unit_type",
       });
       if (resp?.response?.response_code === "200" && Array.isArray(resp?.data)) {
         setall_unit_list(resp.data);
@@ -232,7 +236,6 @@ const PastMedicinesForCurrentProblem = ({
     getall_salt_master();
     getall_dosage_type();
     getall_unitlist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // -------------------- get patient medical history --------------------
@@ -240,9 +243,7 @@ const PastMedicinesForCurrentProblem = ({
     if (!patientId) return;
     try {
       // avoid trailing slash before query
-      const resp = await __getApiData(
-        `/api/v1/admin/medical-history?PatientId=${patientId}&Status=Past`
-      );
+      const resp = await __getApiData(`/api/v1/admin/medical-history/list?PatientId=${patientId}&Status=Past`);
 
       const list = resp?.data?.list || [];
 
@@ -276,12 +277,10 @@ const PastMedicinesForCurrentProblem = ({
 
   useEffect(() => {
     getall_patient_medical_history();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patientId, selected_case_file]);
 
   // -------------------- open edit modal and populate --------------------
   const handleShowEdit = () => {
-    // pick first available current_medicines
     const source =
       patient_all_current_medicine && patient_all_current_medicine.length > 0
         ? patient_all_current_medicine[0].current_medicines
@@ -456,7 +455,7 @@ const PastMedicinesForCurrentProblem = ({
   // -------------------- render --------------------
   return (
     <div className="space mt-4">
-      {/* Header */}
+
       <div className="flex items-center justify-between mt-2 border-b border-gray-200">
         <h3 className="text-xxl font-semibold text-gray-900">Past Medications</h3>
         <div className="flex items-center space-x-4">
@@ -478,10 +477,9 @@ const PastMedicinesForCurrentProblem = ({
         </div>
       </div>
 
-      {/* If a case file selected and has data show table */}
       <div
         className="overflow-x-auto"
-        style={{ display: selected_case_file ? "block" : "none" }}
+      // style={{ display: selected_case_file ? "block" : "none" }}
       >
         <div className="bg-webprimary text-white">
           <div className="grid grid-cols-3 gap-4 p-2 text-[20px]">
@@ -514,7 +512,6 @@ const PastMedicinesForCurrentProblem = ({
         </div>
       </div>
 
-      {/* Fallback: show patient_all_current_medicine if case_file_data empty */}
       {!case_file_data || case_file_data.length === 0
         ? patient_all_current_medicine?.map((caseFile, caseIndex) => (
           <div key={caseFile.caseFileId?._id || caseIndex} className="mb-6">
@@ -560,7 +557,6 @@ const PastMedicinesForCurrentProblem = ({
         ))
         : null}
 
-      {/* ---------------- Add Dialog ---------------- */}
       <Dialog
         open={show}
         onClose={handleClose}
@@ -733,7 +729,6 @@ const PastMedicinesForCurrentProblem = ({
         </div>
       </Dialog>
 
-      {/* ---------------- Edit Dialog ---------------- */}
       <Dialog
         open={showEdit}
         onClose={handleCloseEdit}

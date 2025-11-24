@@ -37,7 +37,7 @@ const DoctorRoutes = () => {
           <AdminLayout />
         </ProtectedRoute>
       }>
-        <Route index element={<DoctorDashboard />} />
+        <Route index element={<ProtectedRoute><DoctorDashboard /></ProtectedRoute>} />
         <Route path="digital-cme" element={<ProtectedRoute><DigitalCME /></ProtectedRoute>} />
         <Route path="news-article" element={<ProtectedRoute><NewsArticleDoctor /></ProtectedRoute>} />
         <Route path="awards-recognitions" element={<ProtectedRoute><AwardsRecognitions /></ProtectedRoute>} />

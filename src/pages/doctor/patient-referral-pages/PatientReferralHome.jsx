@@ -16,7 +16,7 @@ const PatientReferralHome = () => {
 
   const patientId = location?.state?._id;
   const [selected_case_file, setselected_case_file] = useState();
-
+  console.log(selected_case_file, "19")
   return (
     <div className=' mt-8'>
       <div className='container'>
@@ -47,9 +47,6 @@ const PatientReferralHome = () => {
         />
 
         <div className='container  mt-8'>
-
-
-
           <OpenMedicalCaseFiles
             patientId={patientId}
             patient_details={patient_details}
@@ -64,8 +61,8 @@ const PatientReferralHome = () => {
           patientId={patientId}
           selected_case_file={selected_case_file}
         />
-        {/*
-        <DoctorQueryForPatientReferralMain
+
+        {/* <DoctorQueryForPatientReferralMain
           patientId={patientId}
           selected_case_file={selected_case_file}
         /> */}

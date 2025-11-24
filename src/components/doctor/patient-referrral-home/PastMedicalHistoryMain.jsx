@@ -11,6 +11,7 @@ import PastMedicinesForCurrentProblem from "./past-medical-history/PastMedicines
 
 
 const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
+  console.log(selected_case_file, "selected_case_file14");
 
   const [loading_for, setloading_for] = useState("")
 
@@ -64,6 +65,8 @@ const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
       const resp = await __getApiData(`/api/v1/admin/medical-history/list?CaseFileId=${selected_case_file}`)
       setcase_file_data(resp?.data?.list || []);
 
+      console.log(resp, "resp67");
+
     } catch (error) {
       console.log(error);
 
@@ -98,8 +101,6 @@ const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
-
   const [refreshKeys, setRefreshKeys] = useState({
     pastmedicine: 0,
     pasttherapy: 0,
@@ -107,7 +108,7 @@ const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
     pastinvestigation: 0,
   });
 
-  // Function to trigger refresh for a single component
+
   const handleComponentRefresh = (name) => {
     setRefreshKeys((prev) => ({
       ...prev,
@@ -122,7 +123,7 @@ const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
     <div className="mt-8 container">
       <div className="bg-[rgba(189,196,212,0.2)] p-4 rounded-lg border border-gray-200">
 
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between cursor-pointer" onClick={() => setIsCollapsed(!isCollapsed)}>
           <h2 className="text-xl font-semibold text-gray-900">
             Past Medical History
           </h2>
@@ -192,7 +193,7 @@ const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
             />
           </div>
 
-          {/* <div className="card-details">
+          <div className="card-details">
             <PastMedicinesForCurrentProblem
               key={refreshKeys.pastmedicine}
               onRefresh={() => handleComponentRefresh("pastmedicine")}
@@ -200,7 +201,7 @@ const PastMedicalHistoryMain = ({ patientId, selected_case_file }) => {
               selected_case_file={selected_case_file}
               case_file_data={case_file_data}
             />
-          </div> */}
+          </div>
 
           {/*<div className="card-details">
             <PastTherapyForCurrentProblem

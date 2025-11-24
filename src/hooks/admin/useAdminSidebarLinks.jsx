@@ -7,9 +7,9 @@ import MedicalServicesTwoToneIcon from '@mui/icons-material/MedicalServicesTwoTo
 import { TbDeviceDesktopCog } from "react-icons/tb";
 const useAdminSidebarLinks = (role) => {
 
-  const cleanRole = role?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+  // const cleanRole = role?.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
-
+  console.log(role, "role")
 
   const superAdminLinks = [
     { id: "1", icon: <LayoutDashboard />, label: "Dashboard", link: "/admindashboard", dock: true },
@@ -92,11 +92,19 @@ const useAdminSidebarLinks = (role) => {
     { id: "6", icon: <TbDeviceDesktopCog />, label: "OPD Surgical Camps", link: "/doctordashboard/opd-srugicla-camps", dock: true },
     { id: "7", icon: <TbDeviceDesktopCog />, label: "Workshop", link: "/doctordashboard/workshop", dock: true },
     { id: "8", icon: <TbDeviceDesktopCog />, label: "Complete Doctor Profileshop", link: "/doctordashboard/complete-doctor-profile", dock: true },
-    { id: "9", icon: <TbDeviceDesktopCog />, label: "Patient Referral",  link: `/doctordashboard/patient-referral` ,  dock: true },
+    { id: "9", icon: <TbDeviceDesktopCog />, label: "Patient Referral", link: `/doctordashboard/patient-referral`, dock: true },
   ];
 
   const hospitalAdminLinks = [
-    { id: "1", icon: <LayoutDashboard />, label: "hospital dashboard", link: "/admin", dock: true },
+    { id: "1", icon: <LayoutDashboard />, label: "Dashboard", link: "/hospitaldashboard", dock: true },
+
+    { id: "2", icon: <TbDeviceDesktopCog />, label: "Digital CME", link: "/hospitaldashboard/digital-cme", dock: true },
+    { id: "3", icon: <TbDeviceDesktopCog />, label: "News Article", link: "/hospitaldashboard/news-article", dock: true },
+    { id: "4", icon: <TbDeviceDesktopCog />, label: "Awards & Recognitions", link: "/hospitaldashboard/awards-recognitions", dock: true },
+    { id: "5", icon: <TbDeviceDesktopCog />, label: "Patient Testimonials", link: "/hospitaldashboard/patient-testimonials", dock: true },
+    { id: "6", icon: <TbDeviceDesktopCog />, label: "OPD Surgical Camps", link: "/hospitaldashboard/opd-srugicla-camps", dock: true },
+    { id: "7", icon: <TbDeviceDesktopCog />, label: "Workshop", link: "/hospitaldashboard/workshop", dock: true },
+    { id: "8", icon: <TbDeviceDesktopCog />, label: "Complete Doctor Profileshop", link: "/hospitaldashboard/complete-doctor-profile", dock: true },
 
   ];
 
