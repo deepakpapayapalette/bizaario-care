@@ -2,19 +2,18 @@
 import React from 'react';
 import { Plus, Edit } from 'lucide-react';
 import { useEffect, useState } from 'react'
-import { TextField, Select, MenuItem, FormControl, Button, CircularProgress } from '@mui/material';
+import { TextField, Select, MenuItem, FormControl, Button, CircularProgress, Dialog } from '@mui/material';
 import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 import Swal from 'sweetalert2';
 import UniqueLoader from '../../common/UniqueLoader';
-// import UniqueLoader from '../../../../loader';
-// import { customMenuProps } from '../../../../../utils/mui_select_scroll_bar';
+import { customMenuProps } from '@utils/CustomMenuProps';
+
+
 // import { Modal, } from 'react-bootstrap';
-// import { __postApiData } from "../../../../../utils/api";
+
 
 const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case_file_data, onRefresh }) => {
-
   const doctordetails = JSON.parse(localStorage.getItem("user"))
-
   const [medical_history, setmedical_history] = useState({
     MedicinesPrescribed: {
       Medicines: [{ MedicineName: "", Dosage: "", DurationInDays: "" }],
@@ -88,19 +87,17 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
         formData.append("file", files[i]);
       }
 
-      const resp = await api.post("api/v1/common/AddImage", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const resp = await __postApiData("/api/v1/common/AddImage", formData);
 
 
-
+      console.log(resp, "handlePrescriptionImagesChange")
       // ✅ Extract URLs from response
       if (
-        resp.data?.response?.response_code === "200" &&
-        resp.data.data?.length > 0
+        resp.response?.response_code === "200" &&
+        resp.data?.length > 0
       ) {
         // Map each uploaded file to its URL
-        const uploadedUrls = resp.data.data.map((item) => item.full_URL);
+        const uploadedUrls = resp.data.map((item) => item.full_URL);
 
         // ✅ Append these URLs to state
         setmedical_history((prev) => ({
@@ -130,10 +127,10 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
   const [all_salt_master, setall_salt_master] = useState([])
   const getall_salt_master = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "pharmaceutical_salt_master" })
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "pharmaceutical_salt_master" })
 
 
-      setall_salt_master(resp.data.data)
+      setall_salt_master(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -151,10 +148,8 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
   const [all_dosage_type, setall_dosage_type] = useState([])
   const getall_dosage_type = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "dosage_type" })
-
-
-      setall_dosage_type(resp.data.data)
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "dosage_type" })
+      setall_dosage_type(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -172,10 +167,10 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
   const [all_unit_list, setall_unit_list] = useState([])
   const getall_unitlist = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "duration_unit_type" })
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "duration_unit_type" })
 
 
-      setall_unit_list(resp.data.data)
+      setall_unit_list(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -208,6 +203,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
   const [isloading, setisloading] = useState(false)
 
   const save_medicine = async () => {
+    // alert(1);
     setisloading(true);
     try {
       const payload =
@@ -216,17 +212,13 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
         CaseFileId: patient_all_current_medicine[0]?.caseFileId._id,
         CreatedBy: doctordetails._id
       }
-      const resp = await api.post(
-        `api/v1/admin/medical-history/medicines-prescribed/add`,
+      const resp = await __postApiData(`/api/v1/admin/medical-history/medicines-prescribed/add`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
       );
 
 
 
-      const { response_code, response_message } = resp.data.response;
+      const { response_code, response_message } = resp.response;
 
       if (response_code === "200") {
         Swal.fire({
@@ -280,9 +272,9 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
   const getall_patient_medical_history = async () => {
     try {
       //  setLoadingSpeciality(true);
-      const resp = await api.get(`api/v1/admin/medical-history/list?PatientId=${patientId}&Status=Ongoing`);
+      const resp = await __getApiData(`/api/v1/admin/medical-history/list?PatientId=${patientId}&Status=Ongoing`);
 
-      const formatted = resp.data.data.list.map(item => ({
+      const formatted = resp.data.list.map(item => ({
         caseFileId: item.CaseFileId,
         treatmentType: item.CaseFileId.TreatmentType,
         current_medicines: item.MedicinesPrescribed
@@ -372,17 +364,13 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
         CaseFileId: patient_all_current_medicine[0]?.caseFileId._id,
         UpdatedBy: doctordetails._id
       }
-      const resp = await api.put(
-        `api/v1/admin/medical-history/medicines-prescribed/edit`,
+      const resp = await __putApiData(`/api/v1/admin/medical-history/medicines-prescribed/edit`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
       );
 
 
 
-      const { response_code, response_message } = resp.data.response;
+      const { response_code, response_message } = resp.response;
 
       if (response_code === "200") {
         Swal.fire({
@@ -455,7 +443,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
 
       {/* <div className="overflow-x-auto" style={{display:selected_case_file?"block":"none"}}>
 
-        <div className="bg-[var(--button-back-color)] text-white  " >
+        <div className="bg-webprimary text-white  " >
           <div className="grid grid-cols-3 gap-4 p-2 text-[20px]">
             <h3 className="table-header">Medicine/Salt Name</h3>
             <h3 className="table-header">Dosage</h3>
@@ -469,7 +457,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
           case_file_data[0]?.MedicinesPrescribed?.Medicines?.map((item, index) => (
             <div
               key={item.id}
-              className={`grid grid-cols-3 gap-4 p-4 ${index % 2 === 0 ? 'bg-[#f2f3f6]' : 'bg-white'
+              className={`grid grid - cols - 3 gap - 4 p - 4 ${ index % 2 === 0 ? 'bg-[#f2f3f6]' : 'bg-white'
                 }`}
             >
               <div className="text-sm text-gray-900 font-medium table-body">
@@ -491,7 +479,8 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
       {
         // (!case_file_data || case_file_data.length === 0) &&
         patient_all_current_medicine?.map((caseFile, caseIndex) => (
-          <div key={caseFile.caseFileId} className="mb-6">
+          <div key={caseIndex} className="mb-6">
+
             {/* Case File Header */}
             <h3 className="text-xl font-bold mb-2">
               {caseFile.caseFileId.TreatmentType} (Case File ID: {caseFile.caseFileId._id})-
@@ -499,7 +488,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
             </h3>
 
             {/* Table Header */}
-            <div className="bg-[var(--button-back-color)] text-white">
+            <div className="bg-webprimary text-white">
               <div className="grid grid-cols-3 gap-4 p-2 text-[16px] font-semibold">
                 <h3 className="table-header">Medicine/Salt Name</h3>
                 <h3 className="table-header">Dosage</h3>
@@ -513,7 +502,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
                 <div
                   key={index}
                   className={`grid grid-cols-3 gap-4 p-4 ${index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
-                    }`}
+                    } `}
                 >
                   {/* Chief Complaints Symptoms */}
 
@@ -543,19 +532,24 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
           1. Added By Dr Gaurav Pande (Cardiology) (Regards M1234), (Contact 8373915529, Date/ Time 20 Sep 2025, 11:57 AM IST, Noida
         </p>
       </div> */}
+      <div>
 
 
-
-      <Modal show={show} onHide={handleClose} centered size="lg">
-
-        <Modal.Header closeButton>
-          <Modal.Title className='form-title'>Add Medical History(Medicines) </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-
+        <Dialog
+          open={show}
+          onClose={handleClose}
+          fullWidth
+          maxWidth={false}
+          PaperProps={{
+            sx: {
+              width: "1000px",
+              maxWidth: "1200px",
+              padding: "20px",
+            }
+          }}
+        >
           <div>
-
+            <h2 className="text-2xl mb-3">Add Medical History (Medicines)</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
 
 
@@ -563,8 +557,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
 
               <div className='col-span-2'>
                 <h5 className='form-title'>Medicines Prescribed </h5>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 ">
+                <div className="">
                   {medical_history.MedicinesPrescribed.Medicines.map((details, index) => (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 col-span-2 border border-gray-300 rounded-lg p-2">
                       <FormControl fullWidth size="small">
@@ -650,12 +643,6 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
                     </div>
                   ))}
 
-
-
-
-
-
-
                   <FormControl fullWidth size="small">
                     <label className="form-label">Recovery Cycle</label>
                     <div style={{ display: 'flex', gap: '8px' }}>
@@ -699,8 +686,6 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
 
                     </div>
                   </FormControl>
-
-
                   <FormControl fullWidth size="small">
                     <label className="form-label">Upload Prescriptions  </label>
                     <TextField
@@ -713,58 +698,41 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
                       onChange={(e) => handlePrescriptionImagesChange(e)}
                     />
                   </FormControl>
-
-
-
-
                 </div>
-
-
-
               </div>
-
-
-
-
-
             </div>
-
-
-
             <div className="flex justify-end mt-4">
-
-
-              <Button
-                style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }}
-                onClick={save_medicine}
-              >
-                Save
-              </Button>
+              <button className='theme-btn-fill' onClick={save_medicine}>
+                <div
+                  className='px-10'
+                >
+                  Save
+                </div>
+              </button>
             </div>
-
-
           </div>
-
-        </Modal.Body>
-
-
-      </Modal>
-
+        </Dialog>
+      </div>
 
 
       {/*====================================== edit modal ===========================================*/}
+      <div className='modal-section'>
 
-
-      <Modal show={showEdit} onHide={handleCloseEdit} centered size="lg">
-
-        <Modal.Header closeButton>
-          <Modal.Title className='form-title'>Edit Medical History(Medicines) </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-
+        <Dialog
+          open={showEdit}
+          onClose={handleCloseEdit}
+          fullWidth
+          maxWidth={false}
+          PaperProps={{
+            sx: {
+              width: "1000px",
+              maxWidth: "1200px",
+              padding: "20px",
+            }
+          }}
+        >
           <div>
-
+            <h2 className="text-2xl mb-3"> Edit Medical History(Medicines)</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
 
 
@@ -773,7 +741,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
               <div className='col-span-2'>
                 <h5 className='form-title'>Medicines Prescribed </h5>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 ">
+                <div className="mb-4 ">
                   {medical_history.MedicinesPrescribed.Medicines.map((details, index) => (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 col-span-2 border border-gray-300 rounded-lg p-2">
                       <FormControl fullWidth size="small">
@@ -931,7 +899,7 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
                             {/* Thumbnail */}
                             <img
                               src={url}
-                              alt={`Prescription ${index + 1}`}
+                              alt={`Prescription ${index + 1} `}
                               className="w-full h-full object-cover rounded-lg border border-gray-300 cursor-pointer"
                               onClick={() => setPreviewImage(url)}
                             />
@@ -1006,11 +974,8 @@ const CurrentMedicinesForCurrentProblem = ({ patientId, selected_case_file, case
 
 
           </div>
-
-        </Modal.Body>
-
-
-      </Modal>
+        </Dialog>
+      </div>
 
       {isloading && (
         <div

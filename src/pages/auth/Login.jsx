@@ -9,6 +9,7 @@ import api from "../../api";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import loginImage from '../../assets/images/admin/login/login-img.png'
+import logo from '../../assets/images/logo.png'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -103,7 +104,9 @@ const Login = () => {
 
       {/* ==== Login Form ===== */}
       <div className="flex w-full justify-center flex-col py-8 md:py-14 xs:px-4 sm:px-6 md:px-20">
-        <div className="flex items-center justify-center mb-8"></div>
+        <div className="flex items-center justify-center mb-8">
+          <img src={logo} alt="logo" className="w-[160px] h-auto" />
+        </div>
 
         <Typography variant="h5" sx={{ mb: 1, fontWeight: "bold" }}>
           Welcome Back

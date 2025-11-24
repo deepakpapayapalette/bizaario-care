@@ -17,18 +17,14 @@ import { customMenuProps } from '../../../utils/CustomMenuProps';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { RxCross2 } from "react-icons/rx";
 const PatientDoctorDetails = ({ patientId }) => {
-  console.log(patientId);
+  // console.log(patientId);
   const [selected_patient_details, setselected_patient_details] = useState([])
   const getpatient_details = async () => {
     try {
-      const resp = await __getApiData(`/api/v1/admin/getPatient/${patientId.patientId}`);
-
-      console.log(resp);
-
+      const resp = await __getApiData(`/api/v1/admin/getPatient/${patientId}`);
       setselected_patient_details(resp.data)
     } catch (error) {
       console.log(error);
-
     }
   }
 
@@ -385,7 +381,6 @@ const PatientDoctorDetails = ({ patientId }) => {
           <ProfileCard1 patient_details={selected_patient_details} />
           <ProfileCard2 patient_details={selected_patient_details} />
         </div>
-
       </div>
 
       <div>

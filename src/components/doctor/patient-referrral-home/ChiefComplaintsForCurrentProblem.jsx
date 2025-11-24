@@ -14,10 +14,13 @@ import { customMenuProps } from '../../../utils/CustomMenuProps';
 
 
 
+
+
+
 const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_file_data, onRefresh }) => {
+  // console.log(patientId, "patientId", selected_case_file, "selected_case_file", case_file_data, "case_file_data", onRefresh)
+
   const doctordetails = JSON.parse(localStorage.getItem("user"))
-
-
   // Function to render severity grade as color bars
   const renderSeverityGrade = (severity) => {
     const segments = [
@@ -34,7 +37,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
         {segments.map((segment, index) => (
           <div
             key={index}
-            className={`h-6 ${index === 4 ? 'w-8' : 'w-8'} ${segment.active ? segment.color : 'bg-gray-200'
+            className={`h-6 ${index === 4 ? 'w-8' : 'w-8'} ${segment.active ? segment.color : 'bg-gray-500'
               } ${index === 4 ? 'rounded-none' : 'rounded-sm'}`}
           />
         ))}
@@ -408,10 +411,10 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
       // ✅ If no medical history exists, save and then fetch
       if (!patient_all_cheif_complaints || patient_all_cheif_complaints.length === 0) {
         await save_patient_case_file();
-        await getall_patient_medical_history();
+        // await getall_patient_medical_history();
       } else {
-        // ✅ If already available, just refresh data
-        await getall_patient_medical_history();
+
+        // await getall_patient_medical_history();
       }
 
       setShow(true); // ✅ open modal after data ready
@@ -668,46 +671,45 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
       {/* Table */}
 
       {/* Show case_file_data section */}
-      {/* <div
-  className="overflow-x-auto"
-  style={{ display: selected_case_file ? "block" : "none" }}
->
-
-  <div className="bg-[var(--button-back-color)] text-white">
-    <div className="grid grid-cols-4 gap-4 p-2 text-[20px]">
-      <h3 className="table-header">Chief Complaints</h3>
-      <h3 className="table-header">Duration (Months)</h3>
-      <h3 className="table-header">Severity Grade</h3>
-      <h3 className="table-header">Aggravating Factor (s)</h3>
-    </div>
-  </div>
-
-
-  <div className="divide-y divide-gray-200">
-    {case_file_data?.length > 0 && case_file_data[0]?.Status === "Ongoing" &&
-    case_file_data[0]?.ChiefComplaints?.map((item, index) => (
       <div
-        key={item.id}
-        className={`grid grid - cols - 4 gap - 4 p - 4 ${
-        index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
-        }`}
+        className="overflow-x-auto"
+        style={{ display: selected_case_file ? "block" : "none" }}
       >
-        <div className="text-sm text-gray-900 font-medium table-body">
-            {item?.Symptoms?.map(sym => sym?.lookup_value).join(", ")}
+
+        <div className="bg-webprimary text-white">
+          <div className="grid grid-cols-4 gap-4 p-2 text-[20px]">
+            <h3 className="table-header">Chief Complaints</h3>
+            <h3 className="table-header">Duration (Months)</h3>
+            <h3 className="table-header">Severity Grade</h3>
+            <h3 className="table-header">Aggravating Factor (s)</h3>
+          </div>
         </div>
-        <div className="text-sm text-gray-900">
-          {item?.Duration?.Value} {item.Duration?.Unit?.lookup_value}
-        </div>
-        <div className="flex items-center">
-          {renderSeverityGrade(item?.SeverityGrade)}
-        </div>
-        <div className="text-sm text-gray-900">
-          {item?.AggravatingFactors?.map(ag => ag?.lookup_value).join(", ")}
+
+
+        <div className="divide-y divide-gray-200">
+          {case_file_data?.length > 0 && case_file_data[0]?.Status === "Ongoing" &&
+            case_file_data[0]?.ChiefComplaints?.map((item, index) => (
+              <div
+                key={item.id}
+                className={`grid md:grid-cols-4 gap-4 p-4 ${index % 2 === 0 ? "bg-gray-400" : "bg-white"
+                  }`}
+              >
+                <div className="text-sm text-gray-900 font-medium table-body">
+                  {item?.Symptoms?.map(sym => sym?.lookup_value).join(", ")}
+                </div>
+                <div className="text-sm text-gray-900">
+                  {item?.Duration?.Value} {item.Duration?.Unit?.lookup_value}
+                </div>
+                <div className="flex items-center">
+                  {renderSeverityGrade(item?.SeverityGrade)}
+                </div>
+                <div className="text-sm text-gray-900">
+                  {item?.AggravatingFactors?.map(ag => ag?.lookup_value).join(", ")}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
-    ))}
-  </div>
-</div> */}
 
       {/* Show patient_all_cheif_complaints section only if case_file_data is empty */}
       {
@@ -722,7 +724,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
             </h3>
 
             {/* Table Header */}
-            <div className="bg-[var(--button-back-color)] text-white">
+            <div className="bg-webprimary text-white">
               <div className="grid grid-cols-4 gap-4 p-2 text-[16px] font-semibold">
                 <h3 className="table-header">Chief Complaints</h3>
                 <h3 className="table-header">Duration</h3>
@@ -736,9 +738,8 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
               {caseFile.complaints.map((item, index) => (
                 <div
                   key={index}
-                  className={`grid grid - cols - 4 gap - 4 p - 4 ${
-      index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
-    } `}
+                  className={`grid grid - cols - 4 gap - 4 p - 4 ${index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
+                    } `}
                 >
                   {/* Chief Complaints Symptoms */}
 
@@ -812,7 +813,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                                 key={item._id}
                                 onClick={() => handleSymptomClassClick(item._id)}
                                 className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
-              ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
+              ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'} `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -843,7 +844,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "Symptoms", item._id)}
                                 className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
-                                        ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
+                                        ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'} `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -875,7 +876,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "AggravatingFactors", item._id)}
                                 className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
-                          ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
+                          ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'} `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -1014,7 +1015,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                                 key={item._id}
                                 onClick={() => handleSymptomClassClick(item._id)}
                                 className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
-              ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
+              ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'} `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -1048,7 +1049,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "Symptoms", item._id)}
                                 className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
-                                        ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
+                                        ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'} `}
                               >
                                 {item.lookup_value}
                                 {selected && (
@@ -1083,7 +1084,7 @@ const ChiefComplaintsForCurrentProblem = ({ patientId, selected_case_file, case_
                                 key={item._id}
                                 onClick={() => toggleArrayField(index, "AggravatingFactors", item._id)}
                                 className={`px - 3 py - 1 text - sm rounded - md cursor - pointer flex items - center gap - 2
-                          ${ selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800' } `}
+                          ${selected ? 'bg-blue-500 text-white' : 'bg-[#e2e4f4] text-gray-800'} `}
                               >
                                 {item.lookup_value}
                                 {selected && (

@@ -11,8 +11,9 @@ import PatientTestimonials from "../pages/doctor/PatientTestimonials";
 import OpdSurgicalCamps from "../pages/doctor/OpdSurgicalCamps";
 import Workshop from "../pages/doctor/Workshop";
 import CompleteDoctorProfile from "../pages/doctor/doctor-details/CompleteDoctorProfile";
-import PatientReferral from "../pages/doctor/PatientReferral";
-import PatientReferralHome from "../pages/doctor/PatientReferralHome";
+import PatientReferral from "../pages/doctor/patient-referral-pages/PatientReferral";
+import PatientReferralHome from "../pages/doctor/patient-referral-pages/PatientReferralHome";
+import AddNewPatient from "../pages/doctor/patient-referral-pages/AddNewPatient";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -45,7 +46,8 @@ const DoctorRoutes = () => {
         <Route path="workshop" element={<ProtectedRoute><Workshop /></ProtectedRoute>} />
         <Route path="complete-doctor-profile" element={<ProtectedRoute><CompleteDoctorProfile /></ProtectedRoute>} />
         <Route path="patient-referral" element={<ProtectedRoute><PatientReferral /></ProtectedRoute>} />
-        <Route path="patient-referral-home" element={<ProtectedRoute><PatientReferralHome /></ProtectedRoute>} />
+        <Route path="patient-referral/patient-referral-home" element={<ProtectedRoute><PatientReferralHome /></ProtectedRoute>} />
+        <Route path="add-new-patient" element={<ProtectedRoute><AddNewPatient /></ProtectedRoute>} />
 
 
         {/* Catch-all */}

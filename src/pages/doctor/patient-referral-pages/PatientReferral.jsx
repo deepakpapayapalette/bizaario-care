@@ -1,14 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { TextField, Paper, Select, MenuItem, FormControl, Box, Avatar, Tooltip, IconButton, CircularProgress, Button, Radio, FormControlLabel, RadioGroup, FormLabel } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import api from '../../api'
-import CloseIcon from "@mui/icons-material/Close";
+
 import { useNavigate } from 'react-router-dom';
-// import ProfileCard1 from '../AllSubForms/UI/ProfileCard1';
-// import ProfileCard2 from '../AllSubForms/UI/ProfileCard2';
 import Swal from 'sweetalert2';
-import ProfileCard1 from '../../components/doctor/patient-referral/ProfileCard1';
-import ProfileCard2 from '../../components/doctor/patient-referral/ProfileCard2';
+import ProfileCard1 from '@components/doctor/patient-referral/ProfileCard1';
+import ProfileCard2 from '@components/doctor/patient-referral/ProfileCard2';
 import { __postApiData, __putApiData, __getApiData } from "@utils/api";
 
 const PatientReferral = () => {
@@ -26,19 +22,17 @@ const PatientReferral = () => {
   const [submittedPhone, setSubmittedPhone] = useState("");
 
   let phoneNumber = submittedPhone || inputValue;
-  // console.log(showReferralForm, "showReferralForm")
 
   //=========================== get all patient details=========================================
 
   const navigate = useNavigate();
 
-  const [patient_details, setpatient_details] = useState("");
-  // console.log(patient_details, "patient_details")
+  const [patient_details, setpatient_details] = useState(null);
+  // console.log(patient_details, "patient_details31")
 
   const get_patient_details = async () => {
     try {
       const resp = await __getApiData(`/api/v1/admin/getPatientbyphonenumber/${inputValue}`);
-      // console.log(resp, "40");
 
       if (resp.response.response_code !== "200") {
         Swal.fire({
@@ -62,9 +56,10 @@ const PatientReferral = () => {
     }
   };
 
-  useEffect(() => {
-    get_patient_details();
-  }, []);
+  // useEffect(() => {
+
+  //   get_patient_details();
+  // }, []);
 
   // ===============OTP-form==========================
 
@@ -548,8 +543,8 @@ const PatientReferral = () => {
                   <div className="flex gap-4 ">
                     <button
                       onClick={() =>
-                        navigate("/doctordashboard/patient-referral-home", {
-                          state: { patient_details },
+                        navigate("/doctordashboard/patient-referral/patient-referral-home", {
+                          state: patient_details,
                         })
                       }
                       className={`theme-btn-ouline
@@ -583,27 +578,29 @@ const PatientReferral = () => {
                 <div className="flex justify-center">
                   <div className="flex gap-4 ">
                     <button
-                      onClick={() => navigate("/add-new-patient")}
-                      className={`px-6 py-3 rounded-lg font-medium text-[var(--primary-color)] transition-colors border-[var(--primary-color)]  border-2 hover:bg-[var(--primary-color)] cursor-pointer
-                      hover:text-white
+                      onClick={() => navigate("/doctordashboard/add-new-patient")}
+                      className={`theme-btn-fill
                       w-[140px]
                    `}
                     >
                       Add Patient
                     </button>
                     <button
-                      className={`px-6 py-3 rounded-lg font-medium text-white transition-colors bg-[var(--primary-color)] hover:bg-slate-700 cursor-pointer
-                      w-[140px]
+                      className={`theme-btn-ouline
                    `}
                     >
-                      Cancel
+                      <div className='px-10'>
+
+                        Cancel
+                      </div>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <> </>
+            <>
+            </>
           )}
         </div>
       </div >

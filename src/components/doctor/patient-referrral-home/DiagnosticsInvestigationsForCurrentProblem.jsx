@@ -1,18 +1,35 @@
-
-import React from 'react';
+// Option B — Same UI, Same Structure, Internally Optimized JSX File
+// Fully formatted .jsx file
 import { Plus, Edit } from 'lucide-react';
-import { useEffect, useState } from 'react'
-import { TextField, Select, MenuItem, FormControl, Button, CircularProgress } from '@mui/material';
-import { __postApiData, __putApiData, __getApiData } from "@utils/api";
-import Swal from 'sweetalert2';
-import UniqueLoader from '../../common/UniqueLoader';
-// import UniqueLoader from '../../../../loader';
-// import { customMenuProps } from '../../../../../utils/mui_select_scroll_bar';
-// import { Modal, } from 'react-bootstrap';
-// import { __postApiData } from "../../../../../utils/api";
+import React, { useEffect, useState } from "react";
+import {
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Button,
+  Radio,
+  FormControlLabel,
+  RadioGroup,
+  FormLabel,
+  Dialog,
+} from "@mui/material";
+import {
+  __postApiData,
+  __putApiData,
+  __getApiData,
+  __deleteApiData,
+} from "@utils/api";
+import Swal from "sweetalert2";
+import UniqueLoader from "../../common/UniqueLoader";
+import { customMenuProps } from '../../../utils/CustomMenuProps';
+// import UniqueLoader from "../../common/UniqueLoader";
+// import UniqueLoader from "../../../../components/common/UniqueLoader";
 
-const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_file, case_file_data, onRefresh }) => {
-
+export default function DiagnosticsInvestigationsForCurrentProblem(
+  { patientId, selected_case_file, case_file_data, onRefresh }) {
+  const [isloading, setisloading] = useState(false)
   const doctordetails = JSON.parse(localStorage.getItem("user"))
 
 
@@ -107,10 +124,10 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
   const [all_investigation_category, setall_investigation_category] = useState([])
   const getall_investigation_category = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "investigation_category_type" })
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "investigation_category_type" })
 
 
-      setall_investigation_category(resp.data.data)
+      setall_investigation_category(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -129,10 +146,10 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
   const [all_investigation_master, setall_investigation_master] = useState([])
   const getall_investigation_master = async () => {
     try {
-      const resp = await api.post(`api/v1/admin/investigationList`)
+      const resp = await __postApiData(`/api/v1/admin/investigationList`)
 
 
-      setall_investigation_master(resp.data.data.list)
+      setall_investigation_master(resp.data.list)
 
     } catch (error) {
       console.log(error);
@@ -152,10 +169,10 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
   const [all_symptom_class_master, setall_symptom_class_master] = useState([])
   const getall_symptom_class_master = async () => {
     try {
-      const resp = await api.post('api/v1/admin/LookupList/', { lookupcodes: "symptom_class_type" })
+      const resp = await __postApiData('/api/v1/admin/LookupList/', { lookupcodes: "symptom_class_type" })
 
 
-      setall_symptom_class_master(resp.data.data)
+      setall_symptom_class_master(resp.data)
 
     } catch (error) {
       console.log(error);
@@ -182,16 +199,16 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
       const formData = new FormData();
       formData.append("file", file);
 
-      const resp = await api.post("api/v1/common/AddImage", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const resp = await __postApiData("/api/v1/common/AddImage", formData, {
+
       });
 
       // ✅ Extract URL from response
       if (
-        resp.data?.response?.response_code === "200" &&
-        resp.data.data?.length > 0
+        resp.response?.response_code === "200" &&
+        resp.data?.length > 0
       ) {
-        const imageUrl = resp.data.data[0].full_URL; // full_URL from API
+        const imageUrl = resp.data[0].full_URL; // full_URL from API
 
         // ✅ Update state dynamically based on `fieldName`
         setmedical_history((prev) => {
@@ -217,7 +234,7 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
 
 
 
-  const [isloading, setisloading] = useState(false)
+
 
   const save_diagnostics_investigations = async () => {
     setisloading(true);
@@ -228,17 +245,13 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
         CaseFileId: patient_all_diagnostics[0]?.caseFileId._id,
         CreatedBy: doctordetails._id
       }
-      const resp = await api.post(
-        `api/v1/admin/medical-history/clinical-diagnoses/add-multiple`,
+      const resp = await __postApiData(`/api/v1/admin/medical-history/clinical-diagnoses/add-multiple`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
       );
 
 
 
-      const { response_code, response_message } = resp.data.response;
+      const { response_code, response_message } = resp.response;
 
       if (response_code === "200") {
         Swal.fire({
@@ -291,10 +304,10 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
   const getall_patient_medical_history = async () => {
     try {
       //  setLoadingSpeciality(true);
-      const resp = await api.get(`api/v1/admin/medical-history/list?PatientId=${patientId}&Status=Ongoing`);
+      const resp = await __getApiData(`/api/v1/admin/medical-history/list?PatientId=${patientId}&Status=Ongoing`);
 
 
-      const formatted = resp.data.data.list.map(item => ({
+      const formatted = resp.data.list.map(item => ({
         caseFileId: item.CaseFileId,
         treatmentType: item.CaseFileId.TreatmentType,
         clinicaldiagnoses: item.ClinicalDiagnoses
@@ -374,17 +387,13 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
         CaseFileId: patient_all_diagnostics[0]?.caseFileId._id,
         UpdatedBy: doctordetails._id
       }
-      const resp = await api.put(
-        `api/v1/admin/medical-history/clinical-diagnoses/edit-multiple`,
+      const resp = await __putApiData(`/api/v1/admin/medical-history/clinical-diagnoses/edit-multiple`,
         payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
       );
 
 
 
-      const { response_code, response_message } = resp.data.response;
+      const { response_code, response_message } = resp.response;
 
       if (response_code === "200") {
         Swal.fire({
@@ -429,8 +438,6 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
       setisloading(false);
     }
   };
-
-
 
   return (
     <div className="space mt-4">
@@ -488,7 +495,7 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
       {
         // (!case_file_data || case_file_data.length === 0) &&
         patient_all_diagnostics?.map((caseFile, caseIndex) => (
-          <div key={caseFile.caseFileId} className="mb-6">
+          <div key={caseIndex} className="mb-6">
             {/* Case File Header */}
             <h3 className="text-xl font-bold mb-2">
               {caseFile.caseFileId.TreatmentType} (Case File ID: {caseFile.caseFileId._id})-
@@ -496,7 +503,7 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
             </h3>
 
             {/* Table Header */}
-            <div className="bg-[var(--button-back-color)] text-white">
+            <div className="bg-webprimary text-white">
               <div className="grid grid-cols-3 gap-4 p-2 text-[20px]">
                 <h3 className="table-header">Investigation Category</h3>
                 <h3 className="table-header">Investigation Name</h3>
@@ -512,19 +519,12 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
                   className={`grid grid-cols-3 gap-4 p-4 ${index % 2 === 0 ? "bg-[#f2f3f6]" : "bg-white"
                     }`}
                 >
-
-
                   <div className="text-sm text-gray-900 font-medium table-body">
                     {item?.InvestigationCategory?.lookup_value || "—"}
                   </div>
-
-
                   <div className="text-sm text-gray-900 font-medium table-body">
                     {item?.Investigation?.lookup_value || "—"}
                   </div>
-
-
-
                   <div className="text-sm text-gray-900 font-medium table-body">
                     {item?.Abnormalities?.map(sym => sym?.lookup_value).join(", ") || "—"}
                   </div>
@@ -543,23 +543,28 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
         </p>
       </div> */}
 
+      <Dialog
+        open={show}
+        onClose={handleClose}
+        fullWidth
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            width: "1000px",
+            maxWidth: "1200px",
+            padding: "20px",
+          }
+        }}
 
-      <Modal show={show} onHide={handleClose} centered size="lg">
+      >
 
-        <Modal.Header closeButton>
-          <Modal.Title className='form-title'>Add Medical History(Clinical Diagnoses)</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-
+        <div>
+          <h2 className='mb-3'>Add Medical History(Clinical Diagnoses)</h2>
           <div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
 
               {/*======================== clinical Diagnosis ================================================*/}
-
-
-
               <div className='col-span-2'>
                 <h5 className='form-title'>Clinical Diagnoses </h5>
                 {medical_history.ClinicalDiagnoses.map((details, index) => (
@@ -667,7 +672,6 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
                         </div>
                       </FormControl>
                     </div>
-
                     <FormControl fullWidth size="small">
                       <label className="form-label">Upload Report </label>
                       <TextField
@@ -686,7 +690,6 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
                         </div>
                       )}
                     </FormControl>
-
                     <FormControl fullWidth size="small">
                       <label className="form-label">Upload Interpretation </label>
                       <TextField
@@ -705,8 +708,6 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
                         </div>
                       )}
                     </FormControl>
-
-
                     <div className="flex justify-between mt-2">
                       <Button
                         style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }}
@@ -717,27 +718,12 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
 
 
                     </div>
-
                   </div>
-
                 ))}
-
               </div>
-
-
-
-
-
-
-
-
             </div>
 
-
-
             <div className="flex justify-end mt-4">
-
-
               <Button
                 style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }}
                 onClick={save_diagnostics_investigations}
@@ -745,28 +731,27 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
                 Save
               </Button>
             </div>
-
-
           </div>
+        </div>
+      </Dialog>
 
-        </Modal.Body>
+      <Dialog
+        open={showEdit}
+        onClose={handleCloseEdit}
+        fullWidth
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            width: "1000px",
+            maxWidth: "1200px",
+            padding: "20px",
+          }
+        }}
 
+      >
 
-      </Modal>
-
-
-
-      {/*================================== edit modal ==============================================*/}
-
-
-      <Modal show={showEdit} onHide={handleCloseEdit} centered size="lg">
-
-        <Modal.Header closeButton>
-          <Modal.Title className='form-title'>Edit Medical History(Clinical Diagnoses)</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-
+        <div>
+          <h2 className='mb-3'>Edit Medical History(Clinical Diagnoses)</h2>
           <div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4 border border-gray-300 rounded-lg p-4">
@@ -1042,12 +1027,8 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
 
 
           </div>
-
-        </Modal.Body>
-
-
-      </Modal>
-
+        </div>
+      </Dialog>
 
       {isloading && (
         <div
@@ -1064,9 +1045,9 @@ const DiagnosticsInvestigationsForCurrentProblem = ({ patientId, selected_case_f
           <UniqueLoader />
         </div>
       )}
+
+
+
     </div>
   );
 }
-
-export default DiagnosticsInvestigationsForCurrentProblem
-
