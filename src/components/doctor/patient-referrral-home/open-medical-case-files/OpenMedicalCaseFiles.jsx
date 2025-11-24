@@ -304,9 +304,9 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
   }
 
   return (
-    <div className="space mt-4 " >
-      <div className="flex justify-end space-x-2">
-        <button className='view-all' onClick={handleShow_medical_files}>Open Medical Case Files</button>
+    <div className="space " >
+      <div className="flex  space-x-2">
+        <button className='theme-btn-fill' onClick={handleShow_medical_files}>Open Medical Case Files</button>
       </div>
       {/* ====================================modal for add medical case files ==========================*/}
       <Dialog
@@ -736,12 +736,12 @@ const OpenMedicalCaseFiles = ({ patientId, patient_details, setselected_case_fil
             <div className="flex justify-end mt-4">
 
 
-              <Button
-                style={{ backgroundColor: "#52677D", fontFamily: "Lora", color: "white" }}
+              <button
+                className='theme-btn-fill '
                 onClick={save_patient_case_file}
               >
                 Save
-              </Button>
+              </button>
             </div>
 
             <div className="col-span-1 mt-6 bg-[rgba(82, 103, 125, 0.10)]">

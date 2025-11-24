@@ -46,11 +46,17 @@ const PatientReferralHome = () => {
           selected_case_file={selected_case_file}
         />
 
-        {/*<OpenMedicalCaseFiles
-          patientId={patientId}
-          patient_details={patient_details}
-          setselected_case_file={setselected_case_file}
-        /> */}
+        <div className='container  mt-8'>
+
+
+
+          <OpenMedicalCaseFiles
+            patientId={patientId}
+            patient_details={patient_details}
+            setselected_case_file={setselected_case_file}
+          />
+
+        </div>
 
 
 
