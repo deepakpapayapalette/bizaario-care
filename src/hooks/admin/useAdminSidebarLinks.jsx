@@ -49,7 +49,7 @@ const useAdminSidebarLinks = (role) => {
       link: "/admindashboard/bizaario-master",
       dock: false,
       subList: [
-        { id: "8-1", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/patient-referral-type", title: "Country Group Maste" },
+        { id: "8-1", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/patient-referral-type", title: "Patient Referral Type" },
         { id: "8-2", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/symptom-class-master", title: "Symptom Class Master" },
         { id: "8-3", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/symptom-master", title: "Symptom Master" },
         { id: "8-4", icon: <VerifiedUserTwoToneIcon />, path: "/admindashboard/bizaario-master/aggravating-factor-master", title: "Aggravating Factor Master" },
