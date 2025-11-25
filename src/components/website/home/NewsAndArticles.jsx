@@ -86,7 +86,7 @@ const NewsAndArticles = () => {
         <div className="mb-6 md:mb-0">
           <Link
             className="theme-btn-fill inline-block px-15 py-3  "
-            to="/view-all-hospitals"
+            to="/news-articles"
           >
             View All <FaArrowRight size={18} className="inline" />
           </Link>
