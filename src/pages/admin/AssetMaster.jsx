@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-  Box, Grid, Button, TextField, FormControl, Paper, Select, MenuItem,
-  IconButton, Menu
-} from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { DataGrid } from '@mui/x-data-grid';
-import Swal from 'sweetalert2';
-import { __postApiData } from '@utils/api';
-import FormButton from '../../components/common/FormButton';
-import { customMenuProps } from '../../utils/CustomMenuProps';
+  Box,
+  Grid,
+  Button,
+  TextField,
+  FormControl,
+  Paper,
+  Select,
+  MenuItem,
+  IconButton,
+  Menu,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { DataGrid } from "@mui/x-data-grid";
+import Swal from "sweetalert2";
+import { __postApiData } from "@utils/api";
+import FormButton from "../../components/common/FormButton";
+import { customMenuProps } from "../../utils/CustomMenuProps";
 const AssetMaster = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [assetmaster, setassetmaster] = useState({
@@ -21,26 +29,22 @@ const AssetMaster = () => {
     SubscriptionType: null,
   });
 
-  const [allasset_master_list, setallasset_master_list] = useState([])
+  const [allasset_master_list, setallasset_master_list] = useState([]);
   const getall_assest_master = async () => {
     try {
       setIsLoading(true);
-      const resp = await __postApiData('/api/v1/admin/AssetList')
-      setallasset_master_list(resp.data.list)
-
+      const resp = await __postApiData("/api/v1/admin/AssetList");
+      setallasset_master_list(resp.data.list);
     } catch (error) {
       console.log(error);
-
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    getall_assest_master()
-
-  }, [])
+    getall_assest_master();
+  }, []);
 
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuRowId, setMenuRowId] = useState(null);
@@ -56,31 +60,41 @@ const AssetMaster = () => {
   };
 
   const onEdithospital = () => {
-    alert("edit")
-  }
+    alert("edit");
+  };
 
   const onDeletehospital = () => {
-    alert("delete")
-  }
+    alert("delete");
+  };
 
   const columnshospital = [
-    { field: 'sno', headerName: 'S.No.', flex: 0.2, renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1 },
-    { field: 'AssetName', headerName: 'Asset Name', flex: 1 },
     {
-      field: 'StationId', headerName: 'Station Name', flex: 1, renderCell: (params) => {
+      field: "sno",
+      headerName: "S.No.",
+      flex: 0.2,
+      renderCell: (params) => params.api.getAllRowIds().indexOf(params.id) + 1,
+    },
+    { field: "AssetName", headerName: "Asset Name", flex: 1 },
+    {
+      field: "StationId",
+      headerName: "Station Name",
+      flex: 1,
+      renderCell: (params) => {
         return params.row?.StationId?.StationName || "";
-      }
+      },
     },
 
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      headerName: "Actions",
       width: 80,
       sortable: false,
       filterable: false,
       renderCell: (params) => (
         <>
-          <IconButton onClick={(e) => handleOpenMenuhospital(e, params.row._id)}>
+          <IconButton
+            onClick={(e) => handleOpenMenuhospital(e, params.row._id)}
+          >
             <MoreVertIcon />
           </IconButton>
 
@@ -111,8 +125,7 @@ const AssetMaster = () => {
           )}
         </>
       ),
-    }
-
+    },
   ];
 
   const rowshospital = allasset_master_list?.map((doc, index) => ({
@@ -122,63 +135,60 @@ const AssetMaster = () => {
 
   // =================================get org list==============================================
 
-  const [allorgunits, setallorgunits] = useState([])
+  const [allorgunits, setallorgunits] = useState([]);
   const getallorgunits = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "org_unit_type" })
-      setallorgunits(resp.data)
-
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "org_unit_type",
+      });
+      setallorgunits(resp.data);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   useEffect(() => {
-    getallorgunits()
-
-  }, [])
-
-
-
+    getallorgunits();
+  }, []);
 
   //========================================= get asset level 1 ================================================
 
-  const [allassest_category_level1, setallassest_category_level1] = useState([])
+  const [allassest_category_level1, setallassest_category_level1] = useState(
+    []
+  );
   const getallassest_category = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "asset_category_level_1" })
-      setallassest_category_level1(resp.data)
-
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "asset_category_level_1",
+      });
+      setallassest_category_level1(resp.data);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   useEffect(() => {
-    getallassest_category()
-
-  }, [])
-
-
-
+    getallassest_category();
+  }, []);
 
   //====================================== get asset level 2==============================================
 
-  const [allassest_category_level2, setallassest_category_level2] = useState([])
+  const [allassest_category_level2, setallassest_category_level2] = useState(
+    []
+  );
   const getallassest_category_level2 = async () => {
     try {
-      const resp = await __postApiData('/api/v1/common/LookupList', { lookup_type: "asset_category_level_2", parent_lookup_id: assetmaster.AssetCategoryLevel1 })
-      console.log(resp);
+      const resp = await __postApiData("/api/v1/common/LookupList", {
+        lookup_type: "asset_category_level_2",
+        parent_lookup_id: assetmaster.AssetCategoryLevel1,
+      });
+      // console.log(resp);
 
-      setallassest_category_level2(resp.data)
-
+      setallassest_category_level2(resp.data);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   useEffect(() => {
     if (assetmaster.AssetCategoryLevel1) {
@@ -186,71 +196,88 @@ const AssetMaster = () => {
     }
   }, [assetmaster.AssetCategoryLevel1]);
 
-
   //===================================== all asset level 3==========================================
 
-  const [allassest_category_level3, setallassest_category_level3] = useState([])
+  const [allassest_category_level3, setallassest_category_level3] = useState(
+    []
+  );
   const getallassest_category_level3 = async () => {
     try {
-      const resp = await __postApiData('/api/v1/common/LookupList', { lookup_type: "asset_category_level_3", parent_lookup_id: assetmaster.AssetCategoryLevel2 })
-      setallassest_category_level3(resp.data)
-
+      const resp = await __postApiData("/api/v1/common/LookupList", {
+        lookup_type: "asset_category_level_3",
+        parent_lookup_id: assetmaster.AssetCategoryLevel2,
+      });
+      setallassest_category_level3(resp.data);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   useEffect(() => {
     if (assetmaster.AssetCategoryLevel2) {
       getallassest_category_level3();
     }
+  }, [assetmaster.AssetCategoryLevel2]);
 
-  }, [assetmaster.AssetCategoryLevel2])
+  // get all station country list
+  // for country value
+  const [countryList, setCountryList] = useState([]);
+  const [CountryId, setCountryId] = useState("");
+  const getCountry_list = async () => {
+    try {
+      const resp = await __postApiData("/api/v1/admin/StationList", {
+        OrgUnitLevel: "68affb6d874340d8d79dbea4", // country
+      });
+      console.log(resp);
 
+      setCountryList(resp.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //================================== get all station list===========================================
 
-  const [allstationmaster, setallstationmaster] = useState([])
+  const [allstationmaster, setallstationmaster] = useState([]);
   const getallstation_list = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/StationList', { page: 1, limit: 10, search: "" })
-      console.log(resp);
+      const resp = await __postApiData("/api/v1/admin/StationList", {
+        StationId: CountryId,
+        OrgUnitLevel: "68affb90874340d8d79dbeb6", // city
+      });
+      // console.log(resp);
 
-      setallstationmaster(resp.data.list)
-
+      setallstationmaster(resp.data.list);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   useEffect(() => {
-    getallstation_list()
+    getallstation_list();
+  }, [CountryId]);
 
-  }, [])
+  useEffect(() => {
+    getCountry_list();
+  }, []);
 
   //==================================== get all subscription======================================
 
-  const [allsubscription, setallsubscription] = useState([])
+  const [allsubscription, setallsubscription] = useState([]);
   const getallsubscription = async () => {
     try {
-      const resp = await __postApiData('/api/v1/admin/LookupList', { lookupcodes: "subscription_type" })
-      setallsubscription(resp.data)
-
+      const resp = await __postApiData("/api/v1/admin/LookupList", {
+        lookupcodes: "subscription_type",
+      });
+      setallsubscription(resp.data);
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
   useEffect(() => {
-    getallsubscription()
-
-  }, [])
-
-
-
+    getallsubscription();
+  }, []);
 
   const handlechange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -283,24 +310,29 @@ const AssetMaster = () => {
     });
   };
 
-
+  const handlechangeForCountry = (e) => {
+    setCountryId(e.target.value);
+  };
 
   const add_assest_master = async () => {
     try {
-      const resp = await __postApiData("/api/v1/admin/SaveAsset_Identifier", assetmaster);
+      const resp = await __postApiData(
+        "/api/v1/admin/SaveAsset_Identifier",
+        assetmaster
+      );
 
-      if (resp.data.response.response_code === "200") {
+      if (resp.response.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Asset Master Added",
           text: "Asset Master Addedd Successfully...",
           showConfirmButton: true,
           customClass: {
-            confirmButton: 'my-swal-button',
+            confirmButton: "my-swal-button",
           },
         }).then(() => {
-          window.location.reload()
-        })
+          window.location.reload();
+        });
         console.log("✅ Lookup list:", resp.data);
       } else {
         console.warn("⚠️ Error:", resp.data.response.response_message);
@@ -311,18 +343,18 @@ const AssetMaster = () => {
   };
 
   return (
-    <div className='container mt-8'>
-      <div className='mb-6'>
-        <h2 className="text-2xl font-semibold mb-2">
+    <div className="container mt-8">
+      <div className="mb-6">
+        <h2 className="mb-2 text-2xl font-semibold">
           Enter Details for Assets Master
         </h2>
         <p className="text-para">
-          Add or update the required details for the assets master to keep records accurate and complete.
+          Add or update the required details for the assets master to keep
+          records accurate and complete.
         </p>
       </div>
       <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
-
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mb-6">
+        <div className="grid gap-6 mb-6 lg:grid-cols-3 md:grid-cols-2">
           {/* Dropdowns and inputs */}
 
           <FormControl fullWidth size="small">
@@ -335,24 +367,27 @@ const AssetMaster = () => {
               displayEmpty
               renderValue={(selected) => {
                 if (!selected) {
-                  return <span style={{ color: "#9ca3af" }}>Asset Category Level 1</span>; // grey placeholder
+                  return (
+                    <span style={{ color: "#9ca3af" }}>
+                      Asset Category Level 1
+                    </span>
+                  ); // grey placeholder
                 }
-                return allassest_category_level1.find((item) => item._id === selected)?.lookup_value;
+                return allassest_category_level1.find(
+                  (item) => item._id === selected
+                )?.lookup_value;
               }}
             >
-
               <MenuItem disabled value="">
                 <em>Asset Category Level 1 Id</em>
               </MenuItem>
-              {
-                allassest_category_level1?.map((item) =>
-                (
-                  <MenuItem key={item._id} value={item._id}>{item.lookup_value}</MenuItem>
-                ))
-              }
+              {allassest_category_level1?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.lookup_value}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-
 
           <FormControl fullWidth size="small">
             <label className="form-label">Asset Category Level 2</label>
@@ -364,23 +399,27 @@ const AssetMaster = () => {
               displayEmpty
               renderValue={(selected) => {
                 if (!selected) {
-                  return <span style={{ color: "#9ca3af" }}>Select Asset Category Level 2</span>; // grey placeholder
+                  return (
+                    <span style={{ color: "#9ca3af" }}>
+                      Select Asset Category Level 2
+                    </span>
+                  ); // grey placeholder
                 }
-                return allassest_category_level2.find((item) => item._id === selected)?.lookup_value;
+                return allassest_category_level2.find(
+                  (item) => item._id === selected
+                )?.lookup_value;
               }}
             >
               <MenuItem disabled value="">
                 <em>Asset Category Level 2 Id</em>
               </MenuItem>
-              {
-                allassest_category_level2?.map((item) =>
-                (
-                  <MenuItem key={item._id} value={item._id}>{item.lookup_value}</MenuItem>
-                ))
-              }
+              {allassest_category_level2?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.lookup_value}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-
 
           <FormControl fullWidth size="small">
             <label className="form-label">Asset Category Level 3</label>
@@ -392,21 +431,53 @@ const AssetMaster = () => {
               displayEmpty
               renderValue={(selected) => {
                 if (!selected) {
-                  return <span style={{ color: "#9ca3af" }}>Select Asset Category Level 3</span>; // grey placeholder
+                  return (
+                    <span style={{ color: "#9ca3af" }}>
+                      Select Asset Category Level 3
+                    </span>
+                  ); // grey placeholder
                 }
-                return allassest_category_level3.find((item) => item._id === selected)?.lookup_value;
+                return allassest_category_level3.find(
+                  (item) => item._id === selected
+                )?.lookup_value;
               }}
             >
-
               <MenuItem disabled value="">
                 <em>Asset Category Level 3 Id</em>
               </MenuItem>
-              {
-                allassest_category_level3?.map((item) =>
-                (
-                  <MenuItem key={item._id} value={item._id}>{item.lookup_value}</MenuItem>
-                ))
-              }
+              {allassest_category_level3?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.lookup_value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth size="small">
+            <label className="form-label">Country</label>
+            <Select
+              name="CountryId"
+              value={CountryId}
+              MenuProps={customMenuProps}
+              onChange={handlechangeForCountry}
+              displayEmpty
+              renderValue={(selected) => {
+                if (!selected) {
+                  return (
+                    <span style={{ color: "#9ca3af" }}>Select Country</span>
+                  ); // grey placeholder
+                }
+                return countryList.find((item) => item._id === selected)
+                  ?.StationName;
+              }}
+            >
+              <MenuItem disabled value="">
+                <em>Country Id</em>
+              </MenuItem>
+              {countryList?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.StationName}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -420,20 +491,22 @@ const AssetMaster = () => {
               displayEmpty
               renderValue={(selected) => {
                 if (!selected) {
-                  return <span style={{ color: "#9ca3af" }}>Select Station Id</span>; // grey placeholder
+                  return (
+                    <span style={{ color: "#9ca3af" }}>Select Station Id</span>
+                  ); // grey placeholder
                 }
-                return allstationmaster.find((item) => item._id === selected)?.StationName;
+                return allstationmaster.find((item) => item._id === selected)
+                  ?.StationName;
               }}
             >
               <MenuItem disabled value="">
                 <em>Station Id</em>
               </MenuItem>
-              {
-                allstationmaster?.map((item) =>
-                (
-                  <MenuItem key={item._id} value={item._id}>{item.StationName}</MenuItem>
-                ))
-              }
+              {allstationmaster?.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.StationName}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -447,20 +520,23 @@ const AssetMaster = () => {
               displayEmpty
               renderValue={(selected) => {
                 if (!selected) {
-                  return <span style={{ color: "#9ca3af" }}>Select Asset Id</span>; // grey placeholder
+                  return (
+                    <span style={{ color: "#9ca3af" }}>Select Asset Id</span>
+                  ); // grey placeholder
                 }
-                return allorgunits.find((item) => item._id === selected)?.lookup_value;
+                return allasset_master_list.find(
+                  (item) => item._id === selected
+                )?.AssetName;
               }}
             >
               <MenuItem disabled value="">
                 <em>Asset Id</em>
               </MenuItem>
-              {
-                allorgunits.map((item) =>
-                (
-                  <MenuItem key={item._id} value={item._id}>{item.lookup_value}</MenuItem>
-                ))
-              }
+              {allasset_master_list.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.AssetName}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -486,20 +562,24 @@ const AssetMaster = () => {
               displayEmpty
               renderValue={(selected) => {
                 if (!selected) {
-                  return <span style={{ color: "#9ca3af" }}>Subscription Type Id</span>; // grey placeholder
+                  return (
+                    <span style={{ color: "#9ca3af" }}>
+                      Subscription Type Id
+                    </span>
+                  ); // grey placeholder
                 }
-                return allsubscription.find((item) => item._id === selected)?.lookup_value;
+                return allsubscription.find((item) => item._id === selected)
+                  ?.lookup_value;
               }}
             >
               <MenuItem disabled value="">
                 <em>Subscription Type</em>
               </MenuItem>
-              {
-                allsubscription.map((item) =>
-                (
-                  <MenuItem key={item._id} value={item._id}>{item.lookup_value}</MenuItem>
-                ))
-              }
+              {allsubscription.map((item) => (
+                <MenuItem key={item._id} value={item._id}>
+                  {item.lookup_value}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
@@ -509,7 +589,7 @@ const AssetMaster = () => {
         </FormButton>
       </Paper>
 
-      <div className='mt-6'>
+      <div className="mt-6">
         <DataGrid
           rows={rowshospital}
           columns={columnshospital}
@@ -521,11 +601,9 @@ const AssetMaster = () => {
           disableSelectionOnClick
           loading={isLoading}
         />
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AssetMaster
-
+export default AssetMaster;
