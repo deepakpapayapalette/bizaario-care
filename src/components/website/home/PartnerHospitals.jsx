@@ -51,11 +51,12 @@ const responsiveCardsList = {
 };
 
 const PartnerHospitals = () => {
+  const [activeTab, setActiveTab] = useState("");
   const [hospital_details, sethospital_details] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [countryList, setCountryList] = useState([]);
   const [cityList, setCityList] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(""); // Will be set to India ID after fetching
   const [selectedCity, setSelectedCity] = useState("");
 
   // Fetch country list on component mount
@@ -65,7 +66,18 @@ const PartnerHospitals = () => {
       const resp = await __postApiData("/api/v1/admin/StationList", {
         OrgUnitLevel: "68affb6d874340d8d79dbea4", // country level
       });
-      setCountryList(resp.data.list || []);
+      const countries = resp.data.list || [];
+      setCountryList(countries);
+
+      // Find India and set as default
+      const indiaCountry = countries.find(
+        (item) => item.StationName === "India"
+      );
+      if (indiaCountry) {
+        setSelectedCountry(indiaCountry._id);
+        // Fetch cities for India by default
+        getCityList(indiaCountry._id);
+      }
       console.log(resp, "country");
     } catch (error) {
       console.log("Error fetching countries:", error);
@@ -79,12 +91,14 @@ const PartnerHospitals = () => {
     try {
       setIsLoading(true);
       const resp = await __postApiData("/api/v1/admin/StationList", {
-        ParentStationId: countryId,
         OrgUnitLevel: "68affb90874340d8d79dbeb6", // city level
+        // ParentStationId: countryId || "6925507e99f6b6e735b26a82",
+        // ParentStationId: "6925507e99f6b6e735b26a82",
       });
       setCityList(resp.data.list || []);
+      setSelectedCity(""); // Reset city selection
+      setActiveTab(""); // Reset active tab
       console.log(resp, "city");
-      setSelectedCity(""); // Reset city selection when country changes
     } catch (error) {
       console.log("Error fetching cities:", error);
     } finally {
@@ -126,7 +140,7 @@ const PartnerHospitals = () => {
 
   useEffect(() => {
     get_hospital_profile();
-    getCountryList();
+    getCountryList(); // This will set India as default and fetch its cities
   }, []);
 
   const handleCountryChange = (e) => {
@@ -139,8 +153,9 @@ const PartnerHospitals = () => {
     }
   };
 
-  const handleCityChange = (e) => {
-    setSelectedCity(e.target.value);
+  const handleCityTabClick = (cityId, cityName) => {
+    setSelectedCity(cityId);
+    setActiveTab(cityName);
   };
 
   const navigate = useNavigate();
@@ -171,16 +186,54 @@ const PartnerHospitals = () => {
         </div>
       </div>
 
-      {/* =========Country & City Select=========== */}
-      <div className="items-start justify-between pb-6 lg:flex md:pb-8">
-        <SelectField
-          countryList={countryList}
-          cityList={cityList}
-          selectedCountry={selectedCountry}
-          selectedCity={selectedCity}
-          onCountryChange={handleCountryChange}
-          onCityChange={handleCityChange}
-        />
+      {/* =========Country Select + City Tabs=========== */}
+      <div className="items-start justify-between mb-6 lg:flex">
+        {/* City Tabs Carousel */}
+        {selectedCountry && cityList.length > 0 && (
+          <Carousel
+            arrows={false}
+            responsive={responsive}
+            containerClass="pe-1 flex-1"
+            itemClass="pe-4"
+            infinite
+            partialVisible
+          >
+            {cityList.map((tab) => (
+              <button
+                key={tab._id}
+                className={`border-2 py-3 px-4 rounded-md text-webprimary hover:bg-webprimary hover:text-white w-full whitespace-nowrap transition-all ${
+                  activeTab === tab.StationName
+                    ? "bg-webprimary text-white border-webprimary"
+                    : "border-webprimary"
+                }`}
+                onClick={() => handleCityTabClick(tab._id, tab.StationName)}
+              >
+                {tab.StationName}
+              </button>
+            ))}
+          </Carousel>
+        )}
+
+        {/* Country Select */}
+        <div className="mt-6 mb-6 lg:ps-4 lg:mt-0 lg:mb-0">
+          <div className="border-2 rounded-lg px-3 flex items-center gap-2 sm:w-[180px] me-3 md:me-0 bg-white">
+            <span className="bg-white input-group-text border-end-0">
+              <GrLocation size={24} className="text-webprimary" />
+            </span>
+            <select
+              className="py-3.5 lg:w-[100px] w-full bg-white border-0 focus:ring-0 focus:outline-0 md:text-md font-medium text-webprimary"
+              value={selectedCountry}
+              onChange={handleCountryChange}
+            >
+              <option value="">Select Country</option>
+              {countryList?.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.StationName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
 
       {/* Hospital Content */}

@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import { GrLocation } from "react-icons/gr";
 
-const SelectField = ({ countryList = [], cityList = [], selectedCountry, selectedCity, onCountryChange, onCityChange }) => {
+const SelectField = ({
+  countryList = [],
+  cityList = [],
+  selectedCountry,
+  selectedCity,
+  onCountryChange,
+  onCityChange,
+}) => {
   return (
     <>
       {/* Country Select */}
-      <div className="lg:ps-4 lg:mt-0 mt-6">
+      <div className="mt-6 lg:ps-4 lg:mt-0">
         <div className="border-2 rounded-lg px-3 flex items-center gap-2 sm:w-[180px] me-3 md:me-0 bg-white">
           <span className="bg-white input-group-text border-end-0">
             <GrLocation size={24} className="text-webprimary" />
@@ -26,8 +33,8 @@ const SelectField = ({ countryList = [], cityList = [], selectedCountry, selecte
       </div>
 
       {/* City Select */}
-      {selectedCountry && (
-        <div className="lg:ps-4 lg:mt-0 mt-6">
+      {/* {selectedCountry && (
+        <div className="mt-6 lg:ps-4 lg:mt-0">
           <div className="border-2 rounded-lg px-3 flex items-center gap-2 sm:w-[180px] me-3 md:me-0 bg-white">
             <span className="bg-white input-group-text border-end-0">
               <GrLocation size={24} className="text-webprimary" />
@@ -46,10 +53,9 @@ const SelectField = ({ countryList = [], cityList = [], selectedCountry, selecte
             </select>
           </div>
         </div>
-      )}
+      )} */}
     </>
-  )
-}
+  );
+};
 
-export default SelectField
-
+export default SelectField;
