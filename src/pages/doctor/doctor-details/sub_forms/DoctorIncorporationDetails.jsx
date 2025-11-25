@@ -3,7 +3,7 @@ import { TextField, Select, MenuItem, FormControl, InputLabel, Button, Box, aler
 // import userProfile from '../../../../assets/images/profile-image.png'
 import { LuCloudUpload } from "react-icons/lu";
 import api from '../../../../api'
-import { __postApiData } from '@utils/api';
+import { __postApiData, __putApiData } from '@utils/api';
 import Swal from 'sweetalert2';
 // import UniqueLoader from '../../../loader';
 
@@ -18,13 +18,9 @@ const DoctorIncorporationDetails = ({ handleChange, incorporationdetails }) => {
   const save_incorporation_details = async () => {
     setisloading_for(true)
     try {
-      const resp = await api.post(`api/v1/asset-sections/incorporation-details/${doctor_details._id}`, incorporationdetails,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const resp = await __putApiData(`/api/v1/asset-sections/incorporation-details/${doctor_details._id}`, incorporationdetails);
       console.log(resp, "resp ")
-      if (resp.status === 200) {
+      if (resp.response?.response_code === "200") {
         Swal.fire({
           icon: "success",
           title: "Details Updated",
@@ -36,6 +32,16 @@ const DoctorIncorporationDetails = ({ handleChange, incorporationdetails }) => {
         }).then(() => {
           window.location.reload()
         })
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: resp.response?.response_message?.error || "Something went wrong",
+          showConfirmButton: true,
+          customClass: {
+            confirmButton: 'my-swal-button',
+          },
+        })
       }
 
     } catch (error) {
@@ -43,7 +49,7 @@ const DoctorIncorporationDetails = ({ handleChange, incorporationdetails }) => {
       Swal.fire({
         icon: "error",
         title: "error ",
-        text: error.response.data.message,
+        text: error.message,
         showConfirmButton: true,
         customClass: {
           confirmButton: 'my-swal-button',

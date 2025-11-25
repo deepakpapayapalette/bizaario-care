@@ -14,6 +14,7 @@ import CompleteDoctorProfile from "../pages/doctor/doctor-details/CompleteDoctor
 import PatientReferral from "../pages/doctor/patient-referral-pages/PatientReferral";
 import PatientReferralHome from "../pages/doctor/patient-referral-pages/PatientReferralHome";
 import AddNewPatient from "../pages/doctor/patient-referral-pages/AddNewPatient";
+import ChangePassword from "../pages/auth/ChangePassword";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -48,6 +49,7 @@ const DoctorRoutes = () => {
         <Route path="patient-referral" element={<ProtectedRoute><PatientReferral /></ProtectedRoute>} />
         <Route path="patient-referral/patient-referral-home" element={<ProtectedRoute><PatientReferralHome /></ProtectedRoute>} />
         <Route path="add-new-patient" element={<ProtectedRoute><AddNewPatient /></ProtectedRoute>} />
+        <Route path="change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
 
 
         {/* Catch-all */}

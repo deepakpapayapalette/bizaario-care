@@ -138,6 +138,7 @@ const CompleteDoctorProfile = () => {
 
         {/* Active Form */}
         <div className="mt-6 bg-white border border-gray-300 rounded-lg p-4">
+          {console.log(formSections, "formSections")}
           {formSections[isActive]}
         </div>
       </div>

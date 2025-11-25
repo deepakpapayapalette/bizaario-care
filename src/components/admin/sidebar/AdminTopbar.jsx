@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Bell, Mail, Menu, Search } from "lucide-react";
 import { Avatar } from "@mui/material";
-import api from "../../../api";
-import { useNavigate } from "react-router-dom";
+import { __getApiData } from "@utils/api";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminTopbar = ({ toggleShow }) => {
   const doctordetails = JSON.parse(localStorage.getItem("user")) || {};
@@ -10,6 +10,7 @@ const AdminTopbar = ({ toggleShow }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef();
+
 
   const handleLogout = async () => {
     try {
@@ -30,8 +31,8 @@ const AdminTopbar = ({ toggleShow }) => {
   // Fetch profile
   const getDoctor = async () => {
     try {
-      const resp = await api.get(`api/v1/admin/GetAsset/${doctordetails._id}`);
-      setUser(resp.data.data);
+      const resp = await __getApiData(`/api/v1/admin/GetAsset/${doctordetails._id}`);
+      setUser(resp.data);
     } catch (err) {
       console.log(err);
     }
@@ -110,7 +111,13 @@ const AdminTopbar = ({ toggleShow }) => {
           onClick={() => setDropdownOpen(!dropdownOpen)}
           ref={dropdownRef}
         >
-          <Avatar className="w-8 h-8 rounded-full" />
+          {user?.ProfilePicture ? (
+            <Avatar src={user?.ProfilePicture} className="w-8 h-8 rounded-full" />
+          ) : (
+            <Avatar className="w-8 h-8 rounded-full" />
+          )}
+
+          {/* <Avatar className="w-8 h-8 rounded-full" /> */}
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold text-primary">{doctordetails?.AssetName || "Admin"}</span>
             {/* <span className="text-xs text-gray-500">{user?.AssetType || "Admin"}</span> */}
@@ -120,7 +127,7 @@ const AdminTopbar = ({ toggleShow }) => {
           {dropdownOpen && (
             <div className="absolute top-12 right-0 bg-white shadow-xl rounded-xl w-48 py-2 border border-gray-100 z-40">
               <ul>
-                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Change Password</li>
+                <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"><Link to="change-password" >  Change Password</Link></li>
                 <li className="border-t my-2"></li>
                 <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-600" onClick={handleLogout}>Logout</li>
               </ul>

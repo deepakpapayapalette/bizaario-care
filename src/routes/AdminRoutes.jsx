@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import ErrorPage from "../pages/ErrorPage";
 import AdminLayout from "../layouts/AdminLayout";
 import Admindashboard from "../pages/admin/dashboard/Admindashboard";
+import ChangePassword from "../pages/auth/ChangePassword";
 
 // Configuration Masters
 import CountryGroupMaster from "../pages/admin/configuration/CountryGroupMaster";
@@ -92,6 +93,7 @@ const AdminRoutes = () => (
 
       {/* Dashboard */}
       <Route index element={<Admindashboard />} />
+      <Route path="change-password" element={<ChangePassword />} />
 
       {/* ---------------- CONFIGURATION ROUTES ---------------- */}
       <Route path="configuration">

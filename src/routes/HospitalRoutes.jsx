@@ -10,6 +10,7 @@ import PatientTestimonials2 from "../pages/hospital/PatientTestimonials2";
 import OpdSurgicalCamps2 from "../pages/hospital/OpdSurgicalCamps2";
 import WorkshopHospital from "../pages/hospital/WorkshopHospital";
 import CompleteHospitalProfile from "../pages/hospital/doctor-details/CompleteHospitalProfile";
+import ChangePassword from "../pages/auth/ChangePassword";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -34,6 +35,7 @@ const HospitalRoutes = () => {
         <Route path="opd-srugicla-camps" element={<ProtectedRoute><OpdSurgicalCamps2 /></ProtectedRoute>} />
         <Route path="workshop" element={<ProtectedRoute><WorkshopHospital /></ProtectedRoute>} />
         <Route path="complete-doctor-profile" element={<ProtectedRoute><CompleteHospitalProfile /></ProtectedRoute>} />
+        <Route path="change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
       </Route>
     </Routes>
   );

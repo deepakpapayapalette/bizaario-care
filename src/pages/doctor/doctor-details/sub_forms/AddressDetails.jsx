@@ -128,26 +128,47 @@ export default function AddressDetails() {
           </FormControl>
 
           <FormControl fullWidth size="small">
-            <label className="form-label">GeoLocation (lat,lng)</label>
+            <label className="form-label">Latitude</label>
             <TextField
               size="small"
-              placeholder="GeoLocation (lat,lng)"
-              value={
-                address.GeoLocation?.coordinates?.length === 2
-                  ? `${address.GeoLocation.coordinates[1]},${address.GeoLocation.coordinates[0]}`
-                  : ""
-              }
+              placeholder="Latitude"
+              type="number"
+              value={address.GeoLocation?.coordinates?.[1] || ""}
               onChange={(e) => {
-                const [latStr, lngStr] = e.target.value.split(",");
-                const lat = parseFloat(latStr);
-                const lng = parseFloat(lngStr);
+                const lat = parseFloat(e.target.value);
+                setaddress((prev) => ({
+                  ...prev,
+                  GeoLocation: {
+                    type: "Point",
+                    coordinates: [
+                      prev.GeoLocation?.coordinates?.[0] || 0,
+                      isNaN(lat) ? 0 : lat
+                    ]
+                  },
+                }));
+              }}
+            />
+          </FormControl>
 
-                if (!isNaN(lat) && !isNaN(lng)) {
-                  setaddress((prev) => ({
-                    ...prev,
-                    GeoLocation: { type: "Point", coordinates: [lng, lat] }, // GeoJSON format
-                  }));
-                }
+          <FormControl fullWidth size="small">
+            <label className="form-label">Longitude</label>
+            <TextField
+              size="small"
+              placeholder="Longitude"
+              type="number"
+              value={address.GeoLocation?.coordinates?.[0] || ""}
+              onChange={(e) => {
+                const lng = parseFloat(e.target.value);
+                setaddress((prev) => ({
+                  ...prev,
+                  GeoLocation: {
+                    type: "Point",
+                    coordinates: [
+                      isNaN(lng) ? 0 : lng,
+                      prev.GeoLocation?.coordinates?.[1] || 0
+                    ]
+                  },
+                }));
               }}
             />
           </FormControl>
@@ -195,20 +216,11 @@ export default function AddressDetails() {
                         <p>Address Line 1 : <span  className="text-[#000000] font-semibold">{address?.AddressLine1 || ""}</span></p><br></br>
                         <p>Address Line 2 : <span  className="text-[#000000] font-semibold">{address?.AddressLine2 || ""}</span></p><br></br>
                         <p>Postal Code : <span  className="text-[#000000] font-semibold">{address?.PostalCode || ""}</span></p><br></br>
-                        <p>Geo Location : <span  className="text-[#000000] font-semibold">{address?.GeoLocation.coordinates.join(',') || ""}</span></p>
-
+                        <p>Geo Location : <span  className="text-[#000000] font-semibold">{address?.GeoLocation.coordinates.join(',') || ""}</span></p> 
                       </div>
                     </div>
                   </div>
-
-
                 </div> */}
-
-
-
-
-
-
     </>
   )
 }
