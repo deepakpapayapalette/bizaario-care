@@ -239,7 +239,7 @@ const AssetMaster = () => {
   //================================== get all station list===========================================
 
   const [allstationmaster, setallstationmaster] = useState([]);
-  const getallstation_list = async () => {
+  const getallstation_list = async (CountryId) => {
     try {
       const resp = await __postApiData("/api/v1/admin/StationList", {
         StationId: CountryId,
@@ -253,13 +253,16 @@ const AssetMaster = () => {
     }
   };
 
-  useEffect(() => {
-    getallstation_list();
-  }, [CountryId]);
+  // useEffect(() => {
+  //   getallstation_list();
+  // }, []);
 
   useEffect(() => {
     getCountry_list();
-  }, []);
+    if (CountryId) {
+      getallstation_list(CountryId);
+    }
+  }, [CountryId]);
 
   //==================================== get all subscription======================================
 
@@ -312,6 +315,9 @@ const AssetMaster = () => {
 
   const handlechangeForCountry = (e) => {
     setCountryId(e.target.value);
+    if (CountryId) {
+      getallstation_list(CountryId);
+    }
   };
 
   const add_assest_master = async () => {

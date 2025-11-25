@@ -8,38 +8,48 @@ import SelectField from '../../components/common/SelectField';
 import ShimerLoader from '../../components/common/ShimerLoader';
 
 const bannerData = {
-  // image: bannerImage,
-  title: 'Hospitals Partners',
-  description: "Empowering hospitals, physicians, and patients with real-time communication and clinical collaboration—because better care starts with better connection."
-}
+  title: "Hospitals Partners",
+  description:
+    "Empowering hospitals, physicians, and patients with real-time communication and clinical collaboration—because better care starts with better connection.",
+};
+
 const HospitalPartner = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [hospital_details, sethospital_details] = useState([]);
-  const [selectContry, setSelectCountry] = useState("");
+  const [countryList, setCountryList] = useState([]);
+  const [cityList, setCityList] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
 
-  const getallCountry_list = async () => {
+  // Fetch country list on component mount
+  const getCountryList = async () => {
     try {
       setIsLoading(true);
       const resp = await __postApiData("/api/v1/admin/StationList", {
-        OrgUnitLevel: "68affb6d874340d8d79dbea4", // country
+        OrgUnitLevel: "68affb6d874340d8d79dbea4", // country level
       });
-      setSelectCountry(resp.data.list);
+      setCountryList(resp.data.list || []);
+      console.log(resp, "country");
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching countries:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const getallCountry_list2 = async () => {
+  // Fetch city list based on selected country
+  const getCityList = async (countryId) => {
     try {
       setIsLoading(true);
       const resp = await __postApiData("/api/v1/admin/StationList", {
-        OrgUnitLevel: "68affb6d874340d8d79dbea4", // country
+        ParentStationId: countryId,
+        OrgUnitLevel: "68affb90874340d8d79dbeb6", // city level
       });
-      setSelectCountry(resp.data.list);
+      setCityList(resp.data.list || []);
+      console.log(resp, "city");
+      setSelectedCity(""); // Reset city selection when country changes
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching cities:", error);
     } finally {
       setIsLoading(false);
     }
@@ -70,15 +80,27 @@ const HospitalPartner = () => {
 
       sethospital_details(formattedData);
     } catch (error) {
-      console.error("Error fetching doctor profile:", error);
+      console.error("Error fetching hospital profile:", error);
     }
   };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     get_hospital_profile();
-    getallCountry_list();
+    getCountryList();
   }, []);
+
+  const handleCountryChange = (e) => {
+    const countryId = e.target.value;
+    setSelectedCountry(countryId);
+    if (countryId) {
+      getCityList(countryId);
+    }
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value);
+  };
 
   const navigate = useNavigate();
   const handleViewProfile = (hospitalId) => {
@@ -89,7 +111,7 @@ const HospitalPartner = () => {
     <>
       <Banner data={bannerData} />
       <div className="container space-top">
-        <div className="flex flex-col md:flex-row md:justify-between ">
+        <div className="flex flex-col md:flex-row md:justify-between">
           <div className="mb-6 md:w-4/5 md:mb-0">
             <h2 className="mb-2 text-2xl font-semibold md:text-4xl">
               Meet Our Hospitals Partners
@@ -101,8 +123,12 @@ const HospitalPartner = () => {
             </p>
           </div>
           <SelectField
-            value={[]}
-            onChange={(e) => setSelectCountry(e.target.value)}
+            countryList={countryList}
+            cityList={cityList}
+            selectedCountry={selectedCountry}
+            selectedCity={selectedCity}
+            onCountryChange={handleCountryChange}
+            onCityChange={handleCityChange}
           />
         </div>
 
@@ -125,6 +151,6 @@ const HospitalPartner = () => {
       </div>
     </>
   );
-}
+};
 
 export default HospitalPartner
